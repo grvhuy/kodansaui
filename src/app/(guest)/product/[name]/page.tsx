@@ -1,10 +1,8 @@
 "use client";
 
+import BookTable from "@/components/BookTable";
 import GoToTop from "@/components/GoToTop";
-import MangaTable from "@/components/MangaTable";
-import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
-import VolumnCard from "@/components/series-page/VolumeCard";
 import Image from "next/image";
 
 interface Series {
@@ -14,7 +12,7 @@ interface Series {
   totalVolumes: number;
 }
 
-export default function SeriesPage() {
+export default function ProductPage() {
   const series = {
     id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
     friendly_id: "bakemonogatari-manga",
@@ -37,7 +35,7 @@ export default function SeriesPage() {
       <div className="grid grid-cols-9">
         <div className="col-span-4 w-full">
           <div className="relative aspect-[5/6]">
-            <BreadCrumbCard type="Manga" title="Test" />
+            <BreadCrumbCard type="Product" title="BIG DICK" />
             <Image
               src={series.cover_url}
               alt="Example Image"
@@ -61,76 +59,23 @@ export default function SeriesPage() {
 
       <div className="grid grid-cols-9 mb-16">
         <div className="col-span-3 flex flex-col mt-12">
-          <h1 className="font-bold text-6xl">SERIES</h1>
+          <h1 className="font-bold text-6xl">BOOK</h1>
           <h1 className="font-bold text-6xl">INFO</h1>
         </div>
 
         <div className="col-span-6 flex ">
-          <MangaTable
-            status="Ongoing"
+          <BookTable
+            pages="1000"
+            printRelease="Jun 1, 2023"
+            printFormat="Paperback"
+            isbn="978-1-947804-00-0"
             rating="16+"
-            resources="Fatman.com"
             tags={["asd", "asd"]}
           />
         </div>
       </div>
 
-      {/* Section Volumes list*/}
-
-      <div className="mb-24">
-        <div className="flex justify-between">
-          <div className="flex">
-            <h1 className="font-bold text-3xl mr-4">{} VOLUMES</h1>
-            <MyDropdownMenu
-              title="JUMP TO VOLUME"
-              items={["Volume 1", "Volume 2", "Volume 3"]}
-              onClick={(index) => {
-                console.log(index);
-              }}
-            />
-          </div>
-          <div>SHOW CHAPTERS +</div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2">
-          <VolumnCard
-            volume={{
-              id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
-              series_id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
-              seq_number: 1,
-              name: "Volume 1",
-              price: 0,
-              cover_url:
-                "https://pqxhavcshlsgvyjmkhkv.supabase.co/storage/v1/object/public/Cover%20Images/540_026348a1-c80b-4db5-8b45-873d55b87abd.jpg",
-              release_date: "2024-09-08T09:51:21.513862+00:00",
-            }}
-          />
-          <VolumnCard
-            volume={{
-              id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
-              series_id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
-              seq_number: 1,
-              name: "Volume 1",
-              price: 0,
-              cover_url:
-                "https://pqxhavcshlsgvyjmkhkv.supabase.co/storage/v1/object/public/Cover%20Images/540_026348a1-c80b-4db5-8b45-873d55b87abd.jpg",
-              release_date: "2024-09-08T09:51:21.513862+00:00",
-            }}
-          />
-          <VolumnCard
-            volume={{
-              id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
-              series_id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
-              seq_number: 1,
-              name: "Volume 1",
-              price: 0,
-              cover_url:
-                "https://pqxhavcshlsgvyjmkhkv.supabase.co/storage/v1/object/public/Cover%20Images/540_026348a1-c80b-4db5-8b45-873d55b87abd.jpg",
-              release_date: "2024-09-08T09:51:21.513862+00:00",
-            }}
-          />
-        </div>
-      </div>
+      {/* Section list*/}
 
       <GoToTop />
     </div>

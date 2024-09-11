@@ -1,7 +1,9 @@
 interface IProps {
-  status: string;
   rating: string;
-  resources: string;
+  pages: string;
+  printRelease: string;
+  printFormat: string;
+  isbn: string;
   tags: string[];
 }
 
@@ -10,40 +12,45 @@ const companyCommonStyles =
 
 const BookTable = (props: IProps) => {
   return (
-    <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10 border-2 border-black">
+    <div className="grid sm:grid-cols-2 w-full mt-10 border-2 border-black">
       <div className={` ${companyCommonStyles}`}>
         &nbsp;{" "}
         <p className="font-bold text-lg">
-          Status{" "}
-          <span className="font-medium text-gray-500">
-            chungi {props.status}
-          </span>
+          Rating{" "}
+          <span className="font-medium text-gray-500">{props.rating}</span>
         </p>
       </div>
-      <div className={companyCommonStyles}>
-        &nbsp;
-        <p className="font-bold text-lg">
-          Rating{" "}
-          <span className="font-medium text-gray-500">
-            chungi {props.rating}
-          </span>
-        </p>{" "}
-      </div>
+
       <div className={` ${companyCommonStyles}`}>
         &nbsp;
         <p className="font-bold text-lg">
-          Resources{" "}
-          <span className="font-medium text-gray-500">
-            chungi {props.resources}
-          </span>
+          Pages <span className="font-medium text-gray-500">{props.pages}</span>
         </p>{" "}
+      </div>
+      <div className={` ${companyCommonStyles} col-span-3`}>
+        {" "}
+        <div className=" grid grid-cols-4 space-x-8 my-2">
+          <div className="font-bold text-lg flex flex-col col-span-1">
+            <span> &nbsp;Print Release:</span>
+            <span> &nbsp;Print Format:</span>
+            <span> &nbsp;ISBN:</span>
+          </div>
+
+          <div className="text-lg flex flex-col col-span-3">
+            <p>{props.printRelease}</p>
+            <p>{props.printFormat}</p>
+            <p>{props.isbn}</p>
+          </div>
+        </div>{" "}
       </div>
       <div className={` ${companyCommonStyles} col-span-3`}>
         {" "}
         <div className="font-bold text-lg flex">
           <h3>&nbsp;Tags</h3>
-          {props.tags.map((tag) =>(
-            <p className="font-medium bg-[#efefef] p-1 text-sm text-gray-500 ml-2">{tag}</p>
+          {props.tags.map((tag) => (
+            <p className="font-medium bg-[#efefef] p-1 text-sm text-gray-500 ml-2">
+              {tag}
+            </p>
           ))}
         </div>{" "}
       </div>

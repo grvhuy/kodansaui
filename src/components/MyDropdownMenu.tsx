@@ -8,6 +8,7 @@ import { CircleChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 
 interface IProps {
+  title: string;
   items: string[];
   onClick: (index: number) => void;
 }
@@ -18,9 +19,9 @@ const MyDropdownMenu = (props: IProps) => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="text-black mx-2 border-2 rounded-none border-black hover:bg-black hover:text-white font-semibold"
+          className="text-black border-2 rounded-none border-black hover:bg-black hover:text-white font-semibold"
         >
-          JUMP TO VOLUMES  &nbsp;<span><CircleChevronDown /></span>
+          {props.title}  &nbsp;<span><CircleChevronDown /></span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-52 shadow-none rounded-none border-2 border-black">
