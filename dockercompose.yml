@@ -10,8 +10,6 @@ services:
       - "3001:3001"
     networks:
       - dokploy-network
-    environment:
-      - PORT=${PORT}
 
 networks:
   dokploy-network:
