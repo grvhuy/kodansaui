@@ -5,10 +5,12 @@ import { MyButton } from "../MyButton";
 import { Search } from "lucide-react";
 import { CartItemList } from "../CartItemList";
 import { ScrollArea } from "../ui/scroll-area";
+import { Button } from "../ui/button";
 
 export const Header = () => {
   const [showSearch, setShowSearch] = useState(false);
-  const [showCart, setShowCart] = useState(true);
+  const [showCart, setShowCart] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   return (
     <>
@@ -54,6 +56,7 @@ export const Header = () => {
                   onClick={() => {
                     setShowSearch(!showSearch);
                     setShowCart(false);
+                    setShowMenu(false);
                   }}
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:underline md:p-0 md:dark:hover:underline dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
@@ -74,10 +77,18 @@ export const Header = () => {
                 text="Cart"
                 onClick={() => {
                   setShowCart(!showCart);
+                  setShowMenu(false);
                   setShowSearch(false);
                 }}
               />
-              <MyButton text="Login" onClick={() => {}} />
+              <MyButton
+                text="Login"
+                onClick={() => {
+                  setShowMenu(!showMenu);
+                  setShowSearch(false);
+                  setShowCart(false);
+                }}
+              />
             </div>
           </div>
         </div>
@@ -128,6 +139,46 @@ export const Header = () => {
                         setShowCart(false);
                       }}
                     />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Show menu */}
+      {showMenu && (
+        <div>
+          {/* Layout boc ngoai */}
+          <div
+            onClick={() => {
+              setShowMenu(false);
+            }}
+            className="fixed top-0 left-0 w-full h-full z-10 flex justify-end"
+          ></div>
+
+          <div className="flex justify-end">
+            <div
+              className="w-[96%] md:w-[30%] bg-gray-100 dark:bg-gray-800 border-black border-2 
+                    fixed top-[120px] z-30 mx-2 overflow-y-auto"
+            >
+              <div className="flex w-full">
+                <div className="flex flex-col justify-center items-center w-full">
+                  <h1 className="font-bold text-xl p-4">USEREMAIL@GMAIL.COM</h1>
+                  <div className="flex flex-col w-full">
+                    <Button
+                      className="rounded-none bg-white text-black p-8 border-b-2 border-t-2 border-black  hover:bg-black hover:text-white text-3xl font-semibold"
+                      onClick={() => {}}
+                    >
+                      Account
+                    </Button>
+                    <Button
+                      className="rounded-none hover:bg-black hover:text-white bg-white text-black p-8  text-3xl font-semibold"
+                      onClick={() => {}}
+                    >
+                      Logout
+                    </Button>
                   </div>
                 </div>
               </div>

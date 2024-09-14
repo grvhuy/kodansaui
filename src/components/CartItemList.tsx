@@ -38,7 +38,6 @@ export const CartItemList = (props: IProps) => {
           <div>TAX DETERMINED AT CHECKOUT</div>
         </div>
 
-        {/* Nút hành động */}
         <div className="flex flex-col">
           <Button className="bg-black rounded-none text-white  font-bold text-3xl hover:bg-gray-800 py-8">
             Checkout &nbsp; <ArrowRightIcon size={36} />
