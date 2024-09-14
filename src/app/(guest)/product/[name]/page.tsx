@@ -4,6 +4,9 @@ import BookTable from "@/components/BookTable";
 import GoToTop from "@/components/GoToTop";
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import DetailVolumePage from "../volume/[volNumber]/page";
 
 interface Series {
   name: string;
@@ -29,6 +32,26 @@ export default function ProductPage() {
     thumbnail_url: null,
     type: "Manga",
   };
+  const pathName = usePathname();
+
+  const parts = pathName.split("-");
+
+  const last = parts[parts.length - 1];
+
+  // lay so cuoi trong dau "-"
+  const isVolume = !isNaN(Number(last));
+
+  if (isVolume) {
+    console.log("isVolume", isVolume);
+  } else {
+    console.log("not a volume");
+  }
+
+  useEffect(() => {
+  }, []);
+
+  if (isVolume) return <DetailVolumePage />;
+
   return (
     <div className="mt-40 flex flex-col mx-8 min-h-screen">
       {/* Section Gioi thieu */}

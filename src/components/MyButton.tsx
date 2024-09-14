@@ -9,6 +9,7 @@ interface IProps {
 
 export const MyButton = (props: IProps) => (
   <Button
+    onClick={props.onClick}
     variant="ghost"
     className="text-black space-x-2 mr-2 border-2 rounded-none border-black hover:bg-black hover:text-white font-semibold"
   >

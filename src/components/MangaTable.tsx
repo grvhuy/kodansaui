@@ -36,8 +36,8 @@ const MangaTable = (props: IProps) => {
         {" "}
         <div className="font-bold text-lg flex">
           <h3>&nbsp;Tags</h3>
-          {props.tags.map((tag) => (
-            <p key={tag} className="font-medium bg-[#efefef] p-1 text-sm text-gray-500 ml-2">
+          {props.tags.map((tag, index) => (
+            <p key={index} className="font-medium bg-[#efefef] p-1 text-sm text-gray-500 ml-2">
               {tag}
             </p>
           ))}

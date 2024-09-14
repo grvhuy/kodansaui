@@ -4,6 +4,14 @@ const nextConfig = {
     remotePatterns: [{
       hostname: "pqxhavcshlsgvyjmkhkv.supabase.co"
     }]
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://api.kodansa.tqbaoo.host/api/:path*'
+      }
+    ]
   }
 };
 
