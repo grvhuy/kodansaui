@@ -1,23 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MyButton } from "../MyButton";
 import { Search } from "lucide-react";
 import { CartItemList } from "../CartItemList";
 import { ScrollArea } from "../ui/scroll-area";
 import { Button } from "../ui/button";
+import { useDispatch, useSelector } from "react-redux";
+// import { addToCart } from "@/lib/redux/feature/slices/cart";
+import { RootState } from "@/lib/redux/store";
+import { testAddToPersistedCart } from "@/lib/redux/feature/slices/cart";
 
 export const Header = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // use useDispatch to dispatch action
+    
+    // console.log(cartState.cartItems);
+  }, []);
 
   return (
     <>
       <nav className="bg-white dark:bg-gray-900 fixed w-[99%] z-20 top-0 start-0 dark:border-gray-600 border-2 border-black m-2 py-2">
         <div className=" flex flex-wrap items-center justify-between p-4">
           <a
-            href="#"
+            href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img
@@ -45,7 +55,7 @@ export const Header = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/news"
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:underline md:p-0 md:dark:hover:underline dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   News

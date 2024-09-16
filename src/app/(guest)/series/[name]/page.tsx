@@ -5,16 +5,39 @@ import MangaTable from "@/components/MangaTable";
 import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
 import VolumnCard from "@/components/series-page/VolumeCard";
+import { getSeriesByFriendlyUrl } from "@/utils/api";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface Series {
+  id: string;
+  friendly_id: string;
   name: string;
-  author: string;
+  author_id: string;
   description: string;
   totalVolumes: number;
+  rating: string;
+  status: string;
+  tags: string[];
+  cover_url: string;
+  thumbnail_url: string;
+  type: string;
 }
 
 export default function SeriesPage() {
+  const pathname = usePathname();
+  const [product, setProduct] = useState<any>();
+
+  useEffect(() => {
+    const friendly_id = pathname.split("/").pop() as string;
+
+    getSeriesByFriendlyUrl(friendly_id).then((data) => {
+      console.log(data[0]);
+      setProduct(data[0]);
+    });
+  }, []);
+
   const series = {
     id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
     friendly_id: "bakemonogatari-manga",
@@ -38,21 +61,23 @@ export default function SeriesPage() {
         <div className="col-span-4 w-full">
           <div className="relative aspect-[5/6]">
             <BreadCrumbCard type="Manga" title="Test" />
-            <Image
-              src={series.cover_url}
-              alt="Example Image"
-              fill
-              className="object-cover"
-            />
+            {product && (
+              <Image
+                src={product.cover_url}
+                alt="Example Image"
+                fill
+                className="object-cover"
+              />
+            )}
           </div>
         </div>
         <div className="col-span-5 ml-6 w-full">
           <div className="flex flex-col">
-            <h1 className=" font-bold text-3xl text-black">{series.name}</h1>
+            <h1 className=" font-bold text-3xl text-black">{product.name}</h1>
             <h1 className=" font-semibold text-gray-400">
-              By {series.author_id}
+              By {product.author_id}
             </h1>
-            <p className="mt-4">{series.description}</p>
+            <p className="mt-4">{product.description}</p>
           </div>
         </div>
       </div>

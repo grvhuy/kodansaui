@@ -6,9 +6,15 @@ const getSeries = async () => {
   return response.data;
 }
 
+const getSeriesByFriendlyUrl = async (friendlyUrl: string) => {
+  const response = await axios.get(`/api/series/${friendlyUrl}`);
+  return response.data;
+}
+
 const getCatFact = async () => {
   const response = await axios.get("https://catfact.ninja/fact");
   return response.data;
 }
 
-export { getSeries, getCatFact }
+
+export { getSeries, getCatFact, getSeriesByFriendlyUrl }
