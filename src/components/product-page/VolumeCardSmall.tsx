@@ -5,6 +5,7 @@ interface IProps {
   series_id: string;
   seq_number: number;
   cover_url: string;
+  friendly_id: string;
 }
 
 

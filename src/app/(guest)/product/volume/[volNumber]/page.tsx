@@ -7,8 +7,15 @@ import { FullSeriesCarousel } from "@/components/product-page/FullSeriesCarousel
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
 import VolumnCard from "@/components/series-page/VolumeCard";
 import { Button } from "@/components/ui/button";
+import {
+  getFullSeriesByFriendlyId,
+  getSeriesByFriendlyUrl,
+  getVolume,
+} from "@/utils/api";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface Series {
   name: string;
@@ -18,22 +25,61 @@ interface Series {
 }
 
 export default function DetailVolumePage() {
-  const series = {
-    id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
-    friendly_id: "bakemonogatari-manga",
-    created_at: "2024-09-08T09:51:21.513862+00:00",
-    name: "BAKEMONOGATARI (manga)",
-    author_id: "41b89bce-c8d8-4c1c-a197-937230bd4cb2",
-    rating: "16+",
-    status: "Ongoing",
-    description:
-      "A team-up made in manga heaven! The wildly popular Monogatari novel series by renowned bestselling author NISIOISIN has now been reimagined into a knockout manga adapation by none other than legendary artist Oh!Great (Tenjo Tenghe, Air Gear)!\r\n\r\nOne day, high-school student Koyomi Araragi catches a girl named Hitagi Senjougahara when she trips. But-much to his surprise-she doesn’t weigh anything. At all. She says an encounter with a so-called “crab” took away all her weight…\r\n\r\nMonsters have been here since the beginning.\r\nAlways.\r\nEverywhere.",
-    tags: ["Fantasy", "Made Into Anime", "Supernatural"],
-    cover_url:
-      "https://pqxhavcshlsgvyjmkhkv.supabase.co/storage/v1/object/public/Cover%20Images/BakemonogatariManga_Series_IMG_1200x960.webp?t=2024-09-08T09%3A52%3A48.780Z",
-    thumbnail_url: null,
-    type: "Manga",
-  };
+  const pathname = usePathname();
+  const fid = pathname.split("/").pop() as string;
+  const friendly_id = fid.split("-").slice(0, -1).join("-");
+  const vol = fid.split("-").pop() as string;
+  const [product, setProduct] = useState<any>(null);
+  const [currentSeq, setCurrentSeq] = useState<number>(NaN);
+  const [prevProduct, setPrevProduct] = useState<any>(null);
+  const [nextProduct, setNextProduct] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [fullSeries, setFullSeries] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      getFullSeriesByFriendlyId(friendly_id).then((data) => {
+        setFullSeries(data);
+        console.log(data);
+      });
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getVolume(friendly_id, vol);
+      if (data) {
+        setProduct(data[0]);
+        if (data[0].seq_number > 1) {
+          const prev = await getVolume(
+            friendly_id,
+            (data[0].seq_number - 1).toString()
+          );
+          if (prev) {
+            setPrevProduct(prev[0]);
+          }
+        }
+        await getVolume(friendly_id, (data[0].seq_number + 1).toString()).then(
+          (next) => {
+            if (next) {
+              setNextProduct(next[0]);
+            } else {
+              console.log("No next volume");
+            }
+          }
+        );
+      }
+
+      setLoading(false);
+    };
+    fetchData();
+  }, [friendly_id]);
+
+  if (loading) {
+    return <p className="h-screen">Loading</p>;
+  }
+
   return (
     <div className="mt-40 flex flex-col mx-8 min-h-screen">
       {/* Section Gioi thieu */}
@@ -42,7 +88,7 @@ export default function DetailVolumePage() {
           <div className="relative aspect-[5/6]">
             <BreadCrumbCard type="Manga" title="Test" />
             <Image
-              src={series.cover_url}
+              src={product.cover_url}
               alt="Example Image"
               fill
               className="object-cover"
@@ -52,11 +98,13 @@ export default function DetailVolumePage() {
         <div className="col-span-5 ml-6 w-full">
           <div className="flex flex-col h-full justify-between">
             <div>
-              <h1 className=" font-bold text-3xl text-black">{series.name}</h1>
-              <h1 className=" font-semibold text-gray-400">
-                By {series.author_id}
+              <h1 className=" font-bold text-3xl text-black">
+                {product.series.name}, Volume {product.seq_number}
               </h1>
-              <p className="mt-4">{series.description}</p>
+              <h1 className=" font-semibold text-gray-400">
+                By {product.series.author_id}
+              </h1>
+              <p className="mt-4">{product.description}</p>
             </div>
 
             <div>
@@ -89,10 +137,10 @@ export default function DetailVolumePage() {
 
         <div className="col-span-6 flex ">
           <MangaTable
-            status="Ongoing"
-            rating="16+"
-            resources="Fatman.com"
-            tags={["asd", "asd"]}
+            status={product.series.status}
+            rating={product.series.rating}
+            resources={product.series.totalVolumes}
+            tags={product.series.tags}
           />
         </div>
       </div>
@@ -107,18 +155,11 @@ export default function DetailVolumePage() {
               <ArrowLeft className="border-2 border-black" size={24} />
               <span className="font-bold text-2xl">Previous Volume</span>
             </a>
-            <VolumnCard
-              volume={{
-                id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
-                series_id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
-                seq_number: 1,
-                name: "Volume 1",
-                price: 0,
-                cover_url:
-                  "https://pqxhavcshlsgvyjmkhkv.supabase.co/storage/v1/object/public/Cover%20Images/540_026348a1-c80b-4db5-8b45-873d55b87abd.jpg",
-                release_date: "2024-09-08T09:51:21.513862+00:00",
-              }}
-            />
+
+            {/* previous of this volume */}
+            {prevProduct && (
+              <VolumnCard volume={prevProduct} />
+            )}
           </div>
 
           {/* Next volume */}
@@ -127,27 +168,26 @@ export default function DetailVolumePage() {
               <span className="font-bold text-2xl">Next Volume</span>
               <ArrowRight className="border-2 border-black" size={24} />
             </a>
-            <VolumnCard
-              volume={{
-                id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
-                series_id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
-                seq_number: 1,
-                name: "Volume 1",
-                price: 0,
-                cover_url:
-                  "https://pqxhavcshlsgvyjmkhkv.supabase.co/storage/v1/object/public/Cover%20Images/540_026348a1-c80b-4db5-8b45-873d55b87abd.jpg",
-                release_date: "2024-09-08T09:51:21.513862+00:00",
-              }}
-            />
+            {nextProduct && (
+              <VolumnCard volume={nextProduct} />
+            )}
           </div>
         </div>
       </div>
 
       {/* Full series list */}
-      
+
       <div className="space-y-2 mb-24">
         <p className="font-extrabold text-3xl">Explore the full series</p>
-        <FullSeriesCarousel />
+        <FullSeriesCarousel
+          volumeList={fullSeries.map((volume) => ({
+            friendly_id: volume.series.friendly_id,
+            id: volume.id,
+            series_id: volume.series_id,
+            seq_number: volume.seq_number,
+            cover_url: volume.cover_url,
+          }))}
+        />
       </div>
 
       <GoToTop />

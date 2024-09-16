@@ -17,14 +17,38 @@ const BrowsePage = () => {
   const [type, setType] = useState("Manga");
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [series, setSeries] = useState<any>([]);
+  const [filteredSeries, setFilteredSeries] = useState<any>([]);
+  
+  // State for filters and sorting
+  const [selectedSort, setSelectedSort] = useState<string>("New and Popular");
+  const [selectedStatus, setSelectedStatus] = useState<string>("comfortable");
+  const [selectedFormat, setSelectedFormat] = useState<string>("default");
+  const [selectedAge, setSelectedAge] = useState<string>("all");
 
   useEffect(() => {
     getSeries().then((data) => {
       console.log(data);
       setSeries(data);
+      setFilteredSeries(data);
     });
     
   }, []);
+
+  useEffect(() => {
+    let filtered = [...series];
+
+    if (selectedStatus) {
+      // filtered = filtered.filter((item) => item.status === selectedStatus);
+    }
+
+    if (selectedSort === "A-Z") {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (selectedSort === "Z-A") {
+      filtered.sort((a, b) => b.name.localeCompare(a.name));
+    }
+
+    setFilteredSeries(filtered);
+  }, [series, selectedSort, selectedStatus]);
 
   return (
     <div className="min-h-screen mt-40 flex flex-col mx-8">
@@ -71,7 +95,7 @@ const BrowsePage = () => {
               title="New and Popular"
               items={sortByItems}
               onClick={(index) => {
-                console.log(index);
+                setSelectedSort(sortByItems[index]);
               }}
             />
 
@@ -90,7 +114,7 @@ const BrowsePage = () => {
             <p className="mb-4 font-bold ">Display 1-22 of 100 Series</p>
             <Separator className="bg-black border-[1.2px] border-black mb-4 mt-8" />
           </div>
-          {series.map((item: any) => (
+          {filteredSeries.map((item: any) => (
             <ProductCard
               key={item.id}
               id={item.id}
