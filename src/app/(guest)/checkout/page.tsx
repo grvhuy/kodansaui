@@ -1,8 +1,11 @@
 "use client";
 import { CheckoutItemList } from "@/components/checkout-page/CheckoutItemList";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
 
 const CheckoutPage = () => {
+  const cart_items = useSelector((state) => state?.cart.cartItems);
+
   return (
     <div className="min-h-screen mt-20">
       <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
@@ -146,7 +149,11 @@ const CheckoutPage = () => {
                         Original price
                       </dt>
                       <dd className="text-white text-base font-medium dark:text-white">
-                        $6,592.00
+                        $
+                        {cart_items.reduce(
+                          (acc, item) => acc + item.price * item.quantity,
+                          0
+                        )}
                       </dd>
                     </dl>
 
@@ -155,7 +162,7 @@ const CheckoutPage = () => {
                         Savings
                       </dt>
                       <dd className="text-white text-base font-medium ">
-                        -$299.00
+                        -$9.00
                       </dd>
                     </dl>
 
@@ -164,7 +171,7 @@ const CheckoutPage = () => {
                         Store Pickup
                       </dt>
                       <dd className="text-white text-base font-medium dark:text-white">
-                        $99
+                        $9.00
                       </dd>
                     </dl>
 
@@ -183,7 +190,11 @@ const CheckoutPage = () => {
                       Total
                     </dt>
                     <dd className="text-white text-base font-bold dark:text-white">
-                      $7,191.00
+                      $
+                      {cart_items.reduce(
+                        (acc, item) => acc + item.price * item.quantity,
+                        0
+                      )}
                     </dd>
                   </dl>
 
@@ -239,7 +250,7 @@ const CheckoutPage = () => {
           <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-3xl">
             Your Products
           </h1>
-          <CheckoutItemList onClickOutside={() => {}} />
+          <CheckoutItemList items={cart_items} onClickOutside={() => {}} />
         </div>
       </section>
 

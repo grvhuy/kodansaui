@@ -6,13 +6,8 @@ interface CartItem {
   price: number;
   quantity: number;
   friendly_id: string;
-  // rating: number;
-  // status: string;
-  // description: string;
-  // tags: string[];
-  // type: string;
+  seq_number: number;
   cover_url: string;
-  thumbnail_url: string;
 }
 
 interface CartState {
@@ -20,19 +15,13 @@ interface CartState {
 }
 
 const initialState: CartState = {
-  cartItems: [
-
-  ],
+  cartItems: [],
 };
 
 const cartSlice = createSlice({
   name: "cart",
   initialState: initialState,
   reducers: {
-    testAddToPersistedCart(state, action: PayloadAction<CartItem>) {
-      state.cartItems.push(action.payload);
-    },
-
     addToCart(state, action: PayloadAction<CartItem>) {
       const { id, quantity } = action.payload;
       const existingItem = state.cartItems.find((item) => item.id === id);
@@ -40,6 +29,22 @@ const cartSlice = createSlice({
         existingItem.quantity += quantity;
       } else {
         state.cartItems.push(action.payload);
+      }
+    },
+
+    incrementQuantity(state, action: PayloadAction<string>) {
+      const id = action.payload;
+      const existingItem = state.cartItems.find((item) => item.id === id);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      }
+    },
+
+    decrementQuantity(state, action: PayloadAction<string>) {
+      const id = action.payload;
+      const existingItem = state.cartItems.find((item) => item.id === id);
+      if (existingItem && existingItem.quantity > 1) {
+        existingItem.quantity -= 1;
       }
     },
 
@@ -51,4 +56,4 @@ const cartSlice = createSlice({
 });
 
 export default cartSlice.reducer;
-export const { addToCart, removeFromCart, testAddToPersistedCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, decrementQuantity, incrementQuantity } = cartSlice.actions;

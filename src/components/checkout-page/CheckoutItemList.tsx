@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 
 
 interface IProps {
+  items: any[];
   onClickOutside: () => void;
 }
 
@@ -24,10 +25,18 @@ export const CheckoutItemList = (props: IProps) => {
 
         {/* Phần cuộn chính chứa các mục trong giỏ hàng */}
         <div className="flex flex-col w-full">
-          <CartItem />
-          <CartItem />
-          <CartItem />
-          <CartItem />
+          {props.items.map((item, index) => (
+            <CartItem 
+              key={index}
+              id={item.id}
+              name={item.name}
+              price={item.price}
+              quantity={item.quantity}
+              cover_url={item.cover_url}
+              seq_number={item.seq_number}
+              friendly_id={item.friendly_id}
+            />
+          ))}
 
         </div>
 

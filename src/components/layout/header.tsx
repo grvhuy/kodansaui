@@ -9,17 +9,17 @@ import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 // import { addToCart } from "@/lib/redux/feature/slices/cart";
 import { RootState } from "@/lib/redux/store";
-import { testAddToPersistedCart } from "@/lib/redux/feature/slices/cart";
 
 export const Header = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const cart_items = useSelector((state) => state?.cart.cartItems);
   const dispatch = useDispatch();
   useEffect(() => {
     // use useDispatch to dispatch action
     
-    // console.log(cartState.cartItems);
+    console.log(cart_items);
   }, []);
 
   return (
@@ -145,6 +145,7 @@ export const Header = () => {
                   <h1 className="font-bold text-xl p-4">CART ORDER</h1>
                   <div className="flex space-x-2 w-full">
                     <CartItemList
+                      items={cart_items}
                       onClickOutside={() => {
                         setShowCart(false);
                       }}

@@ -2,20 +2,20 @@
 
 import GoToTop from "@/components/GoToTop";
 import MangaTable from "@/components/MangaTable";
-import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { FullSeriesCarousel } from "@/components/product-page/FullSeriesCarousel";
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
-import VolumnCard from "@/components/series-page/VolumeCard";
+import { default as VolumeCard, default as VolumnCard } from "@/components/series-page/VolumeCard";
 import { Button } from "@/components/ui/button";
+import { addToCart } from "@/lib/redux/feature/slices/cart";
 import {
   getFullSeriesByFriendlyId,
-  getSeriesByFriendlyUrl,
-  getVolume,
+  getVolume
 } from "@/utils/api";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 interface Series {
   name: string;
@@ -35,6 +35,29 @@ export default function DetailVolumePage() {
   const [nextProduct, setNextProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [fullSeries, setFullSeries] = useState<any[]>([]);
+
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (
+    id: string,
+    name: string,
+    price: number,
+    friendly_id: string,
+    seq_number: number,
+    cover_url: string
+  ) => {
+    dispatch(
+      addToCart({
+        id,
+        name,
+        price,
+        quantity: 1,
+        friendly_id,
+        seq_number,
+        cover_url,
+      })
+    );
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,7 +142,17 @@ export default function DetailVolumePage() {
               </div>
 
               {/* Buy button */}
-              <Button className="w-full mt-4 rounded-none p-8 text-2xl font-bold">
+              <Button
+                onClick={() => handleAddToCart(
+                  product.id,
+                  product.series.name,
+                  product.price,
+                  product.series.friendly_id,
+                  product.seq_number,
+                  product.cover_url,
+
+                )}
+              className="w-full mt-4 rounded-none p-8 text-2xl font-bold">
                 BUY DELUXE EDITION
               </Button>
             </div>
@@ -158,7 +191,7 @@ export default function DetailVolumePage() {
 
             {/* previous of this volume */}
             {prevProduct && (
-              <VolumnCard volume={prevProduct} />
+              <VolumnCard onClick={() => {}} volume={prevProduct} />
             )}
           </div>
 
@@ -168,9 +201,7 @@ export default function DetailVolumePage() {
               <span className="font-bold text-2xl">Next Volume</span>
               <ArrowRight className="border-2 border-black" size={24} />
             </a>
-            {nextProduct && (
-              <VolumnCard volume={nextProduct} />
-            )}
+            {nextProduct && <VolumeCard onClick={()=>{}} volume={nextProduct} />}
           </div>
         </div>
       </div>

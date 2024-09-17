@@ -41,11 +41,6 @@ export default function ProductPage() {
   // lay so cuoi trong dau "-"
   const isVolume = !isNaN(Number(last));
 
-  if (isVolume) {
-    console.log("isVolume", isVolume);
-  } else {
-    console.log("not a volume");
-  }
 
   useEffect(() => {
   }, []);

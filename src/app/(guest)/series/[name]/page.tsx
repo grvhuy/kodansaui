@@ -5,13 +5,12 @@ import MangaTable from "@/components/MangaTable";
 import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
 import VolumnCard from "@/components/series-page/VolumeCard";
-import {
-  getFullSeriesByFriendlyId,
-  getSeriesByFriendlyUrl
-} from "@/utils/api";
+import { addToCart } from "@/lib/redux/feature/slices/cart";
+import { getFullSeriesByFriendlyId, getSeriesByFriendlyUrl } from "@/utils/api";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface Series {
   id: string;
@@ -36,6 +35,9 @@ export default function SeriesPage() {
   const [fullSeries, setFullSeries] = useState<any[]>([]);
   const friendly_id = pathname.split("/").pop() as string;
 
+  useSelector((state) => state);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchData = async () => {
       getFullSeriesByFriendlyId(friendly_id).then((data) => {
@@ -43,7 +45,7 @@ export default function SeriesPage() {
         console.log(data);
       });
     };
-    fetchData()
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -132,7 +134,26 @@ export default function SeriesPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2">
           {fullSeries &&
             fullSeries.map((volume) => {
-              return <VolumnCard key={volume.seq_number} volume={volume} />;
+              return (
+                <VolumnCard
+                  key={volume.seq_number}
+                  volume={volume}
+                  onClick={() => {
+                    // add to cart redux
+                    dispatch(
+                      addToCart({
+                        id: volume.id,
+                        name: volume.name,
+                        price: volume.price,
+                        cover_url: volume.cover_url,
+                        quantity: 1,
+                        friendly_id: volume.series_id,
+                        seq_number: volume.seq_number,
+                      })
+                    );
+                  }}
+                />
+              );
             })}
         </div>
       </div>
