@@ -21,12 +21,12 @@ export function BreadCrumbCard(props: IProps) {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">{props.type}</BreadcrumbLink>
+          <BreadcrumbLink href="/browse">{props.type}</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <BreadcrumbPage className="font-bold text-black">
-            Breadcrumb
+            {props.title}
           </BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>

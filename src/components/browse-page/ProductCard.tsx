@@ -1,22 +1,36 @@
 import Image from "next/image";
+import Link from "next/link";
+interface IProps {
+  id: string;
+  friendly_id: string;
+  name: string;
+  // rating: number;
+  // status: string;
+  // description: string;
+  // tags: string[];
+  // type: string;
+  cover_url: string;
+  thumbnail_url: string;
+}
 
-const ProductCard = () => {
+const ProductCard = (props: IProps) => {
   return (
     <div className="flex flex-col ms-4">
-      <div className="relative">
+      <Link href={`series/${props.friendly_id}`} className="relative">
         <Image
-          src="https://pqxhavcshlsgvyjmkhkv.supabase.co/storage/v1/object/public/Cover%20Images/540_026348a1-c80b-4db5-8b45-873d55b87abd.jpg"
+          src={props.cover_url}
           alt="Example Image"
           height={240}
           width={240}
-          className="object-cover hover:shadow-lg min-w-24 max-h-80"
+          className=" aspect-[5/6] object-cover hover:shadow-lg min-w-24 max-h-80"
         />
-      </div>
+      </Link>
 
       <div>
-        <h1 className="font-semibold text-lg">Product name</h1>
+        <Link href={`series/${props.friendly_id}`} className="font-semibold text-lg">
+          {props.name}
+        </Link>
       </div>
-
     </div>
   );
 };

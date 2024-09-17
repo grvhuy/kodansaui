@@ -4,12 +4,20 @@ import { Separator } from "../ui/separator";
 
 interface Volume {
   id: string;
+  series: {
+    id: string;
+    friendly_id: string;
+    name: string;
+  };
   series_id: string;
   seq_number: number;
   name: string;
   price: number;
   cover_url: string;
   release_date: string;
+  pages: number;
+  properties: any;
+  onClick?: () => void;
 }
 
 const VolumnCard = ({ volume }: { volume: Volume }) => {
@@ -32,9 +40,16 @@ const VolumnCard = ({ volume }: { volume: Volume }) => {
         <div className="flex">
           <div className="flex flex-col justify-between">
             <div>
-              <h3 className="font-bold text-3xl">{volume.name}</h3>
-              <p className="text-lg text-gray-500">{volume.release_date}</p>
-              <a href="#" className="underline font-semibold">DETAILS</a>
+              <h3 onClick={volume.onClick} className="font-bold text-3xl">VOLUME {volume.seq_number}</h3>
+              <p className="text-lg text-gray-500">
+                {volume.properties?.["Print Release"] || null} | {volume.pages}{" "}
+                pages
+              </p>
+              <a href={`
+                /product/${volume.series.friendly_id}-${volume.seq_number}
+              `} className="underline font-semibold">
+                DETAILS
+              </a>
             </div>
 
             <div>
@@ -45,7 +60,7 @@ const VolumnCard = ({ volume }: { volume: Volume }) => {
           </div>
         </div>
       </div>
-      <Separator  className="bg-black" />
+      <Separator className="bg-black" />
     </div>
   );
 };

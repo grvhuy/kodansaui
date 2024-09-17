@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 import {
   Carousel,
@@ -6,14 +6,15 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
-import { VolumeCardSmall } from "./VolumeCardSmall"
+} from "@/components/ui/carousel";
+import { VolumeCardSmall } from "./VolumeCardSmall";
+import Link from "next/link";
 
-interface props {
+interface IProps {
   volumeList: any[];
 }
 
-export function FullSeriesCarousel() {
+export function FullSeriesCarousel(props: IProps) {
   return (
     <Carousel
       opts={{
@@ -22,19 +23,22 @@ export function FullSeriesCarousel() {
       className=""
     >
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
+        {props.volumeList.map((volume, index) => (
           <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/6">
-            <div className="p-1">
-              <VolumeCardSmall 
-                id="1" 
-                series_id="1" 
-                seq_number={1} 
-                cover_url="https://pqxhavcshlsgvyjmkhkv.supabase.co/storage/v1/object/public/Cover%20Images/540_026348a1-c80b-4db5-8b45-873d55b87abd.jpg"
+            <Link href={`/product/${volume.friendly_id}-${volume.seq_number}`} onClick={
+              () => { console.log(volume); }
+            }  className="p-1">
+              <VolumeCardSmall
+                friendly_id={volume.friendly_id}
+                id={volume.id}
+                series_id={volume.series_id}
+                seq_number={volume.seq_number}
+                cover_url={volume.cover_url}
               />
-            </div>
+            </Link>
           </CarouselItem>
         ))}
       </CarouselContent>
     </Carousel>
-  )
+  );
 }
