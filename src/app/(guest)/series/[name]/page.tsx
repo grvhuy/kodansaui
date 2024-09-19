@@ -6,6 +6,7 @@ import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
 import VolumnCard from "@/components/series-page/VolumeCard";
 import { addToCart } from "@/lib/redux/feature/slices/cart";
+import { getColorFromString } from "@/lib/utils";
 import { getFullSeriesByFriendlyId, getSeriesByFriendlyUrl } from "@/utils/api";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -76,12 +77,27 @@ export default function SeriesPage() {
           <div className="relative aspect-[5/6]">
             <BreadCrumbCard type="Manga" title={product.name} />
             {product && (
-              <Image
-                src={product.cover_url}
-                alt="Example Image"
-                fill
-                className="object-cover"
-              />
+              <div className="relative group">
+                {/* Ảnh Manga */}
+                <Image
+                  src={product.cover_url}
+                  alt="Example Image"
+                  // fill
+                  height={240}
+                  width={240}
+                  className="grayscale w-full h-full aspect-[5/6] object-cover hover:shadow-lg"
+                />
+
+                {/* Lớp phủ màu ngẫu nhiên */}
+                <div
+                  className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    backgroundColor: `${getColorFromString(
+                      product.friendly_id
+                    )}`,
+                  }}
+                ></div>
+              </div>
             )}
           </div>
         </div>

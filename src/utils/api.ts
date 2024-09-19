@@ -26,6 +26,11 @@ const getVolume = async (friendlyId: string, vol: string) => {
   return response.data;
 };
 
+const searchByTerm = async (term: string) => {
+  const response = await axios.get(`/api/series/search/${term}`);
+  return response.data;
+}
+
 export {
   getSeries,
   getCatFact,
