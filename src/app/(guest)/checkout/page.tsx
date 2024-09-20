@@ -1,21 +1,52 @@
 "use client";
+import { AddAddressForm } from "@/components/AddAddressForm";
 import { MyButton } from "@/components/MyButton";
 import { CheckoutItemList } from "@/components/checkout-page/CheckoutItemList";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { RadioGroup } from "@/components/ui/radio-group";
+import { clearCart } from "@/lib/redux/feature/slices/cart";
+import { addAddress, createOrder, getAddresses } from "@/utils/api";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const CheckoutPage = () => {
+  const router = useRouter();
+  const [addresses, setAddresses] = useState<any[]>([]);
+  const [selectedAddress, setSelectedAddress] = useState<any>(null);
+  const [isShowAddressForm, setIsShowAddressForm] = useState<boolean>(false);
+  const [isEditAddress, setIsEditAddress] = useState<boolean>(false);
+  const [editedAddress, setEditedAddress] = useState<any>(null);
+
   const cart_items = useSelector((state) => state?.cart.cartItems);
+
+  const handlePlaceOrder = async () => {
+    const products = cart_items.map((item: any) => (
+      {
+        volume_id: item.id,
+        quantity: item.quantity,
+      }
+    ));
+    await createOrder(selectedAddress.id, products).then((data) => {
+      if (data) {
+        clearCart();
+        router.push("/order-success");
+      } else return;
+    })
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getAddresses();
+      console.log(data);
+      setAddresses(data);
+      setSelectedAddress(data[0]);
+    };
+    fetchData();
+  }, [
+    isShowAddressForm,
+    isEditAddress,
+  ]);
+
   return (
     <div className="min-h-screen mt-20">
       <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
@@ -152,82 +183,110 @@ const CheckoutPage = () => {
                   </div>
                 </form>
                 <section className="mt-4">
-                  {/* address */}
+                  {/* address section */}
                   <div className=" border-2 border-black rounded-none ">
                     <div className=" flex flex-col justify-center w-full p-4 bg-white dark:bg-gray-900 rounded-md shadow-md">
-                      <h1 className="font-bold text-black text-xl mb-4">
-                        Address
-                      </h1>
-                      <div className="flex items-center justify-between w-full">
-                        <div className="space-y-2">
-                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                            {/* {address.receiverName} */}
-                            {/* {userAddress?.receiverName} */}
-                            huy
-                            <span className="ml-2 text-gray-500 font-normal text-sm">
-                              {/* {address.phoneNumber} */}
-                              {/* {userAddress?.phoneNumber} */}
-                              0348590802
-                            </span>
-                          </h3>
-                          <p className="text-gray-500 dark:text-gray-400">
-                            {/* {address.addressLine}, {address.ward}, {address.district},{" "}
-                    {address.city} */}
-                            {/* {userAddress?.addressLine}, {userAddress?.ward},{" "}
-                      {userAddress?.district}, {userAddress?.city} */}
-                            ai tu quang tri
-                          </p>
-                        </div>
-                        <div className="flex flex-col space-y-2 items-end ">
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <MyButton text="Change" onClick={() => {}} />
-                            </DialogTrigger>
-                            <DialogContent className="bg-white rounded-none">
-                              <DialogHeader>
-                                <DialogTitle>Your addresses</DialogTitle>
-                              </DialogHeader>
-                              {/* <div className="grid gap-4 py-4"> */}
-                              {/* <div className="grid items-center gap-4"> */}
-                              <RadioGroup className="flex flex-col rounded-none border-2 border-black">
-                                {/* {addresses.map((address, index) => { */}
-                                {/* return ( */}
-                                <div
-                                  // key={index}
-                                  className="flex flex-col justify-center w-full p-4 bg-white dark:bg-gray-900 rounded-none shadow-md "
-                                >
-                                  <div className="flex items-center justify-between w-full">
-                                    <div className="space-y-2">
-                                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                        {/* {address.receiverName} */}
-                                        huy
-                                        <span className="ml-2 text-gray-500 font-normal text-sm">
-                                          {/* {address.phoneNumber} */}
-                                          900812123
-                                        </span>
-                                      </h3>
-                                      <p className="text-gray-500 dark:text-gray-400">
-                                        {/* {address.addressLine}, {address.ward},{" "}
-                                          {address.district}, {address.city} */}
-                                        ai tu quang tri
-                                      </p>
-                                    </div>
-                                    <div className="flex flex-col space-y-2 items-end">
-                                      <MyButton
-                                        text="Choose"
-                                        onClick={() => {}}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                                {/* ); */}
-                                {/* })} */}
-                              </RadioGroup>
-                              {/* <AddAddressForm /> */}
-                            </DialogContent>
-                          </Dialog>
-                        </div>
+                      <div className="mb-2 flex justify-between items-center">
+                        <h1 className="mt-2 font-bold text-black text-xl mb-4">
+                          Address
+                        </h1>
+                        <MyButton
+                          text={`${
+                            isShowAddressForm ? "Your addresses" : "Add Address"
+                          }`}
+                          onClick={() => {
+                            setIsShowAddressForm(!isShowAddressForm);
+                            // if (isShowAddressForm) {
+                            //   setIsEditAddress(false);
+                            // }
+                            if (isEditAddress) {
+                              setIsEditAddress(false);
+                            }
+                          }}
+                        />
                       </div>
+                      {/* Neu khong show form va co gia tri tring addreses thi map qua mang  */}
+                      {!isShowAddressForm && addresses.length > 0 && (
+                        <div>
+                          {addresses.map((address) => (
+                            <div
+                              key={address.id}
+                              className={`flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-800 rounded-none shadow-md mb-4 ${
+                                selectedAddress?.id === address.id
+                                  ? "border-2 border-black"
+                                  : ""
+                              }`}
+                            >
+                              <div className="space-y-2">
+                                <div className="flex items-center">
+                                  <h1 className="font-bold text-black text-lg">
+                                    {address.full_name}
+                                  </h1>
+                                  <p className="text-gray-500 dark:text-gray-400">
+                                    &nbsp; {address.phone_number}
+                                  </p>
+                                </div>
+                                <p className="text-gray-500 dark:text-gray-400">
+                                  {address.street} - {address.city} -{" "}
+                                  {address.country}
+                                </p>
+                                <p className="text-gray-500 dark:text-gray-400">
+                                  Postal Code: {address.postal_code}
+                                </p>
+                              </div>
+                              <div className="flex flex-col">
+                                <Button
+                                  className={`${
+                                    selectedAddress?.id === address.id
+                                      ? "bg-black text-white"
+                                      : "bg-white text-black"
+                                  } rounded-none border-2 border-black p-2 font-semibold hover:text-white`}
+                                  onClick={() => setSelectedAddress(address)}
+                                >
+                                  {selectedAddress?.id === address.id
+                                    ? "Selected"
+                                    : "Select"}
+                                </Button>
+                                <Button
+                                  className="bg-white text-black rounded-none border-2 border-black p-2 font-semibold mt-2 hover:text-white"
+                                  onClick={() => {
+                                    setIsShowAddressForm(true);
+                                    setIsEditAddress(true);
+                                    setEditedAddress(address);
+                                  }}
+                                >
+                                  {" "}
+                                  Edit
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {/* Neu khong co gia tri trong addresses thi show form */}
+                      {isShowAddressForm && !isEditAddress && (
+                        <AddAddressForm
+                          id={null}
+                          fullName=""
+                          phoneNumber=""
+                          street=""
+                          city=""
+                          country=""
+                          postalCode=""
+                        />
+                      )}
+
+                      {isShowAddressForm && isEditAddress && (
+                        <AddAddressForm
+                          id={editedAddress?.id}
+                          fullName={editedAddress?.full_name}
+                          phoneNumber={editedAddress?.phone_number}
+                          street={editedAddress?.street}
+                          city={editedAddress?.city}
+                          country={editedAddress?.country}
+                          postalCode={editedAddress?.postal_code}
+                        />
+                      )}
                     </div>
                   </div>
                 </section>
@@ -246,7 +305,8 @@ const CheckoutPage = () => {
                       <dd className="text-white text-base font-medium dark:text-white">
                         $
                         {cart_items.reduce(
-                          (acc, item) => acc + item.price * item.quantity,
+                          (acc: number, item: any) =>
+                            acc + item.price * item.quantity,
                           0
                         )}
                       </dd>
@@ -287,7 +347,8 @@ const CheckoutPage = () => {
                     <dd className="text-white text-base font-bold dark:text-white">
                       $
                       {cart_items.reduce(
-                        (acc, item) => acc + item.price * item.quantity,
+                        (acc: number, item: any) =>
+                          acc + item.price * item.quantity,
                         0
                       )}
                     </dd>
@@ -296,7 +357,7 @@ const CheckoutPage = () => {
                   <Button
                     className="w-full mt-4 rounded-none border-2 border-white bg-black text-white hover:bg-white hover:text-black p-5 font-semibold"
                     variant="ghost"
-                    onClick={() => alert("Order placed")}
+                    onClick={handlePlaceOrder}
                   >
                     PLACE ORDER
                   </Button>

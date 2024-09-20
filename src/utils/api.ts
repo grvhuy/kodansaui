@@ -1,5 +1,7 @@
 // import axios from "./axios.customize"
+import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
+import axiosInstance from "./axios.customize";
 
 const getSeries = async () => {
   const response = await axios.get("/api/series/get-series");
@@ -26,10 +28,67 @@ const getVolume = async (friendlyId: string, vol: string) => {
   return response.data;
 };
 
-const searchByTerm = async (term: string) => {
-  const response = await axios.get(`/api/series/search/${term}`);
+const searchByQuery = async (query: string) => {
+  const response = await axios.get(`/api/Series/search?query=${query}`);
   return response.data;
-}
+};
+
+//  /api/Auth/sign-up
+const signUp = async (email: string, password: string) => {
+  const response = await axios.post("/api/Auth/sign-up", {
+    email,
+    password,
+  });
+  return response.data;
+};
+
+//  /api/Auth/sign-in
+
+const getAddresses = async () => {
+  const response = await axiosInstance.get("/api/User/get-addresses");
+  return response.data;
+};
+
+const addAddress = async ({
+  street,
+  city,
+  country,
+  postalCode,
+  phoneNumber,
+  fullName,
+}: {
+  street: string;
+  city: string;
+  country: string;
+  postalCode: string;
+  phoneNumber: string;
+  fullName: string;
+}) => {
+  const response = await axiosInstance.post("/api/User/add-address", {
+    street,
+    city,
+    country,
+    postal_code: postalCode,
+    phone_number: phoneNumber,
+    full_name: fullName,
+  });
+
+  return {
+    message: "Address added successfully",
+    address: response.data,
+  };
+};
+
+const createOrder = async (
+  addressId: string,
+  products: { volume_id: string; quantity: number }[]
+) => {
+  const response = await axiosInstance.post("/api/Order/create-order", {
+    address_id : addressId,
+    products,
+  })
+  return response.data;
+};
 
 export {
   getSeries,
@@ -37,4 +96,8 @@ export {
   getSeriesByFriendlyUrl,
   getFullSeriesByFriendlyId,
   getVolume,
+  searchByQuery,
+  getAddresses,
+  addAddress,
+  createOrder
 };
