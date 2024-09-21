@@ -53,7 +53,7 @@ export default function ProductPage() {
       <div className="grid grid-cols-9">
         <div className="col-span-4 w-full">
           <div className="relative aspect-[5/6]">
-            <BreadCrumbCard type="Product" title="BIG DICK" />
+            <BreadCrumbCard type="Product" title="Product" />
             <Image
               src={series.cover_url}
               alt="Example Image"

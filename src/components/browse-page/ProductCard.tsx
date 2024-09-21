@@ -29,7 +29,7 @@ const ProductCard = (props: IProps) => {
 
         {/* Lớp phủ màu ngẫu nhiên */}
         <div
-          className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-80 group-hover:opacity-100 transition-opacity duration-300"
           style={{
             backgroundColor: `${getColorFromString(props.friendly_id)}`,
           }}
