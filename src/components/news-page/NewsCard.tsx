@@ -1,8 +1,12 @@
 import Image from "next/image"
 
-export const NewsCard = () => {
+interface IProps {
+  onClick: () => void;
+}
+
+export const NewsCard = (props: IProps) => {
   return (
-    <div className="flex flex-col">
+    <div onClick={props.onClick} className="flex flex-col ml-4">
         <h1>Sep. 10, 2024</h1>
         <Image
           src="

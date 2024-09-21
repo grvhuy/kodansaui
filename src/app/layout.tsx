@@ -5,6 +5,7 @@ import { Montserrat } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import StoreProvider from "@/lib/redux/Provider";
+import { AuthProvider } from "@/context/AuthContext";
 
 const font = Montserrat({ subsets: ["latin"] });
 
@@ -20,15 +21,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${font.className} bg-white`}
-      >
+      <body className={`${font.className} bg-white`}>
         <main>
-          <StoreProvider>
-            <Header />
-            {children}
-            <Footer />
-          </StoreProvider>
+          <AuthProvider>
+            <StoreProvider>
+              <Header />
+              {children}
+              <Footer />
+            </StoreProvider>
+          </AuthProvider>
         </main>
       </body>
     </html>

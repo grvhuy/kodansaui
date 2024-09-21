@@ -17,10 +17,15 @@ interface Volume {
   release_date: string;
   pages: number;
   properties: any;
-  onClick?: () => void;
 }
 
-const VolumnCard = ({ volume }: { volume: Volume }) => {
+const VolumeCard = ({
+  volume,
+  onClick,
+}: {
+  volume: Volume;
+  onClick: () => void;
+}) => {
   return (
     <div>
       <div className="flex space-x-4 my-8 mx-6">
@@ -40,14 +45,19 @@ const VolumnCard = ({ volume }: { volume: Volume }) => {
         <div className="flex">
           <div className="flex flex-col justify-between">
             <div>
-              <h3 onClick={volume.onClick} className="font-bold text-3xl">VOLUME {volume.seq_number}</h3>
+              <h3 className="font-bold text-3xl">
+                VOLUME {volume.seq_number}
+              </h3>
               <p className="text-lg text-gray-500">
                 {volume.properties?.["Print Release"] || null} | {volume.pages}{" "}
                 pages
               </p>
-              <a href={`
+              <a
+                href={`
                 /product/${volume.series.friendly_id}-${volume.seq_number}
-              `} className="underline font-semibold">
+              `}
+                className="underline font-semibold"
+              >
                 DETAILS
               </a>
             </div>
@@ -55,7 +65,9 @@ const VolumnCard = ({ volume }: { volume: Volume }) => {
             <div>
               <p className="font-bold text-md text-gray-500">DELUXE EDITION</p>
               <p className="font-bold text-2xl">${volume.price}</p>
-              <MyButton text="ADD TO CART" onClick={() => console.log("Buy")} />
+              <MyButton text="ADD TO CART" onClick={
+                () => onClick()
+              } />
             </div>
           </div>
         </div>
@@ -65,4 +77,4 @@ const VolumnCard = ({ volume }: { volume: Volume }) => {
   );
 };
 
-export default VolumnCard;
+export default VolumeCard;

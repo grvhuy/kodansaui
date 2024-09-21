@@ -18,7 +18,7 @@ interface IProps {
   onClickOutside?: () => void;
 }
 
-export const CartItem = (props: IProps) => {
+export const OrderItem = (props: IProps) => {
   const dispatch = useDispatch();
 
   return (

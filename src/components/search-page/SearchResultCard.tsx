@@ -1,3 +1,4 @@
+import { getColorFromString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,9 +8,11 @@ interface IProps {
   name: string;
   cover_url: string;
   thumbnail_url: string;
+  type: string;
+  author: string;
 }
 
-export const SearchResultCard = () => {
+export const SearchResultCard = (props: IProps) => {
   return (
     <Link href="#" className="my-2">
       <Image
@@ -19,8 +22,17 @@ export const SearchResultCard = () => {
         alt="Example Image"
         className="aspect-[5/6] object-cover"
       />
+      <div
+        className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+          backgroundColor: `${getColorFromString(props.friendly_id)}`,
+        }}
+      ></div>
       <span className="font-bold text-lg">
-        <h2>Series Name</h2>
+        <h2>
+          {props.name}
+           {/* - {props.author} */}
+        </h2>
       </span>
     </Link>
   );

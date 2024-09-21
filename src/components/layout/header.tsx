@@ -9,17 +9,47 @@ import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 // import { addToCart } from "@/lib/redux/feature/slices/cart";
 import { RootState } from "@/lib/redux/store";
-import { testAddToPersistedCart } from "@/lib/redux/feature/slices/cart";
+import { LoginForm } from "../auth/LoginForm";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export const Header = () => {
-  const [showSearch, setShowSearch] = useState(false);
-  const [showCart, setShowCart] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
+  const router = useRouter();
+  const [showSearch, setShowSearch] = useState<boolean>(false);
+  const [showCart, setShowCart] = useState<boolean>(false);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const cart_items = useSelector((state) => state?.cart.cartItems);
   const dispatch = useDispatch();
   useEffect(() => {
     // use useDispatch to dispatch action
-    
-    // console.log(cartState.cartItems);
+    // console.log(cart_items);
+  }, []);
+
+  const handleSearch = () => {
+    if (searchQuery.trim() !== "") {
+      router.push(`/search?query=${searchQuery}`);
+    } else return;
+    setShowSearch(false);
+  };
+
+  const { logout, login } = useAuth();
+
+  // lay user tu cookie
+  const userInJSON = document.cookie
+    .split(";")
+    .find((item) => item.includes("user"));
+  const user = userInJSON ? JSON.parse(userInJSON.split("=")[1]) : null;
+
+  // khi nao refresh trang thi van giu trang thai dang nhap
+  useEffect(() => {
+    // Lay tu cookie
+    const accessToken = document.cookie
+      .split(";")
+      .find((item) => item.includes("accessToken"));
+    const token = accessToken?.split("=")[1];
+    // console.log(token);
+    console.log(user);
   }, []);
 
   return (
@@ -84,21 +114,25 @@ export const Header = () => {
             </ul>
             <div>
               <MyButton
-                text="Cart"
+                text="CART"
                 onClick={() => {
                   setShowCart(!showCart);
                   setShowMenu(false);
                   setShowSearch(false);
                 }}
               />
-              <MyButton
-                text="Login"
-                onClick={() => {
-                  setShowMenu(!showMenu);
-                  setShowSearch(false);
-                  setShowCart(false);
-                }}
-              />
+              {user ? (
+                <MyButton
+                  text={user.email}
+                  onClick={() => {
+                    setShowMenu(!showMenu);
+                    setShowSearch(false);
+                    setShowCart(false);
+                  }}
+                />
+              ) : (
+                <LoginForm />
+              )}
             </div>
           </div>
         </div>
@@ -111,11 +145,13 @@ export const Header = () => {
               <h1>SEARCH BY SOMETHING</h1>
               <div className="flex space-x-2 w-full">
                 <input
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  value={searchQuery}
                   type="text"
                   className="border-2 w-full p-2 border-black focus-visible:outline-none"
                   placeholder="Search here..."
                 />
-                <button className=" text-white p-2">
+                <button onClick={handleSearch} className=" text-white p-2">
                   <Search color="black" size={24} />
                 </button>
               </div>
@@ -123,7 +159,6 @@ export const Header = () => {
           </div>
         </div>
       )}
-
       {/* Show Cart */}
       {showCart && (
         <div>
@@ -145,6 +180,7 @@ export const Header = () => {
                   <h1 className="font-bold text-xl p-4">CART ORDER</h1>
                   <div className="flex space-x-2 w-full">
                     <CartItemList
+                      items={cart_items}
                       onClickOutside={() => {
                         setShowCart(false);
                       }}
@@ -156,9 +192,7 @@ export const Header = () => {
           </div>
         </div>
       )}
-
-      {/* Show menu */}
-      {showMenu && (
+      {user && showMenu && (
         <div>
           {/* Layout boc ngoai */}
           <div
@@ -179,13 +213,18 @@ export const Header = () => {
                   <div className="flex flex-col w-full">
                     <Button
                       className="rounded-none bg-white text-black p-8 border-b-2 border-t-2 border-black  hover:bg-black hover:text-white text-3xl font-semibold"
-                      onClick={() => {}}
+                      onClick={() => {
+                        router.push("/account");
+                      }}
                     >
                       Account
                     </Button>
                     <Button
                       className="rounded-none hover:bg-black hover:text-white bg-white text-black p-8  text-3xl font-semibold"
-                      onClick={() => {}}
+                      onClick={() => {
+                        logout();
+                        setShowMenu(false);
+                      }}
                     >
                       Logout
                     </Button>

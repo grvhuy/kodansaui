@@ -5,13 +5,13 @@ import MangaTable from "@/components/MangaTable";
 import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
 import VolumnCard from "@/components/series-page/VolumeCard";
-import {
-  getFullSeriesByFriendlyId,
-  getSeriesByFriendlyUrl
-} from "@/utils/api";
+import { addToCart } from "@/lib/redux/feature/slices/cart";
+import { getColorFromString } from "@/lib/utils";
+import { getFullSeriesByFriendlyId, getSeriesByFriendlyUrl } from "@/utils/api";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface Series {
   id: string;
@@ -36,6 +36,9 @@ export default function SeriesPage() {
   const [fullSeries, setFullSeries] = useState<any[]>([]);
   const friendly_id = pathname.split("/").pop() as string;
 
+  useSelector((state) => state);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchData = async () => {
       getFullSeriesByFriendlyId(friendly_id).then((data) => {
@@ -43,7 +46,7 @@ export default function SeriesPage() {
         console.log(data);
       });
     };
-    fetchData()
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -74,12 +77,27 @@ export default function SeriesPage() {
           <div className="relative aspect-[5/6]">
             <BreadCrumbCard type="Manga" title={product.name} />
             {product && (
-              <Image
-                src={product.cover_url}
-                alt="Example Image"
-                fill
-                className="object-cover"
-              />
+              <div className="relative group">
+                {/* Ảnh Manga */}
+                <Image
+                  src={product.cover_url}
+                  alt="Example Image"
+                  // fill
+                  height={240}
+                  width={240}
+                  className="grayscale w-full h-full aspect-[5/6] object-cover hover:shadow-lg"
+                />
+
+                {/* Lớp phủ màu ngẫu nhiên */}
+                <div
+                  className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    backgroundColor: `${getColorFromString(
+                      product.friendly_id
+                    )}`,
+                  }}
+                ></div>
+              </div>
             )}
           </div>
         </div>
@@ -132,7 +150,26 @@ export default function SeriesPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2">
           {fullSeries &&
             fullSeries.map((volume) => {
-              return <VolumnCard key={volume.seq_number} volume={volume} />;
+              return (
+                <VolumnCard
+                  key={volume.seq_number}
+                  volume={volume}
+                  onClick={() => {
+                    // add to cart redux
+                    dispatch(
+                      addToCart({
+                        id: volume.id,
+                        name: volume.name,
+                        price: volume.price,
+                        cover_url: volume.cover_url,
+                        quantity: 1,
+                        friendly_id: volume.series_id,
+                        seq_number: volume.seq_number,
+                      })
+                    );
+                  }}
+                />
+              );
             })}
         </div>
       </div>

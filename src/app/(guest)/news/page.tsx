@@ -1,8 +1,11 @@
 "use client";
 import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { NewsCard } from "@/components/news-page/NewsCard";
+import { useRouter } from "next/navigation";
 
 export const NewsPage = () => {
+  const router = useRouter();
+
   return (
     <div className="min-h-screen flex flex-col mb-64">
       {/* BANNER */}
@@ -24,10 +27,12 @@ export const NewsPage = () => {
             />
           </div>
 
-          <div className="grid grid-cols-2 space-x-4">
-            <NewsCard />
-            <NewsCard />
-            <NewsCard />
+          <div className="grid grid-cols-2 ">
+            <NewsCard
+              onClick={() => {
+                router.push("/news/example");
+              }}
+            />
           </div>
         </div>
       </div>
