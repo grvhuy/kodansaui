@@ -90,6 +90,25 @@ const createOrder = async (
   return response.data;
 };
 
+const getOrders = async () => {
+  const response = await axiosInstance.get("/api/User/get-orders");
+  return response.data;
+}
+
+const getNews = async () => {
+  const response = await axios.get("/api/News/get-news");
+  return response.data;
+}
+
+const getNewsByFriendlyUrl = async (friendlyUrl: string) => {
+  const response = await axios.get(`/api/News/${friendlyUrl}`);
+  return response.data;
+}
+
+const getContainers = async () => {  
+  const response = await axios.get("/api/Homepage/get-containers");
+}
+
 export {
   getSeries,
   getCatFact,
@@ -99,5 +118,6 @@ export {
   searchByQuery,
   getAddresses,
   addAddress,
-  createOrder
+  createOrder,
+  getOrders,
 };

@@ -30,7 +30,8 @@ export const SearchResultCard = (props: IProps) => {
       ></div>
       <span className="font-bold text-lg">
         <h2>
-          {props.name} - {props.author}
+          {props.name}
+           {/* - {props.author} */}
         </h2>
       </span>
     </Link>
