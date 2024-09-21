@@ -86,12 +86,16 @@ export default function Home() {
         /> */}
       </div>
       {/* Chapter wheel */}
-      <div className="">
+      <div className="mt-12">
         {containers &&
           containers.map((container, index) => (
-            <div className="mx-20" key={index}>
+            <div className="mx-16" key={index}>
               {container.type == "chapter-wheel" && (
-                <ChapterWheelCarousel volumeList={container.containers_items} />
+                <div>
+                  <h1 className="font-semibold text-lg">{container.title}</h1>
+                  <h2 className="font-extrabold text-2xl">{container.sub_title}</h2>
+                  <ChapterWheelCarousel volumeList={container.containers_items}/>
+                </div>
               )}
             </div>
           ))}
