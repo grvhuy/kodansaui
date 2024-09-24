@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
 import { MyButton } from "../MyButton";
 import { Separator } from "../ui/separator";
+import { useDispatch } from "react-redux";
 
 interface Volume {
   id: string;
@@ -26,6 +28,8 @@ const VolumeCard = ({
   volume: Volume;
   onClick: () => void;
 }) => {
+
+
   return (
     <div>
       <div className="flex space-x-4 my-8 mx-6">

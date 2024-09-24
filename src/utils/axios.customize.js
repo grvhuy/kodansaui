@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getAccessToken = () => {
+const xgetAccessToken = () => {
   const value = `: ${document.cookie}`;
   const parts = value.split(`; accessToken=`);
   if (parts.length === 2) return parts.pop().split(";").shift();

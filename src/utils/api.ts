@@ -107,6 +107,7 @@ const getNewsByFriendlyUrl = async (friendlyUrl: string) => {
 
 const getContainers = async () => {  
   const response = await axios.get("/api/Homepage/get-containers");
+  return response.data;
 }
 
 export {
@@ -120,4 +121,5 @@ export {
   addAddress,
   createOrder,
   getOrders,
+  getContainers,  
 };

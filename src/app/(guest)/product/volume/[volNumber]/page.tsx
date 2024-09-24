@@ -4,13 +4,13 @@ import GoToTop from "@/components/GoToTop";
 import MangaTable from "@/components/MangaTable";
 import { FullSeriesCarousel } from "@/components/product-page/FullSeriesCarousel";
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
-import { default as VolumeCard, default as VolumnCard } from "@/components/series-page/VolumeCard";
+import {
+  default as VolumeCard,
+  default as VolumnCard,
+} from "@/components/series-page/VolumeCard";
 import { Button } from "@/components/ui/button";
 import { addToCart } from "@/lib/redux/feature/slices/cart";
-import {
-  getFullSeriesByFriendlyId,
-  getVolume
-} from "@/utils/api";
+import { getFullSeriesByFriendlyId, getVolume } from "@/utils/api";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -72,7 +72,10 @@ export default function DetailVolumePage() {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getVolume(friendly_id, vol);
+      console.log(data);
       if (data) {
+        console.log(data[0].seq_number);
+
         setProduct(data[0]);
         if (data[0].seq_number > 1) {
           const prev = await getVolume(
@@ -106,10 +109,13 @@ export default function DetailVolumePage() {
   return (
     <div className="mt-40 flex flex-col mx-8 min-h-screen">
       {/* Section Gioi thieu */}
-      <div className="grid grid-cols-9">
+      <div className="grid grid-cols-9 mr-6">
         <div className="col-span-4 w-full">
           <div className="relative aspect-[5/6]">
-            <BreadCrumbCard type="Manga" title="Test" />
+            <BreadCrumbCard
+              type="Manga"
+              title={product.series.name + ", Vol " + product.seq_number}
+            />
             <Image
               src={product.cover_url}
               alt="Example Image"
@@ -125,7 +131,10 @@ export default function DetailVolumePage() {
                 {product.series.name}, Volume {product.seq_number}
               </h1>
               <h1 className=" font-semibold text-gray-400">
-                By {product.series.author_id}
+                By{" "}
+                {product.series.series_authors
+                  .map((author: any) => author.authors.name)
+                  .join(", ")}
               </h1>
               <p className="mt-4">{product.description}</p>
             </div>
@@ -143,16 +152,18 @@ export default function DetailVolumePage() {
 
               {/* Buy button */}
               <Button
-                onClick={() => handleAddToCart(
-                  product.id,
-                  product.series.name,
-                  product.price,
-                  product.series.friendly_id,
-                  product.seq_number,
-                  product.cover_url,
-
-                )}
-              className="w-full mt-4 rounded-none p-8 text-2xl font-bold">
+                onClick={() =>
+                  handleAddToCart(
+                    product.id,
+                    product.series.name,
+                    product.price,
+                    product.series.friendly_id,
+                    product.seq_number,
+                    product.cover_url
+                  )
+                }
+                className="w-full mt-4 rounded-none p-8 text-2xl font-bold"
+              >
                 BUY DELUXE EDITION
               </Button>
             </div>
@@ -201,7 +212,24 @@ export default function DetailVolumePage() {
               <span className="font-bold text-2xl">Next Volume</span>
               <ArrowRight className="border-2 border-black" size={24} />
             </a>
-            {nextProduct && <VolumeCard onClick={()=>{}} volume={nextProduct} />}
+            {nextProduct && (
+              <VolumeCard
+                onClick={() => {
+                  dispatch(
+                    addToCart({
+                      id: nextProduct.id,
+                      name: nextProduct.series.name,
+                      price: nextProduct.price,
+                      quantity: 1,
+                      friendly_id: nextProduct.series.friendly_id,
+                      seq_number: nextProduct.seq_number,
+                      cover_url: nextProduct.cover_url,
+                    })
+                  );
+                }}
+                volume={nextProduct}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -211,6 +239,7 @@ export default function DetailVolumePage() {
       <div className="space-y-2 mb-24">
         <p className="font-extrabold text-3xl">Explore the full series</p>
         <FullSeriesCarousel
+          currentVol={product.seq_number}
           volumeList={fullSeries.map((volume) => ({
             friendly_id: volume.series.friendly_id,
             id: volume.id,

@@ -10,7 +10,7 @@ const companyCommonStyles =
 
 const MangaTable = (props: IProps) => {
   return (
-    <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10 border-2 border-black">
+    <div className="grid  grid-cols-2 w-full mt-10 border-2 border-black">
       <div className={` ${companyCommonStyles}`}>
         &nbsp;{" "}
         <p className="font-bold text-lg">
@@ -25,13 +25,13 @@ const MangaTable = (props: IProps) => {
           <span className="font-medium text-gray-500">{props.rating}</span>
         </p>{" "}
       </div>
-      <div className={` ${companyCommonStyles}`}>
+      {/* <div className={` ${companyCommonStyles}`}>
         &nbsp;
         <p className="font-bold text-lg">
           Resources{" "}
           <span className="font-medium text-gray-500">{props.resources}</span>
         </p>{" "}
-      </div>
+      </div> */}
       <div className={` ${companyCommonStyles} col-span-3`}>
         {" "}
         <div className="font-bold text-lg flex">

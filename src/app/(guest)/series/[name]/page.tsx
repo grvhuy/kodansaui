@@ -17,7 +17,7 @@ interface Series {
   id: string;
   friendly_id: string;
   name: string;
-  author_id: string;
+  authors: any[];
   description: string;
   totalVolumes: number;
   rating: string;
@@ -53,6 +53,7 @@ export default function SeriesPage() {
     const fetchData = async () => {
       const data = await getSeriesByFriendlyUrl(friendly_id);
       if (data) {
+        console.log(data);
         setProduct(data[0]);
       }
 
@@ -103,10 +104,29 @@ export default function SeriesPage() {
         </div>
         <div className="col-span-5 ml-6 w-full">
           <div className="flex flex-col">
-            <h1 className=" font-bold text-3xl text-black">{product.name}</h1>
-            <h1 className=" font-semibold text-gray-400">
-              By {product.author_id}
-            </h1>
+            <h1 className=" font-bold text-3xl text-black">{product.name} </h1>
+            {product.series_authors.length == 1 && (
+              <p className="text-md text-gray-500">
+                by {product.series_authors[0].authors.name}
+              </p>
+            )}
+            <div className="flex">
+              {product.series_authors.length > 1 &&
+                product.series_authors.map((author: any, index: number) => (
+                  <div>
+                    <span className="text-md text-gray-500">{author.index == 0 && `by ${author.authors.name}`}
+                      {author.index > 0 &&
+                        index !== product.series_authors.length - 1 &&
+                        `, ${author.authors.name} `}
+                    </span>
+                    <span className="ml-1 text-md text-gray-500">
+                      {index == product.series_authors.length - 1 &&
+                        `and ${author.authors.name}`}
+                    </span>
+                  </div>
+                ))}
+
+            </div>
             <p className="mt-4">{product.description}</p>
           </div>
         </div>
@@ -144,7 +164,6 @@ export default function SeriesPage() {
               }}
             />
           </div>
-          <div>SHOW CHAPTERS +</div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2">

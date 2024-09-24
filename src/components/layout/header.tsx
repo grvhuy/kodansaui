@@ -49,13 +49,13 @@ export const Header = () => {
       .find((item) => item.includes("accessToken"));
     const token = accessToken?.split("=")[1];
     // console.log(token);
-    console.log(user);
+    // console.log(user);
   }, []);
 
   return (
     <>
-      <nav className="bg-white dark:bg-gray-900 fixed w-[99%] z-20 top-0 start-0 dark:border-gray-600 border-2 border-black m-2 py-2">
-        <div className=" flex flex-wrap items-center justify-between p-4">
+      <nav className="bg-white dark:bg-gray-900 fixed w-[99%] z-20 top-0 start-0 dark:border-gray-600 border-2 border-black m-2">
+        <div className=" flex flex-wrap items-center justify-between p-2">
           <a
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -139,7 +139,7 @@ export const Header = () => {
       </nav>
       {/* search bar */}
       {showSearch && (
-        <div className="w-[99%] p-4 bg-gray-100 dark:bg-gray-800 border-black border-2 fixed top-[120px] z-20 mx-2 pb-4">
+        <div className="w-[99%] p-4 bg-gray-100 dark:bg-gray-800 border-black border-2 fixed top-[80px] z-20 mx-2 pb-4">
           <div className="flex justify-center w-full">
             <div className="flex flex-col justify-center items-center w-2/3">
               <h1>SEARCH BY SOMETHING</h1>
@@ -173,7 +173,7 @@ export const Header = () => {
           <div className="flex justify-end">
             <div
               className="w-[96%] md:w-[45%] bg-gray-100 dark:bg-gray-800 border-black border-2 
-              fixed top-[120px] z-30 mx-2 overflow-y-auto"
+              fixed top-[88px] z-30 mx-2 overflow-y-auto"
             >
               <div className="flex w-full">
                 <div className="flex flex-col justify-center w-full">
@@ -205,11 +205,13 @@ export const Header = () => {
           <div className="flex justify-end">
             <div
               className="w-[96%] md:w-[30%] bg-gray-100 dark:bg-gray-800 border-black border-2 
-                    fixed top-[120px] z-30 mx-2 overflow-y-auto"
+                    fixed top-[88px] z-30 mx-2 overflow-y-auto"
             >
               <div className="flex w-full">
                 <div className="flex flex-col justify-center items-center w-full">
-                  <h1 className="font-bold text-xl p-4">USEREMAIL@GMAIL.COM</h1>
+                  <h1 className="font-bold text-xl p-4">{
+                    user.email
+                  }</h1>
                   <div className="flex flex-col w-full">
                     <Button
                       className="rounded-none bg-white text-black p-8 border-b-2 border-t-2 border-black  hover:bg-black hover:text-white text-3xl font-semibold"

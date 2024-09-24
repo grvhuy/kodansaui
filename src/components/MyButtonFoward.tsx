@@ -25,7 +25,7 @@ export const MyButtonForward = (props: IProps) => (
         orientation="horizontal"
       />
       <ArrowRight
-        className="h-full w-full mr-2 transition-transform duration-300 transform group-hover:translate-x-1"
+        className="mr-2 transition-transform duration-300 transform group-hover:translate-x-1"
         size={24}
       />
     </Button>
