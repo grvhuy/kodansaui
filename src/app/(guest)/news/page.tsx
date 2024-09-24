@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 export const NewsPage = () => {
   const router = useRouter();
-
   return (
     <div className="min-h-screen flex flex-col mb-64">
       {/* BANNER */}

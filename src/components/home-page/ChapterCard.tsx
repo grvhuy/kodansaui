@@ -1,7 +1,6 @@
 import { getColorFromString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "./ui/button";
 
 interface IProps {
   id: string;
@@ -16,7 +15,7 @@ interface IProps {
 export const ChapterCard = (props: IProps) => {
   return (
     <div>
-      <Link href="#" className="my-2 relative group">
+      <Link href={`/product/${props.friendly_id}-${props.seq_number}`} className="my-2 relative group">
         <Image
           src={props.cover_url}
           alt="Example Image"
@@ -27,7 +26,7 @@ export const ChapterCard = (props: IProps) => {
           className={`grayscale aspect-square object-cover hover:shadow-lg hover:scale-105 transition-transform duration-300 `}
         />
 
-        {/* Lớp phủ màu ngẫu nhiên */}
+        {/* Layout mau*/}
         <div
           className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-60 group-hover:opacity-80 transition-opacity duration-300"
           style={{
@@ -46,14 +45,13 @@ export const ChapterCard = (props: IProps) => {
           {props.publish_date}
         </span>
         
-        <p
+        <a
+
           className="mt-2 font-medium text-sm border-b-2 border-gray-500 w-fit cursor-pointer"
-          onClick={() => {
-            console.log("Read chapter");
-          }}
+          href={`/product/${props.friendly_id}-${props.seq_number}`}
         >
           VIEW DETAIL
-        </p>
+        </a>
       </div>
     </div>
   );
