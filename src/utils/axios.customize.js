@@ -2,8 +2,11 @@ import axios from "axios";
 
 const xgetAccessToken = () => {
   const value = `: ${document.cookie}`;
-  const parts = value.split(`; accessToken=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
+  const accessTokenMatch = value.match(/accessToken=([^;]+)/);
+  const accessToken = accessTokenMatch ? accessTokenMatch[1] : null;
+  if (accessToken) {
+    return accessToken;
+  }
   return null;
 };
 
