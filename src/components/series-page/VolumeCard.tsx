@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { MyButton } from "../MyButton";
 import { Separator } from "../ui/separator";
-import { useDispatch } from "react-redux";
 
 interface Volume {
   id: string;

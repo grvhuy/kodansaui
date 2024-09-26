@@ -1,15 +1,12 @@
 "use client"
-import * as React from "react";
 
 import {
   Carousel,
   CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
+  CarouselItem
 } from "@/components/ui/carousel";
-import { VolumeCardSmall } from "./VolumeCardSmall";
 import Link from "next/link";
+import { VolumeCardSmall } from "./VolumeCardSmall";
 
 interface IProps {
   volumeList: any[];

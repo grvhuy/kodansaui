@@ -1,9 +1,3 @@
-import {
-  decrementQuantity,
-  incrementQuantity,
-  removeFromCart,
-} from "@/lib/redux/feature/slices/cart";
-import { Minus, PlusIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 

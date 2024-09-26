@@ -6,10 +6,9 @@ import { FilterAge } from "@/components/browse-page/FilterAge";
 import { FilterFormat } from "@/components/browse-page/FilterFormat";
 import { FilterStatus } from "@/components/browse-page/FilterStatus";
 import ProductCard from "@/components/browse-page/ProductCard";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { getSeries } from "@/utils/api";
 import { useEffect, useState } from "react";
-import { getCatFact, getSeries } from "@/utils/api";
 
 const sortByItems = ["New and Popular", "A-Z", "Z-A", "Newest", "Oldest"];
 

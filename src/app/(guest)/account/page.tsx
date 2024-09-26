@@ -42,8 +42,8 @@ const AccountPage = () => {
       <Separator className="border-[1px] mt-4 border-black" />
       <div className="flex justify-center w-full">
         <div className="w-2/3">
-          {orders.map((order) => (
-            <OrderCard order={order} />
+          {orders.map((order, index) => (
+            <OrderCard key={index} order={order} />
           ))}
         </div>
       </div>

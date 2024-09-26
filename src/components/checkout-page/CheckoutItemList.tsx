@@ -1,7 +1,4 @@
-import { ArrowRightIcon } from "lucide-react";
-import { ScrollArea } from "../ui/scroll-area";
 import { CartItem } from "../CartItem";
-import { Button } from "../ui/button";
 
 
 interface IProps {

@@ -4,7 +4,8 @@ import { MyButton } from "@/components/MyButton";
 import { CheckoutItemList } from "@/components/checkout-page/CheckoutItemList";
 import { Button } from "@/components/ui/button";
 import { clearCart } from "@/lib/redux/feature/slices/cart";
-import { addAddress, createOrder, getAddresses } from "@/utils/api";
+import { RootState } from "@/lib/redux/store";
+import { createOrder, getAddresses } from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -18,7 +19,7 @@ const CheckoutPage = () => {
   const [editedAddress, setEditedAddress] = useState<any>(null);
   const [method, setMethod] = useState<string>("cod");
 
-  const cart_items = useSelector((state) => state?.cart.cartItems);
+  const cart_items = useSelector((state: RootState) => state?.cart.cartItems);
 
   const handlePlaceOrder = async () => {
     const products = cart_items.map((item: any) => ({

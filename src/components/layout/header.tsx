@@ -19,7 +19,7 @@ export const Header = () => {
   const [showCart, setShowCart] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const cart_items = useSelector((state) => state?.cart.cartItems);
+  const cart_items = useSelector((state:RootState) => state?.cart.cartItems );
   const dispatch = useDispatch();
   useEffect(() => {
     // use useDispatch to dispatch action
@@ -33,7 +33,7 @@ export const Header = () => {
     setShowSearch(false);
   };
 
-  const { logout, login } = useAuth();
+  const { logout } = useAuth();
 
   // lay user tu cookie
   const userInJSON = document.cookie
