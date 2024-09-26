@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  kodansa-frontend:
+    image: kodansa-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    networks:
+      - dokploy-network
+
+networks:
+  dokploy-network:
+    external: true

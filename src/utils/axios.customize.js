@@ -7,6 +7,7 @@ const getAccessToken = () => {
   if (accessToken) {
     return accessToken;
   }
+  return null;
 };
 
 const axiosInstance = axios.create({
