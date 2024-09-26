@@ -28,15 +28,15 @@ export function ChapterWheelCarousel(props: IProps) {
         }}
         className=""
       >
-        <CarouselContent>
+        <CarouselContent className="mt-4">
           {props.container.containers_items.map(
             (volume: any, index: number) => (
               <CarouselItem
                 key={index}
-                className="md:basis-1/2 lg:basis-1/4 mt-4 "
+                className="md:basis-1/2 lg:basis-1/4"
               >
-                <Link
-                  href={`/product/${volume.friendly_id}-${volume.seq_number}`}
+                <div
+                  // href={`/product/${volume.friendly_id}-${volume.seq_number}`}
                   onClick={() => {
                     console.log(volume);
                   }}
@@ -51,7 +51,7 @@ export function ChapterWheelCarousel(props: IProps) {
                     publish_date={volume.volume.publish_date}
                     seq_number={volume.volume.seq_number}
                   />
-                </Link>
+                </div>
               </CarouselItem>
             )
           )}

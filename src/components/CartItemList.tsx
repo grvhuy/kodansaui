@@ -51,7 +51,9 @@ export const CartItemList = (props: IProps) => {
 
         <div className="flex flex-col">
           <Button className="flex bg-black rounded-none text-white  font-bold text-3xl hover:bg-gray-800 py-8">
-            <Link className="flex" href="/checkout">
+            <Link onClick={
+              props.onClickOutside
+            } className="flex" href="/checkout">
               Checkout &nbsp; <ArrowRightIcon size={36} />
             </Link>
           </Button>

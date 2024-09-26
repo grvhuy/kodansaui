@@ -167,12 +167,11 @@ export const Header = () => {
             onClick={() => {
               setShowCart(false);
             }}
-            className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10 flex justify-end"
+            className="fixed top-0 left-0 w-full h-full z-10 flex justify-end"
           ></div>
-
           <div className="flex justify-end">
             <div
-              className="w-[96%] md:w-[45%] bg-gray-100 dark:bg-gray-800 border-black border-2 
+              className="w-[96%] md:w-[40%] bg-gray-100 dark:bg-gray-800 border-black border-2 
               fixed top-[88px] z-30 mx-2 overflow-y-auto"
             >
               <div className="flex w-full">

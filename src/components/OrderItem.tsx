@@ -22,7 +22,7 @@ export const OrderItem = (props: IProps) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="grid grid-cols-10 space-x-4 items-center justify-center  border-b-2 border-black p-2">
+    <div className="grid grid-cols-10 space-x-4 items-center justify-center w-full border-b-[0.5px] border-gray-500 p-2">
       <div className="col-span-5 text-gray-500">
         <div className="flex space-x-2 text-black text-lg">
           <Image
@@ -42,41 +42,22 @@ export const OrderItem = (props: IProps) => {
           </div>
         </div>
       </div>
-      <div className="col-span-2 font-semibold text-black text-lg">
+      <div className="col-span-3 text-black">
         {/* inc va dec btn */}
         <div className="flex space-x-2 ml-2">
-          <button
-            onClick={() => {
-              dispatch(decrementQuantity(props.id));
-            }}
-            className="text-gray-600 hover:text-gray-900 px-1"
-          >
-            <Minus className="hover:shadow" size={16} />
-          </button>
-          <span>{props.quantity}</span>
-          <button className="text-gray-600 hover:text-gray-900">
-            <PlusIcon
-              className="hover:shadow"
-              onClick={() => {
-                dispatch(incrementQuantity(props.id));
-              }}
-              size={16}
-            />
-          </button>
+          x&nbsp;<span className="font-semibold">{props.quantity}</span>
         </div>
       </div>
 
       <div className="col-span-2 font-semibold text-black text-lg">
-        ${props.price * props.quantity}
+        {
+          Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+          }).format(props.price * props.quantity)
+        }
       </div>
 
-      <XIcon
-        onClick={() => {
-          dispatch(removeFromCart(props.id));
-        }}
-        size={24}
-        className="col-span-1 h-100 w-100 cursor-pointer text-black"
-      />
     </div>
   );
 };

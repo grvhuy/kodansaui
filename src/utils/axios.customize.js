@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const xgetAccessToken = () => {
+const getAccessToken = () => {
   const value = `: ${document.cookie}`;
   const accessTokenMatch = value.match(/accessToken=([^;]+)/);
   const accessToken = accessTokenMatch ? accessTokenMatch[1] : null;

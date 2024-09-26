@@ -13,7 +13,7 @@ export const NewsWheel = (props: IProps) => {
   const router = useRouter()
   return (
     <div className="mx-16 mt-16 flex flex-col w-full">
-      <h1 className="text-2xl font-bold uppercase">{props.container.title}</h1>
+      <h1 className="text-lg font-semibold uppercase">{props.container.title}</h1>
       <h2 className="text-2xl font-bold uppercase">
         {props.container.sub_title}
       </h2>
