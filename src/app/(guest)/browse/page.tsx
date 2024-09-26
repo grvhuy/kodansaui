@@ -121,6 +121,7 @@ const BrowsePage = () => {
               name={item.name}
               cover_url={item.cover_url}
               thumbnail_url={item.thumbnail_url}
+              cover_color={item.cover_color}
             />
           ))}
           {/* <ProductCard />

@@ -22,7 +22,7 @@ export default async function RemoteMdxPage() {
 
   return (
     <div className="flex flex-col items-center mt-24 min-h-screen">
-      <h1 className="self-start text-left text-3xl mb-6">{`What can you do here?`}</h1>
+      <h1 className="self-start text-left text-3xl mb-6">{`TITASDASD`}</h1>
       <div className="w-1/2">
         <MDXRemote source={mdxContent} components={components} />
       </div>

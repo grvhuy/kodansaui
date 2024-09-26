@@ -1,4 +1,3 @@
-import { getColorFromString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 interface IProps {
@@ -12,6 +11,7 @@ interface IProps {
   // type: string;
   cover_url: string;
   thumbnail_url: string;
+  cover_color: string;
 }
 
 const ProductCard = (props: IProps) => {
@@ -29,9 +29,9 @@ const ProductCard = (props: IProps) => {
 
         {/* Lớp phủ màu ngẫu nhiên */}
         <div
-          className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-40 group-hover:opacity-75 transition-opacity duration-300"
           style={{
-            backgroundColor: `${getColorFromString(props.friendly_id)}`,
+            backgroundColor: `${props.cover_color}`,
           }}
         ></div>
       </Link>

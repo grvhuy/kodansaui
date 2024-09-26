@@ -50,6 +50,7 @@ export function ChapterWheelCarousel(props: IProps) {
                     author={volume?.author}
                     publish_date={volume.volume.publish_date}
                     seq_number={volume.volume.seq_number}
+                    cover_color={volume.volume.series.cover_color}
                   />
                 </div>
               </CarouselItem>
