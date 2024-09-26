@@ -15,7 +15,10 @@ interface IProps {
 export const ChapterCard = (props: IProps) => {
   return (
     <div>
-      <Link href={`/product/${props.friendly_id}-${props.seq_number}`} className="my-2 relative group">
+      <Link
+        href={`/product/${props.friendly_id}-${props.seq_number}`}
+        className="my-2 relative group"
+      >
         <Image
           src={props.cover_url}
           alt="Example Image"
@@ -35,19 +38,12 @@ export const ChapterCard = (props: IProps) => {
         ></div>
       </Link>
       <div className="flex flex-col mt-2">
-        <span className="font-bold text-lg">
-          {props.name}
-        </span> 
-        <span className="text-sm">
-          Vol. {props.seq_number}
-        </span>
-        <span className="text-sm mt-1">
-          {props.publish_date}
-        </span>
-        
-        <a
+        <span className="font-bold text-lg">{props.name}</span>
+        <span className="text-sm">Vol. {props.seq_number}</span>
+        <span className="text-sm mt-1">{props.publish_date}</span>
 
-          className="mt-2 font-medium text-sm border-b-2 border-gray-500 w-fit cursor-pointer"
+        <a
+          className="mt-2 font-medium text-sm border-b-2 border-gray-500 w-fit"
           href={`/product/${props.friendly_id}-${props.seq_number}`}
         >
           VIEW DETAIL

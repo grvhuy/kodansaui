@@ -24,7 +24,7 @@ const ProductCard = (props: IProps) => {
           alt="Example Image"
           height={240}
           width={240}
-          className="grayscale aspect-[5/6] object-cover hover:shadow-lg min-w-24 max-h-80"
+          className="grayscale aspect-[5/6] object-cover hover:shadow-lg w-full"
         />
 
         {/* Lớp phủ màu ngẫu nhiên */}
@@ -38,8 +38,9 @@ const ProductCard = (props: IProps) => {
 
       <div>
         <Link
+          title={props.name}
           href={`series/${props.friendly_id}`}
-          className="font-semibold text-lg"
+          className="font-semibold text-lg line-clamp-2"
         >
           {props.name}
         </Link>
