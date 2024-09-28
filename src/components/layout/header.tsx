@@ -2,7 +2,7 @@
 
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { CartItemList } from "../CartItemList";
 import { MyButton } from "../MyButton";
 import { Button } from "../ui/button";
@@ -24,7 +24,6 @@ export const Header = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const cart_items = useSelector((state: RootState) => state?.cart.cartItems);
-  const dispatch = useDispatch();
   useEffect(() => {
     // use useDispatch to dispatch action
     // console.log(cart_items);
@@ -48,10 +47,10 @@ export const Header = () => {
   // khi nao refresh trang thi van giu trang thai dang nhap
   useEffect(() => {
     // Lay tu cookie
-    const accessToken = document.cookie
-      .split(";")
-      .find((item) => item.includes("accessToken"));
-    const token = accessToken?.split("=")[1];
+    // const accessToken = document.cookie
+    //   .split(";")
+    //   .find((item) => item.includes("accessToken"));
+    // const token = accessToken?.split("=")[1];
     // console.log(token);
     // console.log(user);
   }, []);
@@ -89,6 +88,8 @@ export const Header = () => {
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <Image
+              width={32}
+              height={32}
               src="https://flowbite.com/docs/images/logo.svg"
               className="h-8"
               alt="Flowbite Logo"
@@ -193,6 +194,7 @@ export const Header = () => {
                 <div className="mt-2 w-full space-y-2 h-2/3 overflow-y-auto">
                   {searchResult.map((item) => (
                     <SearchResultCardHome
+                      key={item.id}
                       coverUrl={item.cover_url}
                       friendlyId={item.friendly_id}
                       name={item.name}

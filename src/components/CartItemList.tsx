@@ -57,9 +57,9 @@ export const CartItemList = (props: IProps) => {
               Checkout &nbsp; <ArrowRightIcon size={36} />
             </Link>
           </Button>
-          <Button 
+          <Button
             onClick={props.onClickOutside}
-          className="bg-white rounded-none text-black  font-bold text-3xl hover:bg-gray-200 py-8">
+            className="bg-white rounded-none text-black  font-bold text-3xl hover:bg-gray-200 py-8">
             Continue Shopping
           </Button>
         </div>

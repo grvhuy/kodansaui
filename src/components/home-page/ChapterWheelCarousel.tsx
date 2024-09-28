@@ -8,7 +8,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import Link from "next/link";
 import { ChapterCard } from "./ChapterCard";
 
 interface IProps {
@@ -18,7 +17,7 @@ interface IProps {
 
 export function ChapterWheelCarousel(props: IProps) {
   return (
-    <div className="flex flex-col mx-16 mt-8">
+    <div className="flex flex-col mt-8">
       <h1 className="text-lg font-semibold uppercase">{props.container.title}</h1>
       <h2 className="text-2xl font-bold uppercase">{props.container.sub_title}</h2>
 
@@ -40,7 +39,7 @@ export function ChapterWheelCarousel(props: IProps) {
                   onClick={() => {
                     console.log(volume);
                   }}
-                  className="p-1 items-center justify-center"
+                  className="items-center justify-center"
                 >
                   <ChapterCard
                     id={volume.id}

@@ -1,7 +1,7 @@
 "use client";
 import '@mdxeditor/editor/style.css';
 
-import { MDXEditor, MDXEditorMethods, headingsPlugin, imagePlugin, listsPlugin, markdownShortcutPlugin, quotePlugin, toolbarPlugin } from "@mdxeditor/editor";
+import { MDXEditor, MDXEditorMethods, headingsPlugin, imagePlugin, listsPlugin, markdownShortcutPlugin, quotePlugin } from "@mdxeditor/editor";
 import { FC } from "react";
 
 interface EditorProps {

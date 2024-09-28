@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const Footer = () => {
   return (
     <footer className="bg-black text-white shadow dark:bg-gray-900">
@@ -7,7 +9,9 @@ const Footer = () => {
             href="#"
             className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
           >
-            <img
+            <Image
+              width={32}
+              height={32}
               src="https://flowbite.com/docs/images/logo.svg"
               className="h-8"
               alt="Flowbite Logo"
@@ -43,9 +47,9 @@ const Footer = () => {
         <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
           © 2023{" "}
           <a href="https://flowbite.com/" className="hover:underline">
-            Flowbite™ ""
+            Flowbite™ &quot;
           </a>
-          . All Rights Reserved. 
+          . All Rights Reserved.
         </span>
       </div>
     </footer>

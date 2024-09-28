@@ -13,16 +13,18 @@ const SearchResultCardHome = (props: IProps) => {
   const router = useRouter();
   return (
     <div
-      className="flex items-center space-x-2 cursor-pointer"
+      className="flex items-center space-x-2 cursor-pointer h-20"
       onClick={() => router.push(`/series/${props.friendlyId}`)}
     >
-      <Image
-        src={props.coverUrl}
-        alt="Example Image"
-        height={80}
-        width={80}
-        className="grayscale aspect-[5/6] object-cover hover:shadow-lg"
-      />
+      <div className="aspect-square relative h-full">
+        <Image
+          src={props.coverUrl}
+          alt="Example Image"
+          fill
+          sizes="100vw"
+          className="grayscale object-cover hover:shadow-lg"
+        />
+      </div>
       <div>
         <h2 className="font-bold text-lg">{props.name}</h2>
       </div>

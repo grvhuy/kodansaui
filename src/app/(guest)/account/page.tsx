@@ -19,7 +19,7 @@ const AccountPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen mt-40 flex flex-col mx-8 mb-64">
+    <div className="min-h-screen mt-32 flex flex-col mb-64">
       <h1 className="text-6xl font-extrabold">Account</h1>
       <Separator className="border-[1px] mt-4 border-black" />
       <div className="flex space-x-8">

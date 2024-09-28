@@ -38,11 +38,11 @@ export function LoginForm() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <MyButton text="LOGIN" onClick={() => {}} />
+        <MyButton text="LOGIN" onClick={() => { }} />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-white p-0 border-none">
         <DialogHeader>
-          <img
+          <Image
             alt="Login"
             width={100}
             height={100}
@@ -86,10 +86,10 @@ export function LoginForm() {
 
           <div className="flex flex-col">
             <div className="flex justify-between -mx-4">
-              <Button variant="link" onClick={() => {}}>
+              <Button variant="link" onClick={() => { }}>
                 FORGOT PASSWORD
               </Button>
-              <Button variant="link" onClick={() => {signIn(email, password);}}>
+              <Button variant="link" onClick={() => { signIn(email, password); }}>
                 SIGN UP
               </Button>
             </div>

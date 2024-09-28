@@ -54,7 +54,9 @@ export const OrderCard = (props: IProps) => {
 
       {showDetails &&
         props.order.order_products.map((product: any, index: number) => (
-          <div className="flex flex-col justify-between items-center">
+          <div
+            key={index}
+            className="flex flex-col justify-between items-center">
             <OrderItem
               key={index}
               index={index}

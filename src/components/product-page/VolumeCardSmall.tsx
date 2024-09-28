@@ -11,18 +11,20 @@ interface IProps {
 
 export const VolumeCardSmall = (props: IProps) => {
   return (
-    <div>
-      <div className="relative aspect-[5/6]">
-        <div className="p-8 bg-[#efefef] flex justify-center items-center hover:bg-[#dddddd] hover:shadow-sm transition duration-500 ease-in-out">
-          <Image
-            src={props.cover_url}
-            alt="Example Image"
-            width={140}
-            height={140}
-            className="object-cover hover:shadow-lg min-w-24"
-          />
+    <div className="flex w-full">
+      <div className="relative w-full">
+        <div className="bg-[#efefef] hover:bg-[#dddddd] transition duration-500 ease-in-out aspect-[5/6] justify-center items-center flex">
+          <div className="relative w-full h-full">
+            <Image
+              src={props.cover_url}
+              alt="Cover Image"
+              fill
+              sizes="100vw"
+              className="object-contain hover:shadow-sm p-4"
+            />
+          </div>
         </div>
-          <p className="text-center text-lg font-bold mt-2">{props.seq_number}</p>
+        <p className="text-center text-lg font-bold mt-2">{props.seq_number}</p>
       </div>
     </div>
   );

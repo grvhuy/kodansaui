@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import { Montserrat } from "next/font/google";
 import { Header } from "@/components/layout/header";
@@ -26,7 +25,9 @@ export default function RootLayout({
           <AuthProvider>
             <StoreProvider>
               <Header />
-              {children}
+              <div className="p-8 w-full 2xl:w-2/3 mx-auto 2xl:p-0">
+                {children}
+              </div>
               <Footer />
             </StoreProvider>
           </AuthProvider>
