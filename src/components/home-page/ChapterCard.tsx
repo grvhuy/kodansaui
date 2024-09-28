@@ -17,17 +17,17 @@ export const ChapterCard = (props: IProps) => {
     <div>
       <Link
         href={`/product/${props.friendly_id}-${props.seq_number}`}
-        className="my-2 relative group"
+        className="my-2 group"
       >
-        <Image
-          src={props.cover_url}
-          alt="Example Image"
-          objectFit="cover"
-          layout="responsive"
-          width={300}
-          height={300}
-          className={`grayscale aspect-square object-cover hover:shadow-lg hover:scale-105 transition-transform duration-300 `}
-        />
+        <div className="aspect-square relative w-full">
+          <Image
+            src={props.cover_url}
+            alt="Example Image"
+            fill
+            sizes="100vw"
+            className={`grayscale aspect-square object-cover hover:shadow-lg hover:scale-105 transition-transform duration-300 `}
+          />
+        </div>
 
         {/* Layout mau*/}
         <div
@@ -38,7 +38,7 @@ export const ChapterCard = (props: IProps) => {
         ></div>
       </Link>
       <div className="flex flex-col mt-2">
-        <span className="font-bold text-lg">{props.name}</span>
+        <span className="font-bold text-lg truncate">{props.name}</span>
         <span className="text-sm">Vol. {props.seq_number}</span>
         <span className="text-sm mt-1">{props.publish_date}</span>
 

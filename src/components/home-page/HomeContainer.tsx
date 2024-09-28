@@ -11,7 +11,7 @@ interface IProps {
 
 export const HomeContainer = (props: IProps) => {
   return (
-    <div className="bg-white min-h-screen pb-20 gap-16 h-full w-full">
+    <div className="bg-white min-h-screen pb-20 gap-16 h-full">
       {props.containers.map((container, index) => (
         <div key={index}>
           {container.type === "news-header" && (
@@ -23,7 +23,6 @@ export const HomeContainer = (props: IProps) => {
           {container.type === "chapter-wheel" && (
             <ChapterWheelCarousel container={container} />
           )}
-
           {container.type === "news-wheel" && (
             <NewsWheel container={container} />
           )}

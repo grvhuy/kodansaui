@@ -1,5 +1,3 @@
-import { randomInt } from "crypto";
-
 interface IProps {
   rating: string;
   pages: string;

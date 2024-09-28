@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-
 export default function GoToTop() {
-  const [isVisible, setIsVisible] = useState(false);
+  //const [isVisible, setIsVisible] = useState(false);
 
   // useEffect(() => {
   //   const toggleVisibility = () => {

@@ -5,13 +5,11 @@ import Link from "next/link"
 
 export const SeriesWheelCard = () => {
   return (
-    <div className="flex flex-col mr-8">
+    <div className="flex flex-col">
       <Link href="#" className="my-2 relative group">
         <Image
           src="https://pqxhavcshlsgvyjmkhkv.supabase.co/storage/v1/object/public/Cover%20Images/page-0001.jpg?t=2024-09-08T10%3A03%3A15.657Z"
           alt="Example Image"
-          objectFit="cover"
-          layout="responsive"
           width={300}
           height={300}
           className={`aspect-[2/3] object-cover hover:shadow-lg`}

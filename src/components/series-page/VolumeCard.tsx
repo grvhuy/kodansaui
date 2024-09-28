@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { MyButton } from "../MyButton";
 import { Separator } from "../ui/separator";
+import Link from "next/link";
 
 interface Volume {
   id: string;
@@ -31,26 +32,26 @@ const VolumeCard = ({
 
   return (
     <div>
-      <div className="flex space-x-4 my-8 mx-6">
-        <div>
-          <div className="relative aspect-[5/6]">
-            <div className="p-8 bg-[#efefef] flex justify-center items-center hover:bg-[#dddddd] hover:shadow-sm transition duration-500 ease-in-out">
-              <Image
-                src={volume.cover_url}
-                alt="Example Image"
-                width={140}
-                height={140}
-                className="object-cover hover:shadow-lg min-w-24"
-              />
-            </div>
+      <div className="flex space-x-4 my-8 w-full ">
+        <div className="bg-[#efefef] hover:bg-[#dddddd] transition duration-500 ease-in-out w-1/3 aspect-[5/6] justify-center items-center flex">
+          <div className="relative w-full h-full">
+            <Image
+              src={volume.cover_url}
+              alt="Cover Image"
+              fill
+              sizes="100vw"
+              className="object-contain hover:shadow-sm p-4"
+            />
           </div>
         </div>
-        <div className="flex">
+        <div className="flex w-2/3">
           <div className="flex flex-col justify-between">
             <div>
-              <h3 className="font-bold text-3xl">
-                VOLUME {volume.seq_number}
-              </h3>
+              <Link
+                href={`/product/${volume.series.friendly_id}-${volume.seq_number}`}
+                className="font-bold text-3xl hover:underline">
+                Volume {volume.seq_number}
+              </Link>
               <p className="text-lg text-gray-500">
                 {volume.properties?.["Print Release"] || null} | {volume.pages}{" "}
                 pages

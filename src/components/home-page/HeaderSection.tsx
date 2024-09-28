@@ -1,44 +1,30 @@
 "use client";
-
-import { getColorFromString } from "@/lib/utils";
 import Image from "next/image";
 import { MyButtonForward } from "../MyButtonFoward";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
 interface IProps {
   container: any;
   headerItem: any;
 }
-
 export const HeaderSection = (props: IProps) => {
   const router = useRouter();
-
   return (
-    <div className="w-full h-[300px] md:h-[600px] flex items-center justify-center mb-12 relative ">
+    <div className="w-screen h-[80vh] flex items-center">
       {props.headerItem && (
-        <Link className="cursor-pointer" href={`/series/${props.headerItem.series.friendly_id}`}>
+        <Link className="absolute inset-0 w-full h-[80vh] cursor-pointer" href={`/series/${props.headerItem.series.friendly_id}`}>
           <Image
+            fill
+            priority
+            sizes="100vw"
+            style={{ objectFit: "cover" }}
             src={props.headerItem.series.thumbnail_url}
             alt="Hero Image"
-            objectFit="cover"
-            // objectPosition="md:1px md:-200px"
-            layout="fill"
             className="border-b-2 border-b-black"
           />
         </Link>
       )}
-      <div
-        onClick={() => {
-          router.push(`/series/${props.headerItem.series.friendly_id}`);
-        }}
-        className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-60 group-hover:opacity-100 transition-opacity duration-300"
-        style={{
-          backgroundColor: `${getColorFromString("cluelaseesssss")}`,
-        }}
-      ></div>
-
-      <div className="absolute z-10 bg-white left-16 -bottom-8 border-2 border-black w-1/2 p-4 md:block hidden">
+      <div className="z-10 bg-white border-2 border-black p-4 md:block hidden mt-[80vh]">
         <h1 className="font-semibold text-xl">{props.container?.title}</h1>
         <p className="font-extrabold text-5xl">
           {props.headerItem?.series.name}

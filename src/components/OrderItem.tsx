@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { useDispatch } from "react-redux";
 
 interface IProps {
   index: number;
@@ -14,19 +13,19 @@ interface IProps {
 }
 
 export const OrderItem = (props: IProps) => {
-  const dispatch = useDispatch();
-
   return (
-    <div className={`grid grid-cols-10 space-x-4 items-center justify-center w-full border-gray-500 p-2 ${props.index !== 0 ? "border-t-[0.5px]" : ""}` }>
+    <div className={`grid grid-cols-10 space-x-4 items-center justify-center w-full border-gray-500 p-2 ${props.index !== 0 ? "border-t-[0.5px]" : ""}`}>
       <div className="col-span-5 text-gray-500">
-        <div className="flex space-x-2 text-black text-lg">
-          <Image
-            src={props.cover_url}
-            alt="Example Image"
-            height={880}
-            width={80}
-            className="aspect-[5/6] object-cover"
-          />
+        <div className="flex space-x-2 text-black text-lg h-full">
+          <div className="relative h-32 aspect-[5/6]">
+            <Image
+              src={props.cover_url}
+              alt="Example Image"
+              fill
+              sizes="100vw"
+              className="object-cover"
+            />
+          </div>
           <div className="flex-col flex justify-center">
             <span className="font-semibold text-black text-lg uppercase">
               {props.name}

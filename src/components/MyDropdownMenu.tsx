@@ -24,7 +24,7 @@ const MyDropdownMenu = (props: IProps) => {
           {props.title}  &nbsp;<span><CircleChevronDown /></span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-52 shadow-none rounded-none border-2 border-black">
+      <DropdownMenuContent className="shadow-none w-full rounded-none border-2 border-black">
         {props.items.map((item, index) => (
           <DropdownMenuItem
             className="hover:bg-accent "

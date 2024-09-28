@@ -6,7 +6,6 @@ import { FullSeriesCarousel } from "@/components/product-page/FullSeriesCarousel
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
 import {
   default as VolumeCard,
-  default as VolumnCard,
 } from "@/components/series-page/VolumeCard";
 import { Button } from "@/components/ui/button";
 import { addToCart } from "@/lib/redux/feature/slices/cart";
@@ -30,7 +29,7 @@ export default function DetailVolumePage() {
   const friendly_id = fid.split("-").slice(0, -1).join("-");
   const vol = fid.split("-").pop() as string;
   const [product, setProduct] = useState<any>(null);
-  const [currentSeq, setCurrentSeq] = useState<number>(NaN);
+  //const [currentSeq, setCurrentSeq] = useState<number>(NaN);
   const [prevProduct, setPrevProduct] = useState<any>(null);
   const [nextProduct, setNextProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -67,7 +66,7 @@ export default function DetailVolumePage() {
       });
     };
     fetchData();
-  }, []);
+  }, [friendly_id]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,29 +99,31 @@ export default function DetailVolumePage() {
       setLoading(false);
     };
     fetchData();
-  }, [friendly_id]);
+  }, [friendly_id, vol]);
 
   if (loading) {
     return <p className="h-screen">Loading</p>;
   }
 
   return (
-    <div className="mt-40 flex flex-col mx-8 min-h-screen">
+    <div className="mt-32 flex flex-col min-h-screen">
       {/* Section Gioi thieu */}
-      <div className="grid grid-cols-9 mr-6">
-        <div className="col-span-4 w-full">
-          <div className="relative aspect-[5/6]">
-            <BreadCrumbCard
-              type="Manga"
-              title={product.series.name + ", Vol " + product.seq_number}
-            />
-            <Image
-              src={product.cover_url}
-              alt="Example Image"
-              fill
-              className="object-cover"
-            />
-          </div>
+      <div className="flex space-x-8">
+        <div className="relative w-full">
+          <BreadCrumbCard type="Manga" title={`${product.series.name}`} />
+          {product && (
+            <div className="relative group w-full aspect-[5/6] bg-[#efefef] hover:bg-[#dddddd]">
+              {/* Ảnh Manga */}
+              <Image
+                priority
+                src={product.cover_url}
+                alt="Example Image"
+                fill
+                sizes="100vw"
+                className="object-contain hover:shadow-lg p-12"
+              />
+            </div>
+          )}
         </div>
         <div className="col-span-5 ml-6 w-full">
           <div className="flex flex-col h-full justify-between">
@@ -143,9 +144,6 @@ export default function DetailVolumePage() {
               <div className="flex items-center justify-between">
                 <div className="flex flex-col">
                   <span className="font-bold text-2xl">Deluxe Edition</span>
-                  <p className="text-gray-600">
-                    Purchase to read this volume and all its chapters online.
-                  </p>
                 </div>
                 <div className="font-bold text-3xl">$7.99</div>
               </div>
@@ -175,8 +173,7 @@ export default function DetailVolumePage() {
 
       <div className="grid grid-cols-9 mb-16">
         <div className="col-span-3 flex flex-col mt-12">
-          <h1 className="font-bold text-6xl">SERIES</h1>
-          <h1 className="font-bold text-6xl">INFO</h1>
+          <h1 className="font-bold text-6xl">Volume Info</h1>
         </div>
 
         <div className="col-span-6 flex ">
@@ -202,7 +199,22 @@ export default function DetailVolumePage() {
 
             {/* previous of this volume */}
             {prevProduct && (
-              <VolumnCard onClick={() => {}} volume={prevProduct} />
+              <VolumeCard
+                onClick={() => {
+                  dispatch(
+                    addToCart({
+                      id: prevProduct.id,
+                      name: prevProduct.series.name,
+                      price: prevProduct.price,
+                      quantity: 1,
+                      friendly_id: prevProduct.series.friendly_id,
+                      seq_number: prevProduct.seq_number,
+                      cover_url: prevProduct.cover_url,
+                    })
+                  );
+                }}
+                volume={prevProduct}
+              />
             )}
           </div>
 

@@ -23,7 +23,7 @@ export const CheckoutItemList = (props: IProps) => {
         {/* Phần cuộn chính chứa các mục trong giỏ hàng */}
         <div className="flex flex-col w-full">
           {props.items.map((item, index) => (
-            <CartItem 
+            <CartItem
               key={index}
               id={item.id}
               name={item.name}

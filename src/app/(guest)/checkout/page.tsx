@@ -277,39 +277,6 @@ const CheckoutPage = () => {
                     PLACE ORDER
                   </Button>
                 </div>
-
-                <div className="mt-6 flex items-center justify-center gap-8">
-                  <img
-                    className="h-8 w-auto dark:hidden"
-                    src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal.svg"
-                    alt=""
-                  />
-                  <img
-                    className="hidden h-8 w-auto dark:flex"
-                    src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal-dark.svg"
-                    alt=""
-                  />
-                  <img
-                    className="h-8 w-auto dark:hidden"
-                    src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg"
-                    alt=""
-                  />
-                  <img
-                    className="hidden h-8 w-auto dark:flex"
-                    src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa-dark.svg"
-                    alt=""
-                  />
-                  <img
-                    className="h-8 w-auto dark:hidden"
-                    src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard.svg"
-                    alt=""
-                  />
-                  <img
-                    className="hidden h-8 w-auto dark:flex"
-                    src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard-dark.svg"
-                    alt=""
-                  />
-                </div>
               </div>
             </div>
           </div>
@@ -324,8 +291,6 @@ const CheckoutPage = () => {
           <CheckoutItemList items={cart_items} onClickOutside={() => {}} />
         </div>
       </section>
-
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
     </div>
   );
 };

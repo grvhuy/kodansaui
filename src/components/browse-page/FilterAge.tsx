@@ -1,11 +1,8 @@
 "use client";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Button } from "../ui/button";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
-import { Separator } from "../ui/separator";
-import { Checkbox } from "../ui/checkbox";
 
 interface IProps {
   onChange: (value: number) => void;
@@ -43,14 +40,16 @@ export function FilterAge(props: IProps) {
           <div className="flex flex-col space-y-6">
             <RadioGroup
               onValueChange={(value) => {
-                value !== "all"
-                  ? age.map((item, index) => {
-                      if (item === value) {
-                        props.onChange(index);
-                        console.log(item);
-                      }
-                    })
-                  : props.onChange(-1);
+                if (value !== "all") {
+                  age.forEach((item, index) => {
+                    if (item === value) {
+                      props.onChange(index);
+                      console.log(item);
+                    }
+                  });
+                } else {
+                  props.onChange(-1);
+                }
               }}
               className="space-y-4"
             >
@@ -59,7 +58,9 @@ export function FilterAge(props: IProps) {
                 <Label htmlFor="r1">All</Label>
               </div>
               {age.map((value) => (
-                <div className="flex items-center space-x-2">
+                <div
+                  key={value}
+                  className="flex items-center space-x-2">
                   <RadioGroupItem value={value} id={value} />
                   <Label htmlFor="r1">{value}</Label>
                 </div>
@@ -68,7 +69,6 @@ export function FilterAge(props: IProps) {
           </div>
         </div>
       )}
-      <Separator className="border-[1px] border-black my-4" />
     </div>
   );
 }

@@ -6,7 +6,6 @@ import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
 import VolumnCard from "@/components/series-page/VolumeCard";
 import { addToCart } from "@/lib/redux/feature/slices/cart";
-import { getColorFromString } from "@/lib/utils";
 import { getFullSeriesByFriendlyId, getSeriesByFriendlyUrl } from "@/utils/api";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -43,17 +42,15 @@ export default function SeriesPage() {
     const fetchData = async () => {
       getFullSeriesByFriendlyId(friendly_id).then((data) => {
         setFullSeries(data);
-        console.log(data);
       });
     };
     fetchData();
-  }, []);
+  }, [friendly_id]);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getSeriesByFriendlyUrl(friendly_id);
       if (data) {
-        console.log(data);
         setProduct(data[0]);
       }
 
@@ -71,62 +68,44 @@ export default function SeriesPage() {
   }
 
   return (
-    <div className="mt-40 flex flex-col mx-8 min-h-screen">
+    <div className=" mt-32 flex flex-col min-h-screen">
       {/* Section Gioi thieu */}
-      <div className="grid grid-cols-9">
-        <div className="col-span-4 w-full">
-          <div className="relative aspect-[5/6]">
-            <BreadCrumbCard type="Manga" title={product.name} />
-            {product && (
-              <div className="relative group">
-                {/* Ảnh Manga */}
-                <Image
-                  src={product.cover_url}
-                  alt="Example Image"
-                  // fill
-                  height={240}
-                  width={240}
-                  className="grayscale w-full h-full aspect-[5/6] object-cover hover:shadow-lg"
-                />
-
-                {/* Lớp phủ màu ngẫu nhiên */}
-                <div
-                  className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-60 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{
-                    backgroundColor: `${getColorFromString(
-                      product.friendly_id
-                    )}`,
-                  }}
-                ></div>
-              </div>
-            )}
-          </div>
+      <div className="flex space-x-8">
+        <div className="relative w-full">
+          <BreadCrumbCard type="Manga" title={product.name} />
+          {product && (
+            <div className="relative group w-full aspect-[5/6]">
+              {/* Ảnh Manga */}
+              <Image
+                priority
+                src={product.cover_url}
+                alt="Example Image"
+                fill
+                sizes="100vw"
+                className="grayscale object-cover hover:shadow-lg"
+              />
+            </div>
+          )}
         </div>
-        <div className="col-span-5 ml-6 w-full">
+
+        <div className=" w-full">
           <div className="flex flex-col">
-            <h1 className=" font-bold text-3xl text-black">{product.name} </h1>
-            {product.series_authors.length == 1 && (
+            <h1 className=" font-bold text-3xl text-black">{product.name}</h1>
+            {product && product.series_authors.length === 1 ? (
               <p className="text-md text-gray-500">
                 by {product.series_authors[0].authors.name}
               </p>
+            ) : (
+              <div className="flex">
+                <span className="text-md text-gray-500">
+                  by {product.series_authors.map((author: any, index: number) => {
+                    if (index === 0) return author.authors.name;
+                    if (index === product.series_authors.length - 1) return ` and ${author.authors.name}`;
+                    return `, ${author.authors.name}`;
+                  })}
+                </span>
+              </div>
             )}
-            <div className="flex">
-              {product.series_authors.length > 1 &&
-                product.series_authors.map((author: any, index: number) => (
-                  <div>
-                    <span className="text-md text-gray-500">{author.index == 0 && `by ${author.authors.name}`}
-                      {author.index > 0 &&
-                        index !== product.series_authors.length - 1 &&
-                        `, ${author.authors.name} `}
-                    </span>
-                    <span className="ml-1 text-md text-gray-500">
-                      {index == product.series_authors.length - 1 &&
-                        `and ${author.authors.name}`}
-                    </span>
-                  </div>
-                ))}
-
-            </div>
             <p className="mt-4">{product.description}</p>
           </div>
         </div>
@@ -136,8 +115,7 @@ export default function SeriesPage() {
 
       <div className="grid grid-cols-9 mb-16">
         <div className="col-span-3 flex flex-col mt-12">
-          <h1 className="font-bold text-6xl">SERIES</h1>
-          <h1 className="font-bold text-6xl">INFO</h1>
+          <h1 className="font-bold text-6xl line-clamp-2">Series Info</h1>
         </div>
 
         <div className="col-span-6 flex ">
@@ -155,10 +133,12 @@ export default function SeriesPage() {
       <div className="mb-24">
         <div className="flex justify-between">
           <div className="flex">
-            <h1 className="font-bold text-3xl mr-4">VOLUMES</h1>
+            <h1 className="font-bold text-3xl mr-4">{fullSeries.length} Volumes</h1>
             <MyDropdownMenu
               title="JUMP TO VOLUME"
-              items={["Volume 1", "Volume 2", "Volume 3"]}
+              items={fullSeries.map((volume) => {
+                return volume.seq_number;
+              })}
               onClick={(index) => {
                 console.log(index);
               }}

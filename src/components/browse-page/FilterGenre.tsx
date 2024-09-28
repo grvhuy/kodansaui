@@ -3,7 +3,6 @@ import { MinusIcon, PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { Separator } from "../ui/separator";
-import { ScrollArea } from "../ui/scroll-area";
 
 const genres = [
   "Action & Adventure",
@@ -64,7 +63,7 @@ export function FilterGenre(props: IProps) {
   useEffect(() => {
     // Trigger the onChange with the updated selectedGenres
     props.onChange(selectedGenres);
-  }, [selectedGenres]);
+  }, [selectedGenres, props]);
 
   return (
     <div className="mt-4">
@@ -94,7 +93,7 @@ export function FilterGenre(props: IProps) {
             {genres.map((genre, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-2 space-y-4"
+                className="flex items-center space-x-2"
               >
                 <Checkbox
                   value={genre}

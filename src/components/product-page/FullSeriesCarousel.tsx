@@ -26,7 +26,7 @@ export function FullSeriesCarousel(props: IProps) {
           <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/6">
             <Link href={`/product/${volume.friendly_id}-${volume.seq_number}`} onClick={
               () => { console.log(volume); }
-            }  className="p-1 items-center justify-center flex flex-col">
+            } className="p-1 items-center justify-center flex flex-col">
               <VolumeCardSmall
                 friendly_id={volume.friendly_id}
                 id={volume.id}

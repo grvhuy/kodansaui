@@ -45,13 +45,13 @@ const searchByQuery = async (query: string) => {
 };
 
 //  /api/Auth/sign-up
-const signUp = async (email: string, password: string) => {
-  const response = await axios.post("/api/Auth/sign-up", {
-    email,
-    password,
-  });
-  return response.data;
-};
+// const signUp = async (email: string, password: string) => {
+//   const response = await axios.post("/api/Auth/sign-up", {
+//     email,
+//     password,
+//   });
+//   return response.data;
+// };
 
 //  /api/Auth/sign-in
 
@@ -106,15 +106,15 @@ const getOrders = async () => {
   return response.data;
 }
 
-const getNews = async () => {
-  const response = await axios.get("/api/News/get-news");
-  return response.data;
-}
+// const getNews = async () => {
+//   const response = await axios.get("/api/News/get-news");
+//   return response.data;
+// }
 
-const getNewsByFriendlyUrl = async (friendlyUrl: string) => {
-  const response = await axios.get(`/api/News/${friendlyUrl}`);
-  return response.data;
-}
+// const getNewsByFriendlyUrl = async (friendlyUrl: string) => {
+//   const response = await axios.get(`/api/News/${friendlyUrl}`);
+//   return response.data;
+// }
 
 const getContainers = async () => {  
   const response = await axios.get("/api/Homepage/get-containers");

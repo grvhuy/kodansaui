@@ -16,26 +16,20 @@ interface IProps {
 
 const ProductCard = (props: IProps) => {
   return (
-    <div className="flex flex-col ms-4">
-      <Link href={`series/${props.friendly_id}`} className="relative group">
+    <div className="flex flex-col w-full">
+      <Link
+        href={`series/${props.friendly_id}`}
+        style={{ backgroundColor: `${props.cover_color}` }}
+        className="relative group aspect-[3/4] w-full">
         {/* Ảnh Manga */}
         <Image
           src={props.cover_url}
           alt="Example Image"
-          height={240}
-          width={240}
-          className="grayscale aspect-[5/6] object-cover hover:shadow-lg w-full"
+          fill
+          sizes="100vw"
+          className="grayscale object-cover hover:shadow-lg w-full"
         />
-
-        {/* Lớp phủ màu ngẫu nhiên */}
-        <div
-          className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-40 group-hover:opacity-75 transition-opacity duration-300"
-          style={{
-            backgroundColor: `${props.cover_color}`,
-          }}
-        ></div>
       </Link>
-
       <div>
         <Link
           title={props.name}

@@ -48,16 +48,18 @@ export default function ProductPage() {
   if (isVolume) return <DetailVolumePage />;
 
   return (
-    <div className="mt-40 flex flex-col mx-8 min-h-screen">
+    <div className="mt-40 flex flex-col min-h-screen">
       {/* Section Gioi thieu */}
       <div className="grid grid-cols-9">
         <div className="col-span-4 w-full">
           <div className="relative aspect-[5/6]">
             <BreadCrumbCard type="Product" title="Product" />
             <Image
+              priority
               src={series.cover_url}
               alt="Example Image"
               fill
+              sizes="100vw"
               className="object-cover"
             />
           </div>
