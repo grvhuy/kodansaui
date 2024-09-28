@@ -8,8 +8,10 @@ import { Separator } from "../ui/separator";
 import { Checkbox } from "../ui/checkbox";
 
 interface IProps {
-  onChange: (value: string) => void;
+  onChange: (value: number) => void;
 }
+
+const age = ["10+", "13+", "16+", "18+"];
 
 export function FilterAge(props: IProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -39,33 +41,30 @@ export function FilterAge(props: IProps) {
       {isOpen && (
         <div className="flex items-center space-x-2 mt-4">
           <div className="flex flex-col space-y-6">
-            <div className="flex items-center space-x-2">
-              <Checkbox id="terms" />
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                18+
-              </label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox id="terms" />
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                18+
-              </label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox id="terms" />
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                18+
-              </label>
-            </div>
+            <RadioGroup
+              onValueChange={(value) => {
+                value !== "all"
+                  ? age.map((item, index) => {
+                      if (item === value) {
+                        props.onChange(index);
+                        console.log(item);
+                      }
+                    })
+                  : props.onChange(-1);
+              }}
+              className="space-y-4"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="all" id="all" />
+                <Label htmlFor="r1">All</Label>
+              </div>
+              {age.map((value) => (
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value={value} id={value} />
+                  <Label htmlFor="r1">{value}</Label>
+                </div>
+              ))}
+            </RadioGroup>
           </div>
         </div>
       )}

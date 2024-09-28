@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 
 interface IProps {
+  index: number;
   id: string;
   name: string;
   price: number;
@@ -16,7 +17,7 @@ export const OrderItem = (props: IProps) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="grid grid-cols-10 space-x-4 items-center justify-center w-full border-b-[0.5px] border-gray-500 p-2">
+    <div className={`grid grid-cols-10 space-x-4 items-center justify-center w-full border-gray-500 p-2 ${props.index !== 0 ? "border-t-[0.5px]" : ""}` }>
       <div className="col-span-5 text-gray-500">
         <div className="flex space-x-2 text-black text-lg">
           <Image

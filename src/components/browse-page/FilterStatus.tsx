@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Separator } from "../ui/separator";
 
 interface IProps {
-  onChange: (value: string) => void;
+  onChange: (value: number) => void;
 }
 
 export function FilterStatus(props: IProps) {
@@ -14,7 +14,12 @@ export function FilterStatus(props: IProps) {
 
   return (
     <div className="mt-4">
-      <div className="flex justify-between">
+      <div
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+        className="flex justify-between cursor-pointer"
+      >
         <h1 className="font-semibold">STATUS</h1>
         {!isOpen ? (
           <button
@@ -35,18 +40,25 @@ export function FilterStatus(props: IProps) {
         )}
       </div>
       {isOpen && (
-        <RadioGroup defaultValue="comfortable" className="space-y-4 mt-4">
+        <RadioGroup
+          onValueChange={(value) => {
+            value === "all"
+              ? props.onChange(-1)
+              : props.onChange(value === "ongoing" ? 0 : 1);
+          }}
+          className="space-y-4 mt-4"
+        >
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="default" id="r1" />
-            <Label htmlFor="r1">Default</Label>
+            <RadioGroupItem value="all" />
+            <Label htmlFor="r1">All</Label>
           </div>
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="comfortable" id="r2" />
-            <Label htmlFor="r2">Comfortable</Label>
+            <RadioGroupItem value="ongoing" />
+            <Label htmlFor="r1">Ongoing</Label>
           </div>
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="compact" id="r3" />
-            <Label htmlFor="r3">Compact</Label>
+            <RadioGroupItem value="completed" />
+            <Label htmlFor="r2">Completed</Label>
           </div>
         </RadioGroup>
       )}

@@ -110,6 +110,7 @@ const OrdersHistory = () => {
               <div className="flex flex-col gap-4">
                 {testOrders.map((order: any, index: number) => (
                   <OrderItem
+                    index={index}
                     key={index}
                     id={order.id}
                     name={order.order_products[0].volumes.series.name}

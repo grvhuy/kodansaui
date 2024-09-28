@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Separator } from "../ui/separator";
 
 interface IProps {
-  onChange: (value: string) => void;
+  onChange: (value: number) => void;
 }
 
 export function FilterFormat(props: IProps) {
