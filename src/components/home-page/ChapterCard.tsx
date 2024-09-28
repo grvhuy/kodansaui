@@ -27,15 +27,15 @@ export const ChapterCard = (props: IProps) => {
             sizes="100vw"
             className={`grayscale aspect-square object-cover hover:shadow-lg hover:scale-105 transition-transform duration-300 `}
           />
-        </div>
 
-        {/* Layout mau*/}
-        <div
-          className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-40 group-hover:opacity-65 transition-opacity duration-300"
-          style={{
-            backgroundColor: `${props.cover_color}`,
-          }}
-        ></div>
+          <div
+            className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-40 group-hover:opacity-65 transition-opacity duration-300"
+            style={{
+              backgroundColor: `${props.cover_color}`,
+            }}
+          ></div>
+          
+        </div>
       </Link>
       <div className="flex flex-col mt-2">
         <span className="font-bold text-lg truncate">{props.name}</span>
