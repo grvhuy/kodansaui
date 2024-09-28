@@ -3,7 +3,7 @@ import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { NewsCard } from "@/components/news-page/NewsCard";
 import { useRouter } from "next/navigation";
 
-export const NewsPage = () => {
+const NewsPage = () => {
   const router = useRouter();
   return (
     <div className="min-h-screen flex flex-col mb-64">

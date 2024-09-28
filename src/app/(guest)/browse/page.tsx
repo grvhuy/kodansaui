@@ -4,12 +4,13 @@ import { MyButtonLarge } from "@/components/MyButtonLarge";
 import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { FilterAge } from "@/components/browse-page/FilterAge";
 import { FilterFormat } from "@/components/browse-page/FilterFormat";
+import { FilterGenre } from "@/components/browse-page/FilterGenre";
 import { FilterStatus } from "@/components/browse-page/FilterStatus";
 import ProductCard from "@/components/browse-page/ProductCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { getSeries } from "@/utils/api";
 import { useEffect, useState } from "react";
-import { getCatFact, getSeries } from "@/utils/api";
 
 const sortByItems = ["New and Popular", "A-Z", "Z-A", "Newest", "Oldest"];
 
@@ -18,21 +19,25 @@ const BrowsePage = () => {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [series, setSeries] = useState<any>([]);
   const [filteredSeries, setFilteredSeries] = useState<any>([]);
-  
+
   // State for filters and sorting
   const [selectedSort, setSelectedSort] = useState<string>("New and Popular");
-  const [selectedStatus, setSelectedStatus] = useState<string>("comfortable");
-  const [selectedFormat, setSelectedFormat] = useState<string>("default");
-  const [selectedAge, setSelectedAge] = useState<string>("all");
+  const [selectedStatus, setSelectedStatus] = useState<any>(undefined);
+  const [selectedType, setSelectedType] = useState<string>("default");
+  const [selectedAge, setSelectedAge] = useState<any>(undefined);
+  const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
 
   useEffect(() => {
-    getSeries().then((data) => {
+    getSeries(
+      (typeof selectedStatus === "number" && selectedStatus !== -1) ? selectedStatus : undefined,
+      typeof selectedAge === "number"  && selectedAge !== -1  ? selectedAge : undefined,
+      typeof selectedType === "number" ? selectedType : undefined,
+      selectedGenres
+    ).then((data) => {
       console.log(data);
       setSeries(data);
-      setFilteredSeries(data);
     });
-    
-  }, []);
+  }, [selectedStatus, selectedAge, selectedGenres]);
 
   useEffect(() => {
     let filtered = [...series];
@@ -48,7 +53,7 @@ const BrowsePage = () => {
     }
 
     setFilteredSeries(filtered);
-  }, [series, selectedSort, selectedStatus]);
+  }, [series, selectedSort, selectedStatus, selectedAge]);
 
   return (
     <div className="min-h-screen mt-40 flex flex-col mx-8">
@@ -86,10 +91,10 @@ const BrowsePage = () => {
 
       {/* Browse display content */}
 
-      <div className="grid grid-cols-9 mt-16  mb-64">
+      <div className="grid grid-cols-9 mt-16 mb-64">
         {/* Sort by + filter by */}
         <div className="flex flex-col col-span-2">
-          <aside className="w-64 sticky top-28">
+          <aside className="w-64 sticky top-28 max-h-[calc(100vh-7rem)]">
             <h2 className="font-bold text-xl my-2">Sort by:</h2>
             <MyDropdownMenu
               title="New and Popular"
@@ -101,16 +106,31 @@ const BrowsePage = () => {
 
             <h2 className="font-bold text-xl mt-8 mb-2">Filter by:</h2>
             {/* Filter status vs FORMATS la radio group */}
-            <FilterStatus onChange={() => {}} />
-            <FilterFormat onChange={() => {}} />
-            <FilterFormat onChange={() => {}} />
-            <FilterAge onChange={() => {}} />
+            {/* 0 la ongoing 1 la completed */}
+            <FilterStatus
+              onChange={(value) => {
+                console.log(value);
+                setSelectedStatus(value);
+              }}
+            />
+            {/* <FilterFormat onChange={() => {}} /> */}
+            <FilterGenre
+              onChange={(value: number[]) => {
+                setSelectedGenres(value);
+              }}
+            />
+            <FilterAge
+              onChange={(value: number) => {
+                console.log(value);
+                // setSelectedAge(value);
+              }}
+            />
           </aside>
         </div>
         {/* products */}
 
         <div className="grid grid-cols-4 col-span-7 space-x-4 space-y-8">
-          <div className="col-span-4 ms-4 my-2">
+          <div className="col-span-4 ms-4 my-2 ">
             <p className="mb-4 font-bold ">Display 1-22 of 100 Series</p>
             <Separator className="bg-black border-[1.2px] border-black mb-4 mt-8" />
           </div>
@@ -122,6 +142,7 @@ const BrowsePage = () => {
               name={item.name}
               cover_url={item.cover_url}
               thumbnail_url={item.thumbnail_url}
+              cover_color={item.cover_color}
             />
           ))}
           {/* <ProductCard />

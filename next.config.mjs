@@ -19,7 +19,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://api.kodansa.tqbaoo.host/api/:path*",
+        destination: "https://api-kodansa.tqbaoo.host/api/:path*",
       },
       {
         source: "/api/:path*",

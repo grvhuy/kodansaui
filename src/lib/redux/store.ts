@@ -7,7 +7,7 @@ import cart from './feature/slices/cart';
 
 const rootReducer = combineReducers({
   // Add your reducers here
-  cart,
+  cart: cart,
 })
 
 export function createPersistStore() {

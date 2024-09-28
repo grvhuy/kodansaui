@@ -1,12 +1,23 @@
 // import axios from "./axios.customize"
-import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import axiosInstance from "./axios.customize";
 
-const getSeries = async () => {
-  const response = await axios.get("/api/series/get-series");
+const getSeries = async (status?: number, ageRating?: number, type?: number, genre?: number[]) => {
+  const response = await axios.get("/api/series/get-series", {
+    params: {
+      status,
+      ageRating,
+      type,
+      genre: genre?.map((g) => g.toString()).join(","),
+    },
+  });
   return response.data;
 };
+
+const getSeriesByStatus = async (status: number) => {
+  const response = await axios.get(`/api/series/get-series?status=${status}`);
+  return response.data;
+}
 
 const getSeriesByFriendlyUrl = async (friendlyUrl: string) => {
   const response = await axios.get(`/api/series/${friendlyUrl}`);
@@ -83,7 +94,7 @@ const createOrder = async (
   addressId: string,
   products: { volume_id: string; quantity: number }[]
 ) => {
-  const response = await axiosInstance.post("/api/Order/create-order", {
+  const response = await axiosInstance.post("/api/User/create-order", {
     address_id : addressId,
     products,
   })
@@ -111,15 +122,8 @@ const getContainers = async () => {
 }
 
 export {
-  getSeries,
-  getCatFact,
-  getSeriesByFriendlyUrl,
-  getFullSeriesByFriendlyId,
-  getVolume,
-  searchByQuery,
-  getAddresses,
   addAddress,
-  createOrder,
-  getOrders,
-  getContainers,  
+  createOrder, getAddresses, getCatFact, getContainers, getFullSeriesByFriendlyId, getOrders, getSeries, getSeriesByFriendlyUrl, getSeriesByStatus, getVolume,
+  searchByQuery
 };
+

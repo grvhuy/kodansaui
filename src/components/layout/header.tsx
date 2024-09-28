@@ -1,25 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { MyButton } from "../MyButton";
 import { Search } from "lucide-react";
-import { CartItemList } from "../CartItemList";
-import { ScrollArea } from "../ui/scroll-area";
-import { Button } from "../ui/button";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { CartItemList } from "../CartItemList";
+import { MyButton } from "../MyButton";
+import { Button } from "../ui/button";
 // import { addToCart } from "@/lib/redux/feature/slices/cart";
-import { RootState } from "@/lib/redux/store";
-import { LoginForm } from "../auth/LoginForm";
 import { useAuth } from "@/context/AuthContext";
+import { RootState } from "@/lib/redux/store";
+import { searchByQuery } from "@/utils/api";
 import { useRouter } from "next/navigation";
+import { LoginForm } from "../auth/LoginForm";
+import SearchResultCardHome from "../home-page/SearchResultCardHome";
+import Image from "next/image";
 
 export const Header = () => {
   const router = useRouter();
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [showCart, setShowCart] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [searchResult, setSearchResult] = useState<any[]>([]);
+
   const [searchQuery, setSearchQuery] = useState("");
-  const cart_items = useSelector((state) => state?.cart.cartItems);
+  const cart_items = useSelector((state: RootState) => state?.cart.cartItems);
   const dispatch = useDispatch();
   useEffect(() => {
     // use useDispatch to dispatch action
@@ -33,7 +37,7 @@ export const Header = () => {
     setShowSearch(false);
   };
 
-  const { logout, login } = useAuth();
+  const { logout } = useAuth();
 
   // lay user tu cookie
   const userInJSON = document.cookie
@@ -52,6 +56,30 @@ export const Header = () => {
     // console.log(user);
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchQuery.length === 0) {
+        setSearchResult([]);
+      }
+
+      if (searchQuery.trim() !== "") {
+        const fetchData = async () => {
+          try {
+            const data = await searchByQuery(searchQuery);
+            setSearchResult(data);
+            console.log(data);
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        };
+        fetchData();
+      }
+    }, 500); // Delay of 500ms
+
+    // Cleanup function to clear the timer if the component unmounts or the searchQuery changes
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   return (
     <>
       <nav className="bg-white dark:bg-gray-900 fixed w-[99%] z-20 top-0 start-0 dark:border-gray-600 border-2 border-black m-2">
@@ -60,7 +88,7 @@ export const Header = () => {
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <img
+            <Image
               src="https://flowbite.com/docs/images/logo.svg"
               className="h-8"
               alt="Flowbite Logo"
@@ -139,21 +167,39 @@ export const Header = () => {
       </nav>
       {/* search bar */}
       {showSearch && (
-        <div className="w-[99%] p-4 bg-gray-100 dark:bg-gray-800 border-black border-2 fixed top-[80px] z-20 mx-2 pb-4">
-          <div className="flex justify-center w-full">
-            <div className="flex flex-col justify-center items-center w-2/3">
-              <h1>SEARCH BY SOMETHING</h1>
-              <div className="flex space-x-2 w-full">
-                <input
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  value={searchQuery}
-                  type="text"
-                  className="border-2 w-full p-2 border-black focus-visible:outline-none"
-                  placeholder="Search here..."
-                />
-                <button onClick={handleSearch} className=" text-white p-2">
-                  <Search color="black" size={24} />
-                </button>
+        <div>
+          <div
+            onClick={() => {
+              setShowSearch(false);
+            }}
+            className="fixed top-0 left-0 w-full h-full z-10 flex justify-end"
+          ></div>
+          <div className="w-[99%] p-4 bg-gray-100 dark:bg-gray-800 border-black border-2 fixed top-[80px] z-20 mx-2 pb-4">
+            <div className="flex justify-center w-full">
+              <div className="flex flex-col justify-center items-center w-2/3">
+                <h1>SEARCH BY SOMETHING</h1>
+                <div className="flex space-x-2 w-full">
+                  <input
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={searchQuery}
+                    type="text"
+                    className="border-2 w-full p-2 border-black focus-visible:outline-none"
+                    placeholder="Search here..."
+                  />
+                  <button onClick={handleSearch} className=" text-white p-2">
+                    <Search color="black" size={24} />
+                  </button>
+                </div>
+                <div className="mt-2 w-full space-y-2 h-2/3 overflow-y-auto">
+                  {searchResult.map((item) => (
+                    <SearchResultCardHome
+                      coverUrl={item.cover_url}
+                      friendlyId={item.friendly_id}
+                      name={item.name}
+                      coverColor={item.cover_color}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -172,7 +218,7 @@ export const Header = () => {
           <div className="flex justify-end">
             <div
               className="w-[96%] md:w-[40%] bg-gray-100 dark:bg-gray-800 border-black border-2 
-              fixed top-[88px] z-30 mx-2 overflow-y-auto"
+                fixed top-[88px] z-30 mx-2 overflow-y-auto"
             >
               <div className="flex w-full">
                 <div className="flex flex-col justify-center w-full">
@@ -204,13 +250,11 @@ export const Header = () => {
           <div className="flex justify-end">
             <div
               className="w-[96%] md:w-[30%] bg-gray-100 dark:bg-gray-800 border-black border-2 
-                    fixed top-[88px] z-30 mx-2 overflow-y-auto"
+                      fixed top-[88px] z-30 mx-2 overflow-y-auto"
             >
               <div className="flex w-full">
                 <div className="flex flex-col justify-center items-center w-full">
-                  <h1 className="font-bold text-xl p-4">{
-                    user.email
-                  }</h1>
+                  <h1 className="font-bold text-xl p-4">{user.email}</h1>
                   <div className="flex flex-col w-full">
                     <Button
                       className="rounded-none bg-white text-black p-8 border-b-2 border-t-2 border-black  hover:bg-black hover:text-white text-3xl font-semibold"

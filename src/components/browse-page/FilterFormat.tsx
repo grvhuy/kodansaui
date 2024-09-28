@@ -1,13 +1,12 @@
 "use client";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Button } from "../ui/button";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { Separator } from "../ui/separator";
 
 interface IProps {
-  onChange: (value: string) => void;
+  onChange: (value: number) => void;
 }
 
 export function FilterFormat(props: IProps) {

@@ -41,8 +41,16 @@ const SearchPage = () => {
       <h1 className="text-3xl font-extrabold mt-16 mb-4">Top Picks</h1>
 
       <div className="grid grid-cols-2 md:grid-cols-4 ms-8">
-        {searchResult.map((item, index) => (
-          <SearchResultCard key={index} {...item} />
+        {searchResult.map((item: any, index) => (
+          <SearchResultCard key={index} 
+            id={item.id}
+            friendly_id={item.friendly_id}
+            name={item.name}
+            cover_url={item.cover_url}
+            thumbnail_url={item.thumbnail_url}
+            type={item.type}
+            author={item.author}
+          />
         ))}
       </div>
     </div>

@@ -9,6 +9,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     li: ({ children }) => (
       <li style={{ color: "green", fontSize: "24px" }}>{children}</li>
     ),
+    hr: () => <hr style={{ border: "1px solid black" }} />,
     img: (props) => (
       <Image
         width={1440}

@@ -1,4 +1,3 @@
-import { getColorFromString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,6 +9,7 @@ interface IProps {
   author: string;
   publish_date: string;
   seq_number: number;
+  cover_color: string;
 }
 
 export const ChapterCard = (props: IProps) => {
@@ -31,9 +31,9 @@ export const ChapterCard = (props: IProps) => {
 
         {/* Layout mau*/}
         <div
-          className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-60 group-hover:opacity-80 transition-opacity duration-300"
+          className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-40 group-hover:opacity-65 transition-opacity duration-300"
           style={{
-            backgroundColor: `${getColorFromString(props.name)}`,
+            backgroundColor: `${props.cover_color}`,
           }}
         ></div>
       </Link>

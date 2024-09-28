@@ -1,27 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import axios from "axios";
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@radix-ui/react-label";
-import { Input } from "@/components/ui/input";
 // import { Textarea } from "@nextui-org/input";
-import { DialogClose } from "@radix-ui/react-dialog";
-import { getOrders } from "@/utils/api";
 import { OrderItem } from "@/components/OrderItem";
+import { getOrders } from "@/utils/api";
 
 const testOrders = [
   {
@@ -126,6 +110,7 @@ const OrdersHistory = () => {
               <div className="flex flex-col gap-4">
                 {testOrders.map((order: any, index: number) => (
                   <OrderItem
+                    index={index}
                     key={index}
                     id={order.id}
                     name={order.order_products[0].volumes.series.name}
