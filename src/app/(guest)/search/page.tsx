@@ -76,6 +76,13 @@ const SearchPage = () => {
           <Search color="black" size={24} />
         </button> */}
       </form>
+    <div className="min-h-screen mt-32 flex flex-col mb-64">
+      <h1 className="text-6xl font-extrabold">Search Result</h1>
+      <input
+        className="mt-4 p-4 border-b-2 border-b-gray-500 focus:outline-none text-2xl"
+        type="text"
+        placeholder="Search..."
+      />
 
       {/* Hien thi ket qua */}
       <h1 className="text-3xl font-extrabold mt-16 mb-4">Top Picks</h1>
