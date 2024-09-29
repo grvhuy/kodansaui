@@ -54,7 +54,7 @@ const BrowsePage = () => {
   }, [series, selectedSort, selectedStatus, selectedAge, selectedType]);
 
   return (
-    <div className="min-h-screen mt-40 flex flex-col">
+    <div className="min-h-screen mt-32 flex flex-col">
       <h1 className="text-6xl font-extrabold">BROWSE</h1>
       <div className="mt-12 flex space-x-4">
         <p
