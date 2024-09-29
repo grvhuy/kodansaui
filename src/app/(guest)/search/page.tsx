@@ -28,7 +28,7 @@ const SearchPage = () => {
     , [query]);
 
   return (
-    <div className="min-h-screen mt-40 flex flex-col mb-64">
+    <div className="min-h-screen mt-32 flex flex-col mb-64">
       <h1 className="text-6xl font-extrabold">Search Result</h1>
       <input
         className="mt-4 p-4 border-b-2 border-b-gray-500 focus:outline-none text-2xl"
