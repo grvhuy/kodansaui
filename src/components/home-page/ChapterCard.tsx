@@ -1,3 +1,4 @@
+import { toPastel } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,6 +17,7 @@ export const ChapterCard = (props: IProps) => {
   return (
     <div>
       <Link
+        title={props.name}
         href={`/product/${props.friendly_id}-${props.seq_number}`}
         className="my-2 group"
       >
@@ -29,12 +31,11 @@ export const ChapterCard = (props: IProps) => {
           />
 
           <div
-            className="absolute inset-0 bg-[rgba(0,0,0,0.5)] mix-blend-overlay opacity-40 group-hover:opacity-65 transition-opacity duration-300"
+            className={`absolute inset-0 mix-blend-overlay opacity-60 group-hover:opacity-80 transition-opacity duration-300`}
             style={{
-              backgroundColor: `${props.cover_color}`,
+              backgroundColor: `${toPastel(props.cover_color)}`,
             }}
           ></div>
-          
         </div>
       </Link>
       <div className="flex flex-col mt-2">
@@ -43,6 +44,7 @@ export const ChapterCard = (props: IProps) => {
         <span className="text-sm mt-1">{props.publish_date}</span>
 
         <a
+          title={props.name}
           className="mt-2 font-medium text-sm border-b-2 border-gray-500 w-fit"
           href={`/product/${props.friendly_id}-${props.seq_number}`}
         >

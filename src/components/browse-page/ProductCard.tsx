@@ -1,3 +1,4 @@
+import { toPastel } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 interface IProps {
@@ -15,12 +16,15 @@ interface IProps {
 }
 
 const ProductCard = (props: IProps) => {
+
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full relative">
       <Link
+        title={props.name}
         href={`series/${props.friendly_id}`}
-        style={{ backgroundColor: `${props.cover_color}` }}
-        className="relative group aspect-[3/4] w-full">
+        // style={{ backgroundColor: `${props.cover_color}` }}
+        className="relative group aspect-[3/4] w-full"
+      >
         {/* Ảnh Manga */}
         <Image
           src={props.cover_url}
@@ -29,7 +33,14 @@ const ProductCard = (props: IProps) => {
           sizes="100vw"
           className="grayscale object-cover hover:shadow-lg w-full"
         />
+        <div
+          className={`absolute inset-0 mix-blend-overlay opacity-60 group-hover:opacity-80 transition-opacity duration-300`}
+          style={{
+            backgroundColor: `${toPastel(props.cover_color)}`,
+          }}
+        ></div>
       </Link>
+
       <div>
         <Link
           title={props.name}

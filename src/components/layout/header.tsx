@@ -1,7 +1,7 @@
 "use client";
 
 import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { CartItemList } from "../CartItemList";
 import { MyButton } from "../MyButton";
@@ -29,12 +29,6 @@ export const Header = () => {
     // console.log(cart_items);
   }, []);
 
-  const handleSearch = () => {
-    if (searchQuery.trim() !== "") {
-      router.push(`/search?query=${searchQuery}`);
-    } else return;
-    setShowSearch(false);
-  };
 
   const { logout } = useAuth();
 
@@ -55,6 +49,18 @@ export const Header = () => {
     // console.log(user);
   }, []);
 
+  const handleSearch = () => {
+    if (searchQuery.trim() !== "") {
+      router.push(`/search?query=${searchQuery}`);
+    } else return;
+    setShowSearch(false);
+  };
+
+  const handleOnSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    handleSearch();
+  }
+
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchQuery.length === 0) {
@@ -66,16 +72,14 @@ export const Header = () => {
           try {
             const data = await searchByQuery(searchQuery);
             setSearchResult(data);
-            console.log(data);
           } catch (error) {
             console.error("Error fetching data:", error);
           }
         };
         fetchData();
       }
-    }, 500); // Delay of 500ms
+    }, 500); 
 
-    // Cleanup function to clear the timer if the component unmounts or the searchQuery changes
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
@@ -176,10 +180,10 @@ export const Header = () => {
             className="fixed top-0 left-0 w-full h-full z-10 flex justify-end"
           ></div>
           <div className="w-[99%] p-4 bg-gray-100 dark:bg-gray-800 border-black border-2 fixed top-[80px] z-20 mx-2 pb-4">
-            <div className="flex justify-center w-full">
+            <div className="flex justify-center w-full h-[60vh]">
               <div className="flex flex-col justify-center items-center w-2/3">
                 <h1>SEARCH BY SOMETHING</h1>
-                <div className="flex space-x-2 w-full">
+                <form onSubmit={handleOnSubmit} className="flex space-x-2 w-full">
                   <input
                     onChange={(e) => setSearchQuery(e.target.value)}
                     value={searchQuery}
@@ -187,11 +191,14 @@ export const Header = () => {
                     className="border-2 w-full p-2 border-black focus-visible:outline-none"
                     placeholder="Search here..."
                   />
-                  <button onClick={handleSearch} className=" text-white p-2">
+                  <button type="submit" onClick={handleSearch} className=" text-white p-2">
                     <Search color="black" size={24} />
                   </button>
-                </div>
-                <div className="mt-2 w-full space-y-2 h-2/3 overflow-y-auto">
+                </form>
+                <div
+                  onClick={() => setShowSearch(false)}
+                  className="mt-2 w-full space-y-2 h-2/3 overflow-y-auto"
+                >
                   {searchResult.map((item) => (
                     <SearchResultCardHome
                       key={item.id}
