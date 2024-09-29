@@ -26,13 +26,13 @@ export function toPastel(colorName: string) {
     lime: [0, 255, 0], 
   };
 
-  let rgb = colorNamesToRgb[colorName]; 
+  const rgb = colorNamesToRgb[colorName]; 
 
   if (!rgb) {
     return null
   }
 
-  let pastelRgb = rgb.map((channel: number) => Math.round((channel + 255) / 2));
+  const pastelRgb = rgb.map((channel: number) => Math.round((channel + 255) / 2));
 
   return `rgba(${pastelRgb[0]}, ${pastelRgb[1]}, ${pastelRgb[2]}, 1)`;
 }
