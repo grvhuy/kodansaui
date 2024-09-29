@@ -180,7 +180,7 @@ export const Header = () => {
             className="fixed top-0 left-0 w-full h-full z-10 flex justify-end"
           ></div>
           <div className="w-[99%] p-4 bg-gray-100 dark:bg-gray-800 border-black border-2 fixed top-[80px] z-20 mx-2 pb-4">
-            <div className="flex justify-center w-full max-h-96">
+            <div className="flex justify-center w-full h-[60vh]">
               <div className="flex flex-col justify-center items-center w-2/3">
                 <h1>SEARCH BY SOMETHING</h1>
                 <form onSubmit={handleOnSubmit} className="flex space-x-2 w-full">
