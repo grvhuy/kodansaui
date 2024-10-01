@@ -19,6 +19,7 @@ export const Header = () => {
   const router = useRouter();
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [showCart, setShowCart] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<any[]>([]);
 
@@ -28,7 +29,6 @@ export const Header = () => {
     // use useDispatch to dispatch action
     // console.log(cart_items);
   }, []);
-
 
   const { logout } = useAuth();
 
@@ -45,8 +45,6 @@ export const Header = () => {
     //   .split(";")
     //   .find((item) => item.includes("accessToken"));
     // const token = accessToken?.split("=")[1];
-    // console.log(token);
-    // console.log(user);
   }, []);
 
   const handleSearch = () => {
@@ -59,7 +57,7 @@ export const Header = () => {
   const handleOnSubmit = (event: FormEvent) => {
     event.preventDefault();
     handleSearch();
-  }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -78,7 +76,7 @@ export const Header = () => {
         };
         fetchData();
       }
-    }, 500); 
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [searchQuery]);
@@ -145,6 +143,7 @@ export const Header = () => {
                 </a>
               </li>
             </ul>
+
             <div>
               <MyButton
                 text="CART"
@@ -164,7 +163,7 @@ export const Header = () => {
                   }}
                 />
               ) : (
-                <LoginForm />
+                <LoginForm onClose={() => setShowLogin(false)} />
               )}
             </div>
           </div>
@@ -180,10 +179,13 @@ export const Header = () => {
             className="fixed top-0 left-0 w-full h-full z-10 flex justify-end"
           ></div>
           <div className="w-[99%] p-4 bg-gray-100 dark:bg-gray-800 border-black border-2 fixed top-[80px] z-20 mx-2 pb-4">
-            <div className="flex justify-center w-full h-[60vh]">
+            <div className="flex justify-center w-full max-h-[60vh]">
               <div className="flex flex-col justify-center items-center w-2/3">
                 <h1>SEARCH BY SOMETHING</h1>
-                <form onSubmit={handleOnSubmit} className="flex space-x-2 w-full">
+                <form
+                  onSubmit={handleOnSubmit}
+                  className="flex space-x-2 w-full"
+                >
                   <input
                     onChange={(e) => setSearchQuery(e.target.value)}
                     value={searchQuery}
@@ -191,7 +193,11 @@ export const Header = () => {
                     className="border-2 w-full p-2 border-black focus-visible:outline-none"
                     placeholder="Search here..."
                   />
-                  <button type="submit" onClick={handleSearch} className=" text-white p-2">
+                  <button
+                    type="submit"
+                    onClick={handleSearch}
+                    className=" text-white p-2"
+                  >
                     <Search color="black" size={24} />
                   </button>
                 </form>
@@ -214,6 +220,13 @@ export const Header = () => {
           </div>
         </div>
       )}
+
+      {showLogin && (
+        <div>
+          <LoginForm isOpen={showLogin} onClose={() => setShowLogin(false)} />
+        </div>
+      )}
+
       {/* Show Cart */}
       {showCart && (
         <div>
@@ -235,6 +248,7 @@ export const Header = () => {
                   <div className="flex space-x-2 w-full">
                     <CartItemList
                       items={cart_items}
+                      onShowLogin={() => setShowLogin(true)}
                       onClickOutside={() => {
                         setShowCart(false);
                       }}

@@ -1,15 +1,29 @@
+"use client";
 import { ArrowRightIcon } from "lucide-react";
 import { CartItem } from "./CartItem";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 interface IProps {
   items: any[];
   onClickOutside: () => void;
+  onShowLogin: () => void;
 }
 
 export const CartItemList = (props: IProps) => {
+  const accessToken = document.cookie.split(";").find((cookie) => cookie.includes("accessToken="));
+
+
+  const handleCheckout = () => {
+    if (!accessToken) {
+      props.onShowLogin();
+    } else {
+      window.location.href = "/checkout";
+    }
+  }
+
   return (
     <div className="w-full h-full">
       {/* Container bao ngoài có chiều cao động và thuộc tính cuộn */}
@@ -42,24 +56,31 @@ export const CartItemList = (props: IProps) => {
         <div className="mx-16 mb-2 mt-6">
           <div className="flex justify-between">
             <span className="font-bold text-3xl">Subtotal</span>
-            <span className="font-bold text-3xl">${
-              props.items.reduce((acc, item) => acc + item.price * item.quantity, 0)
-            }</span>
+            <span className="font-bold text-3xl">
+              $
+              {props.items.reduce(
+                (acc, item) => acc + item.price * item.quantity,
+                0
+              )}
+            </span>
           </div>
           <div>TAX DETERMINED AT CHECKOUT</div>
         </div>
 
         <div className="flex flex-col">
-          <Button className="flex bg-black rounded-none text-white  font-bold text-3xl hover:bg-gray-800 py-8">
-            <Link onClick={
-              props.onClickOutside
-            } className="flex" href="/checkout">
-              Checkout &nbsp; <ArrowRightIcon size={36} />
-            </Link>
+          <Button
+            onClick={() => {
+              handleCheckout()
+              console.log("Check")
+            }}
+            className="flex bg-black rounded-none text-white  font-bold text-3xl hover:bg-gray-800 py-8"
+          >
+            Checkout &nbsp; <ArrowRightIcon size={36} />
           </Button>
           <Button
             onClick={props.onClickOutside}
-            className="bg-white rounded-none text-black  font-bold text-3xl hover:bg-gray-200 py-8">
+            className="bg-white rounded-none text-black  font-bold text-3xl hover:bg-gray-200 py-8"
+          >
             Continue Shopping
           </Button>
         </div>

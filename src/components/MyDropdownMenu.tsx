@@ -19,7 +19,7 @@ const MyDropdownMenu = (props: IProps) => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="text-black border-2 rounded-none border-black hover:bg-black hover:text-white font-semibold"
+          className="text-black border-2 rounded-none border-black hover:bg-black hover:text-white font-semibold flex justify-between"
         >
           {props.title}  &nbsp;<span><CircleChevronDown /></span>
         </Button>

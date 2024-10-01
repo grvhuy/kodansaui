@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/utils/axios.customize.js", "src/app/(guest)/news/[details]/page.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/utils/axios.customize.js", "src/app/(guest)/news/[details]/page.tsx", "src/components/TipTapEditor.tsx"],
   "exclude": ["node_modules"]
 }

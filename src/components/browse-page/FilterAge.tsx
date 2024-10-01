@@ -15,7 +15,12 @@ export function FilterAge(props: IProps) {
 
   return (
     <div className="mt-4">
-      <div className="flex justify-between">
+      <div
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+        className="flex justify-between cursor-pointer"
+      >
         <h1 className="font-semibold">AGE RATING</h1>
         {!isOpen ? (
           <button
@@ -58,9 +63,7 @@ export function FilterAge(props: IProps) {
                 <Label htmlFor="r1">All</Label>
               </div>
               {age.map((value) => (
-                <div
-                  key={value}
-                  className="flex items-center space-x-2">
+                <div key={value} className="flex items-center space-x-2">
                   <RadioGroupItem value={value} id={value} />
                   <Label htmlFor="r1">{value}</Label>
                 </div>

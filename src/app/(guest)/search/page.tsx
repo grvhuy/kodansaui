@@ -2,8 +2,7 @@
 
 import ProductCard from "@/components/browse-page/ProductCard";
 import { searchByQuery } from "@/utils/api";
-import { Search } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 
 const SearchPage = () => {

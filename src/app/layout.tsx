@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import StoreProvider from "@/lib/redux/Provider";
 import { AuthProvider } from "@/context/AuthContext";
+import React from "react";
 
 const font = Montserrat({ subsets: ["latin"] });
 
@@ -24,11 +25,13 @@ export default function RootLayout({
         <main>
           <AuthProvider>
             <StoreProvider>
-              <Header />
-              <div className="p-8 w-full 2xl:w-2/3 mx-auto 2xl:p-0">
-                {children}
-              </div>
-              <Footer />
+              <React.StrictMode>
+                <Header />
+                <div className="p-8 w-full 2xl:w-2/3 mx-auto 2xl:p-0">
+                  {children}
+                </div>
+                <Footer />
+              </React.StrictMode>
             </StoreProvider>
           </AuthProvider>
         </main>

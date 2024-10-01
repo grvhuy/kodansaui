@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 const sortByItems = ["New and Popular", "A-Z", "Z-A", "Newest", "Oldest"];
 
 const BrowsePage = () => {
-  const [type, setType] = useState("Manga");
+  // const [type, setType] = useState("Manga");
   //const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [series, setSeries] = useState<any>([]);
   const [filteredSeries, setFilteredSeries] = useState<any>([]);
@@ -21,7 +21,7 @@ const BrowsePage = () => {
   // State for filters and sorting
   const [selectedSort, setSelectedSort] = useState<string>("New and Popular");
   const [selectedStatus, setSelectedStatus] = useState<any>(undefined);
-  const [selectedType] = useState<string>("default");
+  const [selectedType, setSelectedType] = useState<any>(0);
   const [selectedAge] = useState<any>(undefined);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
 
@@ -58,8 +58,8 @@ const BrowsePage = () => {
       <h1 className="text-6xl font-extrabold">BROWSE</h1>
       <div className="mt-12 flex space-x-4">
         <p
-          onClick={() => setType("Manga")}
-          className={`cursor-pointer font-bold  text-3xl hover:text-black ${type === "Manga"
+          onClick={() => setSelectedType(0)}
+          className={`cursor-pointer font-bold  text-3xl hover:text-black ${selectedType === 0
             ? "underline underline-offset-8 text-black"
             : "text-gray-400"
             }`}
@@ -68,8 +68,8 @@ const BrowsePage = () => {
         </p>
 
         <p
-          onClick={() => setType("Books")}
-          className={`cursor-pointer font-bold  text-3xl hover:text-black ${type === "Books"
+          onClick={() => setSelectedType(1)}
+          className={`cursor-pointer font-bold  text-3xl hover:text-black ${selectedType === 1
             ? "underline-offset-8 underline text-black"
             : "text-gray-400"
             }`}
@@ -89,7 +89,7 @@ const BrowsePage = () => {
 
       <div className="mt-16 flex flex-row w-full space-x-8">
         {/* Sort by + filter by */}
-        <aside className="flex flex-col w-[300px] sticky top-28 h-screen flex-shrink-0">
+        <aside className="flex flex-col w-[300px] sticky top-28 h-screen flex-shrink-0 overflow-y-scroll scroll-auto">
           <h2 className="font-bold text-xl my-2">Sort by:</h2>
           <MyDropdownMenu
             title="New and Popular"
