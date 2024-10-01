@@ -67,7 +67,12 @@ export function FilterGenre(props: IProps) {
 
   return (
     <div className="mt-4">
-      <div className="flex justify-between">
+      <div
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+        className="flex justify-between cursor-pointer"
+      >
         <h1 className="font-semibold">GENRE</h1>
         {!isOpen ? (
           <button
@@ -91,10 +96,7 @@ export function FilterGenre(props: IProps) {
         <div className="flex items-center space-x-2 mt-4 w-full">
           <div className="flex flex-col space-y-6 w-full max-h-64 overflow-y-auto">
             {genres.map((genre, index) => (
-              <div
-                key={index}
-                className="flex items-center space-x-2"
-              >
+              <div key={index} className="flex items-center space-x-2">
                 <Checkbox
                   value={genre}
                   checked={selectedGenres.includes(index)}

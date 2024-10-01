@@ -15,7 +15,9 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const isTokenExpired = (token: string) => {
-
+  const payload = JSON.parse(JSON.stringify(token));
+  const currentTime = Math.floor(Date.now() / 1000)
+  return (payload.exp < currentTime)
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -28,13 +30,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   useEffect(() => {
-    const accessToken = document.cookie.split(";").find((cookie) => cookie.includes("accessToken="));
-    if (accessToken) {
-      const token = accessToken.split("=")[1];
-      if (token) {
-        
+    const checkToken = () => {
+      const accessToken = document.cookie.split(";").find((cookie) => cookie.includes("accessToken="));
+      if (accessToken) {
+        const token = accessToken.split("=")[1];
+        if (token && isTokenExpired(token)) {
+          logout();
+        }
       }
     }
+    checkToken()
+
+    const interval = setInterval(checkToken, 3600);
+
+    return () => clearInterval(interval)
 
   }, []);
 

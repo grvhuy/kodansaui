@@ -19,6 +19,7 @@ export const Header = () => {
   const router = useRouter();
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [showCart, setShowCart] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<any[]>([]);
 
@@ -44,8 +45,6 @@ export const Header = () => {
     //   .split(";")
     //   .find((item) => item.includes("accessToken"));
     // const token = accessToken?.split("=")[1];
-    // console.log(token);
-    // console.log(user);
   }, []);
 
   const handleSearch = () => {
@@ -144,6 +143,7 @@ export const Header = () => {
                 </a>
               </li>
             </ul>
+
             <div>
               <MyButton
                 text="CART"
@@ -163,7 +163,7 @@ export const Header = () => {
                   }}
                 />
               ) : (
-                <LoginForm />
+                <LoginForm onClose={() => setShowLogin(false)} />
               )}
             </div>
           </div>
@@ -220,6 +220,13 @@ export const Header = () => {
           </div>
         </div>
       )}
+
+      {showLogin && (
+        <div>
+          <LoginForm isOpen={showLogin} onClose={() => setShowLogin(false)} />
+        </div>
+      )}
+
       {/* Show Cart */}
       {showCart && (
         <div>
@@ -241,6 +248,7 @@ export const Header = () => {
                   <div className="flex space-x-2 w-full">
                     <CartItemList
                       items={cart_items}
+                      onShowLogin={() => setShowLogin(true)}
                       onClickOutside={() => {
                         setShowCart(false);
                       }}
