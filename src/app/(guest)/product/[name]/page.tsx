@@ -8,13 +8,6 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import DetailVolumePage from "../volume/[volNumber]/page";
 
-interface Series {
-  name: string;
-  author: string;
-  description: string;
-  totalVolumes: number;
-}
-
 export default function ProductPage() {
   const series = {
     id: "f9b71f49-3b52-4013-8d05-1db243e076b4",
