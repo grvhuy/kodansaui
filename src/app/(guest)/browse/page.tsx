@@ -124,7 +124,7 @@ const BrowsePage = () => {
 
         <div className="flex flex-col space-y-8">
           <p className="font-bold ">Display 1-22 of 100 Series</p>
-          <Separator className="bg-black border-[1.2px] border-black" />
+          <Separator className="bg-black border-[1.2px] border-black w-full" />
           <div className="w-full grid grid-cols-4 gap-4">
             {filteredSeries.map((item: any) => (
               <ProductCard
