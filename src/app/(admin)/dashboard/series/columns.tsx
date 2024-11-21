@@ -4,20 +4,20 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
-export type Author = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
+export type Series = {
+  friendly_id: string;
+  name: string;
+  type: string;
+  recent_publish_date: string;
 };
 
-export const columns: ColumnDef<Author>[] = [
+export const columns: ColumnDef<Series>[] = [
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "friendly_id",
+    header: "Friendly Id",
   },
   {
-    accessorKey: "email",
+    accessorKey: "name",
     header: ({column }) => {
       return (
         <button
@@ -25,21 +25,21 @@ export const columns: ColumnDef<Author>[] = [
           className="flex items-center"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </button>
       );
     },
   },
   {
-    accessorKey: "amount",
+    accessorKey: "type",
     header: ({column }) => {
       return (
         <button
           // variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Amount
+          Type
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </button>
       );
@@ -53,5 +53,20 @@ export const columns: ColumnDef<Author>[] = [
 
     //   return <div className="text-right font-medium">{formatted}</div>;
     // },
+  },
+  {
+    accessorKey: "recent_publish_date",
+    header: ({column }) => {
+      return (
+        <button
+          // variant="ghost"
+          className="flex items-center"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Publish Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </button>
+      );
+    },
   },
 ];

@@ -1,8 +1,8 @@
 
-import { Payment, columns } from "./columns"
+import { Author, columns } from "./columns"
 import { DataTable } from "./data-table"
  
-async function getData(): Promise<Payment[]> {
+async function getData(): Promise<Author[]> {
   // Fetch data from your API here.
   return [
     {
