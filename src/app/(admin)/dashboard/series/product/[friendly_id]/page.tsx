@@ -1,11 +1,11 @@
 "use client";
-import ProductForm from "@/components/admin/ProductForm"; // Your ProductForm component
+import ProductForm from "@/components/admin/ProductForm"; 
 import { getSeries, getVolume } from "@/utils/api";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler } from "react-hook-form";
-import Modal from "react-modal"; // Ensure to install and configure Modal
+import Modal from "react-modal"; 
 
 type SelectedSeried = {
   id: string;
@@ -102,7 +102,7 @@ const DetailProductPage = () => {
             overflow: "scroll",
           },
           overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.5)", // Darker overlay for better visibility
+            backgroundColor: "rgba(0, 0, 0, 0.5)", 
           },
         }}
         isOpen={isModalOpen}

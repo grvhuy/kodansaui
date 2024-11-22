@@ -29,7 +29,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function ProductDataTable<TData, TValue>({
+export function StoreDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -57,12 +57,10 @@ export function ProductDataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4 justify-between">
         <Input
-          placeholder="Filter sequence number..."
-          value={
-            (table.getColumn("seq_number")?.getFilterValue() as number) ?? ""
-          }
+          placeholder="Filter name..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("seq_number")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -73,6 +71,13 @@ export function ProductDataTable<TData, TValue>({
             }}
           >
             Reset Table
+          </Button>
+          <Button
+            onClick={() => {
+              router.push(`/dashboard/series/new`);
+            }}
+          >
+            Add
           </Button>
         </div>
       </div>
@@ -102,11 +107,7 @@ export function ProductDataTable<TData, TValue>({
                 <TableRow
                   className="cursor-pointer"
                   onClick={() => {
-                    router.push(
-                      `/dashboard/series/product/${row
-                        .getVisibleCells()[0]
-                        .getValue()}-${row.getVisibleCells()[1].getValue()}`
-                    );
+                    router.push(`/dashboard/stores/${row.getVisibleCells()[0].getValue()}`);
                   }}
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
