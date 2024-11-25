@@ -69,6 +69,7 @@ const NewProductPage = () => {
               <ProductDataTable columns={columns} data={fullSeries} />
             </>
           )}
+          
         </div>
       ) : (
         <div className="flex">

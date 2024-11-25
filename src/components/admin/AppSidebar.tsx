@@ -31,12 +31,12 @@ const items = [
   },
   {
     title: "Store",
-    url: "#",
+    url: "/dashboard/stores",
     icon: Calendar,
   },
   {
     title: "Customers",
-    url: "#",
+    url: "/dashboard/customers",
     icon: Search,
   },
 ];
