@@ -107,7 +107,7 @@ export default function DetailVolumePage() {
       );
     };
     fetchData();
-  }, [prevProduct]);
+  }, [prevProduct, nextAvailable, prevAvailable, friendly_id, vol]);
 
   useEffect(() => {
     const fetchData = async () => {

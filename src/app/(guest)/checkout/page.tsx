@@ -1,19 +1,17 @@
 "use client";
 import { AddAddressForm } from "@/components/AddAddressForm";
 import { MyButton } from "@/components/MyButton";
-import { OrderCheckoutItem } from "@/components/OrderCheckoutItem";
 import { OrderCheckoutList } from "@/components/OrderCheckoutList";
 import { CheckoutItemList } from "@/components/checkout-page/CheckoutItemList";
 import { Button } from "@/components/ui/button";
 import { clearCart } from "@/lib/redux/feature/slices/cart";
 import { RootState } from "@/lib/redux/store";
 import {
-  checkVolumeAvailability,
   createOrder,
-  getAddresses,
+  getAddresses
 } from "@/utils/api";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 interface GroupedProduct {
@@ -49,7 +47,7 @@ const CheckoutPage = () => {
 
   const cart_items = useSelector((state: RootState) => state?.cart.cartItems);
 
-  const handleGroupProducts = () => {
+  const handleGroupProducts = useCallback(() => {
     const groupedProducts: { [key: string]: GroupedProduct[] } =
       cart_items.reduce(
         (groups: { [key: string]: GroupedProduct[] }, item: any) => {
@@ -72,7 +70,7 @@ const CheckoutPage = () => {
       );
 
     setGroupedProducts(groupedProducts);
-  };
+  }, [cart_items]);
 
   const handlePlaceOrder = async () => {
     const orderPromises = Object.keys(groupedProducts).map(async (storeId) => {
@@ -96,7 +94,7 @@ const CheckoutPage = () => {
 
   useEffect(() => {
     handleGroupProducts();
-  }, [cart_items]);
+  }, [cart_items, handleGroupProducts]);
 
   useEffect(() => {
     const fetchData = async () => {

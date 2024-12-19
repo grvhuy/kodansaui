@@ -49,7 +49,7 @@ export default function SeriesPage() {
         }
         console.log(data);
       });
-  }, [])
+  }, [friendly_id])
 
   useSelector((state) => state);
   const dispatch = useDispatch();

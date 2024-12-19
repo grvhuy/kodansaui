@@ -16,7 +16,7 @@ const HeaderFooterWrapper = ({ children }: { children: React.ReactNode }) => {
     } else {
       setShowHeaderFooter(true);
     }
-  }, [pathname]);
+  }, [pathname, firstpath]);
 
   return (
     <>
