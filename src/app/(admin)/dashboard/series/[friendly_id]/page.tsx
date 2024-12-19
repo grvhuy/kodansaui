@@ -3,7 +3,7 @@ import Spinner from "@/components/Spinner";
 import ProductForm from "@/components/admin/SeriesForm";
 import { columns } from "@/components/admin/ProductTable/columns";
 import { ProductDataTable } from "@/components/admin/ProductTable/data-table";
-import { getFullSeriesByFriendlyId, getSeriesByFriendlyUrl } from "@/utils/api";
+import { checkVolumeAvailability, getFullSeriesByFriendlyId, getSeriesByFriendlyUrl } from "@/utils/api";
 import Head from "next/head";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -13,6 +13,7 @@ const NewProductPage = () => {
   const friendly_id = usePathname().split("/").pop();
   const [series, setSeries] = useState<any>(null);
   const [fullSeries, setFullSeries] = useState<any[]>([]);
+  const [seriesAvailable, setSeriesAvailable] = useState<any[]>([]);
   const hasInitialized = useRef(false);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const NewProductPage = () => {
           }));
           setFullSeries(seriesData); // Set full data at once
         });
+
       }
     }
   }, [friendly_id]);

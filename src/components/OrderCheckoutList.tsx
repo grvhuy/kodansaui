@@ -1,12 +1,11 @@
-import { CartItem } from "../CartItem";
-
+import { OrderCheckoutItem } from "./OrderCheckoutItem";
 
 interface IProps {
   items: any[];
   onClickOutside: () => void;
 }
 
-export const CheckoutItemList = (props: IProps) => {
+export const OrderCheckoutList = (props: IProps) => {
   return (
     <div className="w-full h-full">
       <div className="">
@@ -21,7 +20,7 @@ export const CheckoutItemList = (props: IProps) => {
 
         <div className="flex flex-col w-full">
           {props.items.map((item, index) => (
-            <CartItem
+            <OrderCheckoutItem
               key={index}
               id={item.id}
               name={item.name}
@@ -32,9 +31,7 @@ export const CheckoutItemList = (props: IProps) => {
               friendly_id={item.friendly_id}
             />
           ))}
-
         </div>
-
       </div>
     </div>
   );

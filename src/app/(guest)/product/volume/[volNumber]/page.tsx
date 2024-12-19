@@ -4,12 +4,15 @@ import GoToTop from "@/components/GoToTop";
 import MangaTable from "@/components/MangaTable";
 import { FullSeriesCarousel } from "@/components/product-page/FullSeriesCarousel";
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
-import {
-  default as VolumeCard,
-} from "@/components/series-page/VolumeCard";
+import { default as VolumeCard } from "@/components/series-page/VolumeCard";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { addToCart } from "@/lib/redux/feature/slices/cart";
-import { getFullSeriesByFriendlyId, getVolume } from "@/utils/api";
+import {
+  checkVolumeAvailability,
+  getFullSeriesByFriendlyId,
+  getVolume,
+} from "@/utils/api";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -31,11 +34,15 @@ export default function DetailVolumePage() {
   const [product, setProduct] = useState<any>(null);
   //const [currentSeq, setCurrentSeq] = useState<number>(NaN);
   const [prevProduct, setPrevProduct] = useState<any>(null);
+  const [prevAvailable, setPrevAvailable] = useState<boolean>(false);
   const [nextProduct, setNextProduct] = useState<any>(null);
+  const [nextAvailable, setNextAvailable] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [fullSeries, setFullSeries] = useState<any[]>([]);
+  const [availableProducts, setAvailableProducts] = useState<any[]>([]);
 
   const dispatch = useDispatch();
+  const { toast } = useToast();
 
   const handleAddToCart = (
     id: string,
@@ -54,6 +61,7 @@ export default function DetailVolumePage() {
         friendly_id,
         seq_number,
         cover_url,
+        store_id: availableProducts[0].store_id,
       })
     );
   };
@@ -62,6 +70,11 @@ export default function DetailVolumePage() {
     const fetchData = async () => {
       getFullSeriesByFriendlyId(friendly_id).then((data) => {
         setFullSeries(data);
+        // console.log(data);
+      });
+
+      checkVolumeAvailability(friendly_id).then((data) => {
+        setAvailableProducts(data);
         console.log(data);
       });
     };
@@ -70,8 +83,35 @@ export default function DetailVolumePage() {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log("available:", {
+        prevAvailable,
+        nextAvailable,
+      });
+      console.log("prevProduct", prevProduct);
+      const volNumber = Number(vol);
+
+      if (volNumber > 1) {
+        checkVolumeAvailability(friendly_id, (volNumber - 1).toString()).then(
+          (data) => {
+            setPrevAvailable(data.length > 0);
+            console.log("prev available:", data);
+          }
+        );
+      }
+      checkVolumeAvailability(friendly_id, (volNumber + 1).toString()).then(
+        (data) => {
+          if (data.length > 0) {
+            setNextAvailable(true);
+          }
+        }
+      );
+    };
+    fetchData();
+  }, [prevProduct]);
+
+  useEffect(() => {
+    const fetchData = async () => {
       const data = await getVolume(friendly_id, vol);
-      console.log(data);
       if (data) {
         console.log(data[0].seq_number);
 
@@ -83,12 +123,14 @@ export default function DetailVolumePage() {
           );
           if (prev) {
             setPrevProduct(prev[0]);
+            // console.log(prev[0]);
           }
         }
         await getVolume(friendly_id, (data[0].seq_number + 1).toString()).then(
           (next) => {
             if (next) {
               setNextProduct(next[0]);
+              // console.log(next[0]);
             } else {
               console.log("No next volume");
             }
@@ -145,12 +187,17 @@ export default function DetailVolumePage() {
                 <div className="flex flex-col">
                   <span className="font-bold text-2xl">Deluxe Edition</span>
                 </div>
-                <div className="font-bold text-3xl">$7.99</div>
+                <div className="font-bold text-3xl">
+                  {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(product.price)}
+                </div>
               </div>
 
               {/* Buy button */}
               <Button
-                onClick={() =>
+                onClick={() => {
                   handleAddToCart(
                     product.id,
                     product.series.name,
@@ -158,11 +205,17 @@ export default function DetailVolumePage() {
                     product.series.friendly_id,
                     product.seq_number,
                     product.cover_url
-                  )
-                }
+                  );
+
+                  toast({
+                    title: "ADDED TO CART",
+                    description: `${product.series.name}, Volume ${product.seq_number} added to your cart`,
+                  });
+                }}
                 className="w-full mt-4 rounded-none p-8 text-2xl font-bold"
+                disabled={!availableProducts.length}
               >
-                BUY DELUXE EDITION
+                {availableProducts.length ? "ADD TO CART" : "OUT OF STOCK"}
               </Button>
             </div>
           </div>
@@ -200,6 +253,7 @@ export default function DetailVolumePage() {
             {/* previous of this volume */}
             {prevProduct && (
               <VolumeCard
+                isOutOfStock={!prevAvailable}
                 onClick={() => {
                   dispatch(
                     addToCart({
@@ -210,6 +264,7 @@ export default function DetailVolumePage() {
                       friendly_id: prevProduct.series.friendly_id,
                       seq_number: prevProduct.seq_number,
                       cover_url: prevProduct.cover_url,
+                      store_id: prevProduct.store_id,
                     })
                   );
                 }}
@@ -226,6 +281,7 @@ export default function DetailVolumePage() {
             </a>
             {nextProduct && (
               <VolumeCard
+                isOutOfStock={!nextAvailable}
                 onClick={() => {
                   dispatch(
                     addToCart({
@@ -236,6 +292,7 @@ export default function DetailVolumePage() {
                       friendly_id: nextProduct.series.friendly_id,
                       seq_number: nextProduct.seq_number,
                       cover_url: nextProduct.cover_url,
+                      store_id: nextProduct.store_id,
                     })
                   );
                 }}

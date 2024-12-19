@@ -1,9 +1,3 @@
-import {
-  decrementQuantity,
-  incrementQuantity,
-  removeFromCart,
-} from "@/lib/redux/feature/slices/cart";
-import { Minus, PlusIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 
@@ -18,7 +12,7 @@ interface IProps {
   onClickOutside?: () => void;
 }
 
-export const CartItem = (props: IProps) => {
+export const OrderCheckoutItem = (props: IProps) => {
   const dispatch = useDispatch();
 
   return (
@@ -45,39 +39,13 @@ export const CartItem = (props: IProps) => {
       <div className="col-span-2 font-semibold text-black text-lg">
         {/* inc va dec btn */}
         <div className="flex space-x-2 ml-2">
-          <button
-            title="Decrement"
-            onClick={() => {
-              dispatch(decrementQuantity(props.id));
-            }}
-            className="text-gray-600 hover:text-gray-900 px-1"
-          >
-            <Minus className="hover:shadow" size={16} />
-          </button>
           <span>{props.quantity}</span>
-          <button title="Increment" className="text-gray-600 hover:text-gray-900">
-            <PlusIcon
-              className="hover:shadow"
-              onClick={() => {
-                dispatch(incrementQuantity(props.id));
-              }}
-              size={16}
-            />
-          </button>
         </div>
       </div>
 
       <div className="col-span-2 font-semibold text-black text-lg">
         ${props.price * props.quantity}
       </div>
-
-      <XIcon
-        onClick={() => {
-          dispatch(removeFromCart(props.id));
-        }}
-        size={24}
-        className="col-span-1 h-100 w-100 cursor-pointer text-black"
-      />
     </div>
   );
 };

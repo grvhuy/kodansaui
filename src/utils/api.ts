@@ -2,7 +2,12 @@
 import axios from "axios";
 import axiosInstance from "./axios.customize";
 
-const getSeries = async (status?: number, ageRating?: number, type?: number, genre?: number[]) => {
+const getSeries = async (
+  status?: number,
+  ageRating?: number,
+  type?: number,
+  genre?: number[]
+) => {
   const response = await axios.get("/api/series/get-series", {
     params: {
       status,
@@ -17,7 +22,7 @@ const getSeries = async (status?: number, ageRating?: number, type?: number, gen
 const getSeriesByStatus = async (status: number) => {
   const response = await axios.get(`/api/series/get-series?status=${status}`);
   return response.data;
-}
+};
 
 const getSeriesByFriendlyUrl = async (friendlyUrl: string) => {
   const response = await axios.get(`/api/series/${friendlyUrl}`);
@@ -90,21 +95,36 @@ const addAddress = async ({
   };
 };
 
+const checkVolumeAvailability = async (friendly_id: string, vol?: string) => {
+  if (vol) {
+    const response = await axiosInstance.get(
+      `/api/Inventory/check-volume-availability/${friendly_id}?vol=${vol}`
+    );
+    return response.data;
+  }
+  const response = await axiosInstance.get(
+    `/api/Inventory/check-volume-availability/${friendly_id}`
+  );
+  return response.data;
+};
+
 const createOrder = async (
   addressId: string,
-  products: { volume_id: string; quantity: number }[]
+  products: { volume_id: string; quantity: number }[],
+  storeId: string
 ) => {
   const response = await axiosInstance.post("/api/User/create-order", {
-    address_id : addressId,
-    products,
-  })
+    address_id: addressId,
+    store_id: storeId,
+    products: products,
+  });
   return response.data;
 };
 
 const getOrders = async () => {
   const response = await axiosInstance.get("/api/User/get-orders");
   return response.data;
-}
+};
 
 // const getNews = async () => {
 //   const response = await axios.get("/api/News/get-news");
@@ -116,14 +136,23 @@ const getOrders = async () => {
 //   return response.data;
 // }
 
-const getContainers = async () => {  
+const getContainers = async () => {
   const response = await axios.get("/api/Homepage/get-containers");
   return response.data;
-}
+};
 
 export {
   addAddress,
-  createOrder, getAddresses, getCatFact, getContainers, getFullSeriesByFriendlyId, getOrders, getSeries, getSeriesByFriendlyUrl, getSeriesByStatus, getVolume,
-  searchByQuery
+  createOrder,
+  getAddresses,
+  getCatFact,
+  getContainers,
+  getFullSeriesByFriendlyId,
+  getOrders,
+  getSeries,
+  getSeriesByFriendlyUrl,
+  getSeriesByStatus,
+  getVolume,
+  searchByQuery,
+  checkVolumeAvailability,
 };
-

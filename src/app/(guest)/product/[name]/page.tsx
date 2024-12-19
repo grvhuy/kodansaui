@@ -36,6 +36,7 @@ export default function ProductPage() {
 
 
   useEffect(() => {
+    
   }, []);
 
   if (isVolume) return <DetailVolumePage />;

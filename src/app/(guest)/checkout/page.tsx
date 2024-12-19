@@ -1,43 +1,109 @@
 "use client";
 import { AddAddressForm } from "@/components/AddAddressForm";
 import { MyButton } from "@/components/MyButton";
+import { OrderCheckoutItem } from "@/components/OrderCheckoutItem";
+import { OrderCheckoutList } from "@/components/OrderCheckoutList";
 import { CheckoutItemList } from "@/components/checkout-page/CheckoutItemList";
 import { Button } from "@/components/ui/button";
 import { clearCart } from "@/lib/redux/feature/slices/cart";
 import { RootState } from "@/lib/redux/store";
-import { createOrder, getAddresses } from "@/utils/api";
+import {
+  checkVolumeAvailability,
+  createOrder,
+  getAddresses,
+} from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+interface GroupedProduct {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  friendly_id: string;
+  seq_number: number;
+  cover_url: string;
+  store_id: string;
+}
+
+interface Product {
+  volume_id: string;
+  quantity: number;
+}
 
 const CheckoutPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const [isShowAddressForm, setIsShowAddressForm] = useState<boolean>(false);
   const [isEditAddress, setIsEditAddress] = useState<boolean>(false);
   const [editedAddress, setEditedAddress] = useState<any>(null);
   const [method, setMethod] = useState<string>("cod");
+  const [groupedProducts, setGroupedProducts] = useState<{
+    [key: string]: GroupedProduct[];
+  }>({});
+  const [products, setProducts] = useState<Product[]>([]);
+  // an array of different store id
 
   const cart_items = useSelector((state: RootState) => state?.cart.cartItems);
 
-  const handlePlaceOrder = async () => {
-    const products = cart_items.map((item: any) => ({
-      volume_id: item.id,
-      quantity: item.quantity,
-    }));
-    await createOrder(selectedAddress.id, products).then((data) => {
-      if (data) {
-        clearCart();
-        router.push("/order-success");
-      } else return;
-    });
+  const handleGroupProducts = () => {
+    const groupedProducts: { [key: string]: GroupedProduct[] } =
+      cart_items.reduce(
+        (groups: { [key: string]: GroupedProduct[] }, item: any) => {
+          if (!groups[item.store_id]) {
+            groups[item.store_id] = [];
+          }
+          groups[item.store_id].push({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            friendly_id: item.friendly_id,
+            seq_number: item.seq_number,
+            cover_url: item.cover_url,
+            store_id: item.store_id,
+          });
+          return groups;
+        },
+        {}
+      );
+
+    setGroupedProducts(groupedProducts);
   };
+
+  const handlePlaceOrder = async () => {
+    const orderPromises = Object.keys(groupedProducts).map(async (storeId) => {
+      const products = groupedProducts[storeId].map((product) => ({
+        volume_id: product.id,
+        quantity: product.quantity,
+      }));
+
+      const response = await createOrder(selectedAddress.id, products, storeId);
+      return response;
+    });
+
+    const results = await Promise.all(orderPromises);
+    if (results.length > 0) {
+      dispatch(clearCart());
+    }
+    console.log("results:", results);
+    console.log("groupedProducts:", groupedProducts);
+    console.log("selectedAddress:", cart_items);
+  };
+
+  useEffect(() => {
+    handleGroupProducts();
+  }, [cart_items]);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getAddresses();
-      console.log(data);
+      // console.log("all addresses:", data);
+      // console.log("cart items:", cart_items);
+
       setAddresses(data);
       setSelectedAddress(data[0]);
     };
@@ -46,6 +112,13 @@ const CheckoutPage = () => {
 
   return (
     <div className="min-h-screen mt-20">
+      <button
+        onClick={() => {
+          console.log(groupedProducts);
+        }}
+      >
+        loggggggg
+      </button>
       <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
         <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
           <div className="mx-auto max-w-5xl">
@@ -63,38 +136,44 @@ const CheckoutPage = () => {
                   {/* Cod */}
                   <div
                     className={`flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-800 rounded-none shadow-md mb-4
-                     ${method === 'cod' ? "border-2 border-black" : ""}`}
+                     ${method === "cod" ? "border-2 border-black" : ""}`}
                   >
-                      <h1 className="font-bold text-black text-lg">
-                        Cash on Delivery
-                      </h1>
+                    <h1 className="font-bold text-black text-lg">
+                      Cash on Delivery
+                    </h1>
 
-                      <Button
-                        className={`${method !== "cod" ? "bg-white text-black": ""} rounded-none border-2 border-black p-2 font-semibold hover:text-white min-w-[100px]`}
-                        onClick={() => {
-                          setMethod("cod");
-                        }}
-                      >
-                        {method === "cod" ? "Selected" : "Select"}
-                      </Button>
+                    <Button
+                      className={`${
+                        method !== "cod" ? "bg-white text-black" : ""
+                      } rounded-none border-2 border-black p-2 font-semibold hover:text-white min-w-[100px]`}
+                      onClick={() => {
+                        setMethod("cod");
+                      }}
+                    >
+                      {method === "cod" ? "Selected" : "Select"}
+                    </Button>
                   </div>
 
                   {/* Pickup at store */}
                   <div
-                    className={`flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-800 rounded-none shadow-md mb-4 ${method === "pickup" ? "border-2 border-black": ""}`}
+                    className={`flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-800 rounded-none shadow-md mb-4 ${
+                      method === "pickup" ? "border-2 border-black" : ""
+                    }`}
                   >
-                      <h1 className="font-bold text-black text-lg">
-                        Pickup at Store
-                      </h1>
+                    <h1 className="font-bold text-black text-lg">
+                      Pickup at Store
+                    </h1>
 
-                      <Button
-                        className={`${method !== "pickup" ? "bg-white text-black": ""} rounded-none border-2 border-black p-2 font-semibold hover:text-white min-w-[100px]`}
-                        onClick={() => {
-                          setMethod("pickup");
-                        }}
-                      >
-                        {method === "pickup" ? "Selected" : "Select"}
-                      </Button>
+                    <Button
+                      className={`${
+                        method !== "pickup" ? "bg-white text-black" : ""
+                      } rounded-none border-2 border-black p-2 font-semibold hover:text-white min-w-[100px]`}
+                      onClick={() => {
+                        setMethod("pickup");
+                      }}
+                    >
+                      {method === "pickup" ? "Selected" : "Select"}
+                    </Button>
                   </div>
                 </section>
                 <section className="mt-4">
@@ -210,9 +289,9 @@ const CheckoutPage = () => {
               <div className="mt-6 grow sm:mt-8 lg:mt-0">
                 <div className="space-y-4 rounded-none border-2 border-black bg-black  p-6 dark:border-gray-700 dark:bg-gray-800">
                   <div className="space-y-2">
-                    <dl className="text-3xl font-bold text-white mb-4">
+                    <p className="text-3xl font-bold text-white mb-4">
                       Order Summary
-                    </dl>
+                    </p>
                     <dl className="flex items-center justify-between gap-4">
                       <dt className="text-white text-base font-normal  dark:text-gray-400">
                         Original price
@@ -277,6 +356,17 @@ const CheckoutPage = () => {
                     PLACE ORDER
                   </Button>
                 </div>
+                <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+                  <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
+                    <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-3xl">
+                      YOUR PRODUCTS
+                    </h1>
+                    <CheckoutItemList
+                      items={cart_items}
+                      onClickOutside={() => {}}
+                    />
+                  </div>
+                </section>
               </div>
             </div>
           </div>
@@ -286,9 +376,20 @@ const CheckoutPage = () => {
       <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
         <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
           <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-3xl">
-            Your Products
+            YOUR ORDERS
           </h1>
-          <CheckoutItemList items={cart_items} onClickOutside={() => {}} />
+          {/* <CheckoutItemList items={cart_items} onClickOutside={() => {}} /> */}
+          {Object.keys(groupedProducts).map((store_id) => (
+            <div key={store_id}>
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-3xl">
+                Store: {store_id}
+              </h1>
+              <OrderCheckoutList
+                items={groupedProducts[store_id]}
+                onClickOutside={() => {}}
+              />
+            </div>
+          ))}
         </div>
       </section>
     </div>

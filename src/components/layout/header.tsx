@@ -27,8 +27,8 @@ export const Header = () => {
   const cart_items = useSelector((state: RootState) => state?.cart.cartItems);
   useEffect(() => {
     // use useDispatch to dispatch action
-    // console.log(cart_items);
-  }, []);
+    console.log("cart_items: ", cart_items);
+  }, [cart_items]);
 
   const { logout } = useAuth();
 
@@ -38,7 +38,6 @@ export const Header = () => {
     .find((item) => item.includes("user"));
   const user = userInJSON ? JSON.parse(userInJSON.split("=")[1]) : null;
 
-  // khi nao refresh trang thi van giu trang thai dang nhap
   useEffect(() => {
     // Lay tu cookie
     // const accessToken = document.cookie
@@ -194,6 +193,7 @@ export const Header = () => {
                     placeholder="Search here..."
                   />
                   <button
+                    title="Search"
                     type="submit"
                     onClick={handleSearch}
                     className=" text-white p-2"
