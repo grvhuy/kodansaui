@@ -2,7 +2,7 @@ import NotesPicker from "@/components/Editor/NotesPicker";
 
 const EditorPage = () => {
   return (
-    <div className="min-h-screen flex flex-col mt-24">
+    <div className="min-h-screen w-full flex flex-col mt-4">
       {/* <div className="h-fit mt-52 w-full border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
         <div className="px-3 py-2 border-b dark:border-gray-600">
           <div className="flex flex-wrap items-center">

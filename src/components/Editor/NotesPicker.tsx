@@ -27,7 +27,7 @@ const NotesPicker = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-3xl w-full grid place-items-center mx-auto pt-10 mb-10"
+      className=" w-full grid place-items-center pt-10 mb-10"
     >
       <div className="text-3xl text-center text-black mb-10">
         Notes Picker

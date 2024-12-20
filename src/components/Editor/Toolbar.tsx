@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { type Editor } from "@tiptap/react";
 import {
@@ -14,6 +12,11 @@ import {
   Undo,
   Redo,
   Code,
+  Image,
+  Youtube,
+  AlignCenter,
+  AlignLeft,
+  AlignRight,
 } from "lucide-react";
 
 type Props = {
@@ -27,11 +30,27 @@ const Toolbar = ({ editor, content }: Props) => {
   }
   return (
     <div
-      className="px-4 py-3 rounded-tl-md rounded-tr-md flex justify-between items-start
+      className="px-4 py-3 rounded-tl-md rounded-tr-sm flex justify-between items-start
     gap-5 w-full flex-wrap border border-gray-700"
     >
-      <div className="flex justify-start items-center gap-5 w-full lg:w-10/12 flex-wrap ">
+      <div className="flex justify-start items-center gap-5 w-full lg:w-10/12 flex-wrap">
         <button
+          type="button"
+          title="Image"
+          onClick={(e) => {
+            e.preventDefault();
+            const url = window.prompt("Enter the URL of the image:");
+            if (url) {
+              editor.chain().focus().setImage({ src: url }).run();
+            }
+          }}
+          className="text-sky-400"
+        >
+          <Image className="w-5 h-5" />
+        </button>
+        <button
+          type="button"
+          title="Bold"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().toggleBold().run();
@@ -45,6 +64,30 @@ const Toolbar = ({ editor, content }: Props) => {
           <Bold className="w-5 h-5" />
         </button>
         <button
+          type="button"
+          title="Youtube"
+          onClick={(e) => {
+            e.preventDefault();
+            const url = window.prompt("Enter the URL of the youtube video:");
+            if (url) {
+              editor
+                .chain()
+                .focus()
+                .setYoutubeVideo({
+                  src: url,
+                  width: 640,
+                  height: 320,
+                })
+                .run();
+            }
+          }}
+          className="text-sky-400"
+        >
+          <Youtube className="w-5 h-5" />
+        </button>
+        <button
+          type="button"
+          title="Italic"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().toggleItalic().run();
@@ -58,6 +101,8 @@ const Toolbar = ({ editor, content }: Props) => {
           <Italic className="w-5 h-5" />
         </button>
         <button
+          type="button"
+          title="Underline"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().toggleUnderline().run();
@@ -71,6 +116,8 @@ const Toolbar = ({ editor, content }: Props) => {
           <Underline className="w-5 h-5" />
         </button>
         <button
+          type="button"
+          title="Strike"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().toggleStrike().run();
@@ -84,6 +131,8 @@ const Toolbar = ({ editor, content }: Props) => {
           <Strikethrough className="w-5 h-5" />
         </button>
         <button
+          type="button"
+          title="Heading 2"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().toggleHeading({ level: 2 }).run();
@@ -98,6 +147,8 @@ const Toolbar = ({ editor, content }: Props) => {
         </button>
 
         <button
+          type="button"
+          title="Bullet List"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().toggleBulletList().run();
@@ -111,6 +162,8 @@ const Toolbar = ({ editor, content }: Props) => {
           <List className="w-5 h-5" />
         </button>
         <button
+          type="button"
+          title="Ordered List"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().toggleOrderedList().run();
@@ -124,6 +177,8 @@ const Toolbar = ({ editor, content }: Props) => {
           <ListOrdered className="w-5 h-5" />
         </button>
         <button
+          type="button"
+          title="Blockquote"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().toggleBlockquote().run();
@@ -137,6 +192,8 @@ const Toolbar = ({ editor, content }: Props) => {
           <Quote className="w-5 h-5" />
         </button>
         <button
+          type="button"
+          title="Code"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().setCode().run();
@@ -150,6 +207,8 @@ const Toolbar = ({ editor, content }: Props) => {
           <Code className="w-5 h-5" />
         </button>
         <button
+          type="button"
+          title="Undo"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().undo().run();
@@ -163,6 +222,8 @@ const Toolbar = ({ editor, content }: Props) => {
           <Undo className="w-5 h-5" />
         </button>
         <button
+          type="button"
+          title="Redo"
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().redo().run();
@@ -174,6 +235,53 @@ const Toolbar = ({ editor, content }: Props) => {
           }
         >
           <Redo className="w-5 h-5" />
+        </button>
+      </div>
+      <div className="flex justify-start items-center gap-5 w-full lg:w-10/12 flex-wrap">
+        <button
+          type="button"
+          title="Align Left"
+          onClick={(e) => {
+            e.preventDefault();
+            editor.chain().focus().setTextAlign("left").run();
+          }}
+          className={
+            editor.isActive({ textAlign: "left" })
+              ? "bg-sky-700 text-white p-2 rounded-lg"
+              : "text-sky-400"
+          }
+        >
+          <AlignLeft className="w-5 h-5" />
+        </button>
+        <button
+          type="button"
+          title="Align Center"
+          onClick={(e) => {
+            e.preventDefault();
+            editor.chain().focus().setTextAlign("center").run();
+          }}
+          className={
+            editor.isActive({ textAlign: "center" })
+              ? "bg-sky-700 text-white p-2 rounded-lg"
+              : "text-sky-400"
+          }
+        >
+          <AlignCenter className="w-5 h-5" />
+        </button>
+        <button
+          type="button"
+          title="Align Right"
+          onClick={(e) => {
+            e.preventDefault();
+            editor.chain().focus().setTextAlign("right").run();
+          }}
+          className={
+            editor.isActive({ textAlign: "right" })
+              ? "bg-sky-700 text-white p-2 rounded-lg"
+              : "text-sky-400"
+          }
+        >
+          <AlignRight className="w-5 h-5" />
         </button>
       </div>
       {content && (
