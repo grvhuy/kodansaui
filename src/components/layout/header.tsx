@@ -22,6 +22,7 @@ export const Header = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<any[]>([]);
+  const [type, setType] = useState("Login");
 
   const [searchQuery, setSearchQuery] = useState("");
   const cart_items = useSelector((state: RootState) => state?.cart.cartItems);
@@ -162,7 +163,13 @@ export const Header = () => {
                   }}
                 />
               ) : (
-                <LoginForm onClose={() => setShowLogin(false)} />
+                <LoginForm
+                  type={type}
+                  onChangeType={(type) => {
+                    setType(type);
+                  }}
+                  onClose={() => setShowLogin(false)}
+                />
               )}
             </div>
           </div>
@@ -223,7 +230,14 @@ export const Header = () => {
 
       {showLogin && (
         <div>
-          <LoginForm isOpen={showLogin} onClose={() => setShowLogin(false)} />
+          <LoginForm
+            type={type}
+            onChangeType={(type) => {
+              setType(type);
+            }}
+            onClose={() => setShowLogin(false)}
+            isOpen={showLogin}
+          />
         </div>
       )}
 

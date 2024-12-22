@@ -4,12 +4,10 @@ import { MyButton } from "@/components/MyButton";
 import { OrderCheckoutList } from "@/components/OrderCheckoutList";
 import { CheckoutItemList } from "@/components/checkout-page/CheckoutItemList";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { clearCart } from "@/lib/redux/feature/slices/cart";
 import { RootState } from "@/lib/redux/store";
-import {
-  createOrder,
-  getAddresses
-} from "@/utils/api";
+import { createOrder, getAddresses } from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -110,14 +108,7 @@ const CheckoutPage = () => {
 
   return (
     <div className="min-h-screen mt-20">
-      <button
-        onClick={() => {
-          console.log(groupedProducts);
-        }}
-      >
-        loggggggg
-      </button>
-      <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+      <section className="bg-white py-2 antialiased dark:bg-gray-900 ">
         <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
           <div className="mx-auto max-w-5xl">
             <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-3xl">
@@ -133,7 +124,7 @@ const CheckoutPage = () => {
 
                   {/* Cod */}
                   <div
-                    className={`flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-800 rounded-none shadow-md mb-4
+                    className={`flex justify-between items-center px-4 py-6 bg-gray-100 dark:bg-gray-800 rounded-none shadow-md mb-6 
                      ${method === "cod" ? "border-2 border-black" : ""}`}
                   >
                     <h1 className="font-bold text-black text-lg">
@@ -154,7 +145,7 @@ const CheckoutPage = () => {
 
                   {/* Pickup at store */}
                   <div
-                    className={`flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-800 rounded-none shadow-md mb-4 ${
+                    className={`flex justify-between items-center px-4 py-6 bg-gray-100 dark:bg-gray-800 rounded-none shadow-md mb-1 ${
                       method === "pickup" ? "border-2 border-black" : ""
                     }`}
                   >
@@ -199,7 +190,7 @@ const CheckoutPage = () => {
                       </div>
                       {/* Neu khong show form va co gia tri tring addreses thi map qua mang  */}
                       {!isShowAddressForm && addresses.length > 0 && (
-                        <div>
+                        <ScrollArea className="h-72">
                           {addresses.map((address) => (
                             <div
                               key={address.id}
@@ -253,7 +244,7 @@ const CheckoutPage = () => {
                               </div>
                             </div>
                           ))}
-                        </div>
+                        </ScrollArea>
                       )}
                       {/* Neu khong co gia tri trong addresses thi show form */}
                       {isShowAddressForm && !isEditAddress && (
@@ -290,6 +281,14 @@ const CheckoutPage = () => {
                     <p className="text-3xl font-bold text-white mb-4">
                       Order Summary
                     </p>
+                    <section className="bg-white antialiased dark:bg-gray-900 ">
+                      <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
+                        <CheckoutItemList
+                          items={cart_items}
+                          onClickOutside={() => {}}
+                        />
+                      </div>
+                    </section>
                     <dl className="flex items-center justify-between gap-4">
                       <dt className="text-white text-base font-normal  dark:text-gray-400">
                         Original price
@@ -354,24 +353,13 @@ const CheckoutPage = () => {
                     PLACE ORDER
                   </Button>
                 </div>
-                <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-                  <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
-                    <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-3xl">
-                      YOUR PRODUCTS
-                    </h1>
-                    <CheckoutItemList
-                      items={cart_items}
-                      onClickOutside={() => {}}
-                    />
-                  </div>
-                </section>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+      <section className="bg-white py-6 antialiased dark:bg-gray-900 md:py-4">
         <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
           <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-3xl">
             YOUR ORDERS

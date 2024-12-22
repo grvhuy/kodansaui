@@ -22,7 +22,7 @@ export const CartItem = (props: IProps) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="grid grid-cols-10 space-x-4 items-center justify-center  border-b-2 border-black p-2">
+    <div className="grid grid-cols-10 space-x-4 items-center justify-center border-b-[1px] border-black p-2">
       <div className="col-span-5 text-gray-500">
         <div className="flex space-x-2 text-black text-lg">
           <Image

@@ -17,6 +17,12 @@ const BrowsePage = () => {
   //const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [series, setSeries] = useState<any>([]);
   const [filteredSeries, setFilteredSeries] = useState<any>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const paginatedSeries = filteredSeries.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  )
 
   // State for filters and sorting
   const [selectedSort, setSelectedSort] = useState<string>("New and Popular");
@@ -137,6 +143,27 @@ const BrowsePage = () => {
                 cover_color={item.cover_color}
               />
             ))}
+          </div>
+
+          <div className="flex justify-center mt-8 space-x-4">
+              <button
+                title="Previous page"
+                type="button"
+                disabled={currentPage === 1}
+                className="px-4 py-2 bg-gray-300 disabled:opacity-50"
+                onClick={() => setCurrentPage(currentPage - 1)}
+              >
+                Prev
+              </button>
+              <button
+                type="button"
+                title="Next page"
+                disabled={currentPage === Math.ceil(filteredSeries.length / itemsPerPage)}
+                className="px-4 py-2 bg-gray-300 disabled:opacity-50"
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                Next
+              </button>
           </div>
         </div>
       </div>

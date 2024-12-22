@@ -10,15 +10,6 @@ export const CheckoutItemList = (props: IProps) => {
   return (
     <div className="w-full h-full">
       <div className="">
-        <div className="p-4 grid grid-cols-10 mt-0 space-x-4">
-          <div className="col-span-5 text-gray-500">Product</div>
-          <div className="col-span-2 text-gray-500">Quantity</div>
-
-          <div className="col-span-2 text-gray-500">Price</div>
-
-          <div className="col-span-1 text-gray-500"></div>
-        </div>
-
         <div className="flex flex-col w-full">
           {props.items.map((item, index) => (
             <CartItem

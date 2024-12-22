@@ -50,13 +50,13 @@ const searchByQuery = async (query: string) => {
 };
 
 //  /api/Auth/sign-up
-// const signUp = async (email: string, password: string) => {
-//   const response = await axios.post("/api/Auth/sign-up", {
-//     email,
-//     password,
-//   });
-//   return response.data;
-// };
+const signUp = async (email: string, password: string) => {
+  const response = await axios.post("/api/Auth/sign-up", {
+    email,
+    password,
+  });
+  return response.data;
+};
 
 //  /api/Auth/sign-in
 
@@ -142,6 +142,7 @@ const getContainers = async () => {
 };
 
 export {
+  signUp,
   addAddress,
   createOrder,
   getAddresses,

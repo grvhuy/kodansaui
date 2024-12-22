@@ -8,7 +8,7 @@ interface IProps {
 export const OrderCheckoutList = (props: IProps) => {
   return (
     <div className="w-full h-full">
-      <div className="">
+      <div className="mb-8">
         <div className="p-4 grid grid-cols-10 mt-0 space-x-4">
           <div className="col-span-5 text-gray-500">Product</div>
           <div className="col-span-2 text-gray-500">Quantity</div>
