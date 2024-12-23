@@ -23,7 +23,6 @@ export function ChapterWheelCarousel(props: IProps) {
   // const [slideNumber, setSlideNumber] = React.useState(4);
   const containers_items_doubled = [
     ...props.container.containers_items,
-    ...props.container.containers_items,
   ];
   const groupNumber = (props.container.containers_items.length / 4) * 2;
   const [currentGroup, setCurrentGroup] = React.useState(1);

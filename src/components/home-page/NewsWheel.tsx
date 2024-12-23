@@ -36,15 +36,6 @@ export const NewsWheel = (props: IProps) => {
             friendly_id={news.news.friendly_id}
           />
         ))}
-        {props.container.containers_items.map((news: any, index: number) => (
-          <NewsWheelCard
-            thumbnail_url={news.news.thumbnail_url}
-            title={news.news.title}
-            key={index}
-            publish_date={news.news.publish_date}
-            friendly_id={news.news.friendly_id}
-          />
-        ))}
       </div>
       <div className="w-full flex justify-end mt-8">
         <Button

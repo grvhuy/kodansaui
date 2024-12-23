@@ -22,7 +22,7 @@ const BrowsePage = () => {
   const paginatedSeries = filteredSeries.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  )
+  );
 
   // State for filters and sorting
   const [selectedSort, setSelectedSort] = useState<string>("New and Popular");
@@ -33,8 +33,12 @@ const BrowsePage = () => {
 
   useEffect(() => {
     getSeries(
-      (typeof selectedStatus === "number" && selectedStatus !== -1) ? selectedStatus : undefined,
-      typeof selectedAge === "number" && selectedAge !== -1 ? selectedAge : undefined,
+      typeof selectedStatus === "number" && selectedStatus !== -1
+        ? selectedStatus
+        : undefined,
+      typeof selectedAge === "number" && selectedAge !== -1
+        ? selectedAge
+        : undefined,
       typeof selectedType === "number" ? selectedType : undefined,
       selectedGenres
     ).then((data) => {
@@ -65,31 +69,33 @@ const BrowsePage = () => {
       <div className="mt-12 flex space-x-4">
         <p
           onClick={() => setSelectedType(0)}
-          className={`cursor-pointer font-bold  text-3xl hover:text-black ${selectedType === 0
-            ? "underline underline-offset-8 text-black"
-            : "text-gray-400"
-            }`}
+          className={`cursor-pointer font-bold  text-3xl hover:text-black ${
+            selectedType === 0
+              ? "underline underline-offset-8 text-black"
+              : "text-gray-400"
+          }`}
         >
           Manga
         </p>
 
         <p
           onClick={() => setSelectedType(1)}
-          className={`cursor-pointer font-bold  text-3xl hover:text-black ${selectedType === 1
-            ? "underline-offset-8 underline text-black"
-            : "text-gray-400"
-            }`}
+          className={`cursor-pointer font-bold  text-3xl hover:text-black ${
+            selectedType === 1
+              ? "underline-offset-8 underline text-black"
+              : "text-gray-400"
+          }`}
         >
           Books
         </p>
       </div>
 
       {/* Buttons */}
-      <div className="mt-8 flex space-x-1">
+      {/* <div className="mt-8 flex space-x-1">
         <MyButtonLarge text="SERIES" onClick={() => { }} />
         <MyButtonLarge text="NEW RELEASE" onClick={() => { }} />
         <MyButtonLarge text="ON SALES" onClick={() => { }} />
-      </div>
+      </div> */}
 
       {/* Browse display content */}
 
@@ -129,7 +135,13 @@ const BrowsePage = () => {
         {/* products */}
 
         <div className="flex flex-col space-y-8">
-          <p className="font-bold ">Display 1-22 of 100 Series</p>
+          <p className="font-bold ">
+            Display{" "}
+            {paginatedSeries.length > 0
+              ? (currentPage - 1) * itemsPerPage + 1
+              : 0}{" "}
+            - {currentPage * itemsPerPage} of {filteredSeries.length} Series
+          </p>
           <Separator className="bg-black border-[1.2px] border-black w-full" />
           <div className="w-full grid grid-cols-4 gap-4">
             {filteredSeries.map((item: any) => (
@@ -145,7 +157,7 @@ const BrowsePage = () => {
             ))}
           </div>
 
-          <div className="flex justify-center mt-8 space-x-4">
+          {/* <div className="flex justify-center mt-8 space-x-4">
               <button
                 title="Previous page"
                 type="button"
@@ -164,7 +176,7 @@ const BrowsePage = () => {
               >
                 Next
               </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
