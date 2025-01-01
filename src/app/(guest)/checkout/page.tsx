@@ -144,7 +144,7 @@ const CheckoutPage = () => {
                   </div>
 
                   {/* Pickup at store */}
-                  <div
+                  {/* <div
                     className={`flex justify-between items-center px-4 py-6 bg-gray-100 dark:bg-gray-800 rounded-none shadow-md mb-1 ${
                       method === "pickup" ? "border-2 border-black" : ""
                     }`}
@@ -163,7 +163,7 @@ const CheckoutPage = () => {
                     >
                       {method === "pickup" ? "Selected" : "Select"}
                     </Button>
-                  </div>
+                  </div> */}
                 </section>
                 <section className="mt-4">
                   {/* address section */}
@@ -281,14 +281,14 @@ const CheckoutPage = () => {
                     <p className="text-3xl font-bold text-white mb-4">
                       Order Summary
                     </p>
-                    <section className="bg-white antialiased dark:bg-gray-900 ">
+                    {/* <section className="bg-white antialiased dark:bg-gray-900 ">
                       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
                         <CheckoutItemList
                           items={cart_items}
                           onClickOutside={() => {}}
                         />
                       </div>
-                    </section>
+                    </section> */}
                     <dl className="flex items-center justify-between gap-4">
                       <dt className="text-white text-base font-normal  dark:text-gray-400">
                         Original price
@@ -303,32 +303,32 @@ const CheckoutPage = () => {
                       </dd>
                     </dl>
 
-                    <dl className="flex items-center justify-between gap-4">
+                    {/* <dl className="flex items-center justify-between gap-4">
                       <dt className="text-white text-base font-normal  dark:text-gray-400">
                         Savings
                       </dt>
                       <dd className="text-white text-base font-medium ">
                         -$9.00
                       </dd>
-                    </dl>
+                    </dl> */}
 
-                    <dl className="flex items-center justify-between gap-4">
+                    {/* <dl className="flex items-center justify-between gap-4">
                       <dt className="text-white text-base font-normal  dark:text-gray-400">
                         Store Pickup
                       </dt>
                       <dd className="text-white text-base font-medium dark:text-white">
                         $9.00
                       </dd>
-                    </dl>
+                    </dl> */}
 
-                    <dl className="flex items-center justify-between gap-4">
+                    {/* <dl className="flex items-center justify-between gap-4">
                       <dt className="text-white text-base font-normal  dark:text-gray-400">
                         Tax
                       </dt>
                       <dd className="text-white text-base font-medium dark:text-white">
                         $799
                       </dd>
-                    </dl>
+                    </dl> */}
                   </div>
 
                   <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
