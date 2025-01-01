@@ -32,7 +32,7 @@ const NewsPage = () => {
       {/* Page content */}
       <h1 className="text-6xl font-extrabold">News</h1>
       <div className="flex mt-16 space-x-16 md:space-x-48">
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <h1 className="font-bold">Sort by:</h1>
           <MyDropdownMenu
             title="Sort"
@@ -41,7 +41,7 @@ const NewsPage = () => {
             }}
             items={["Oldest", "Newest"]}
           />
-        </div>
+        </div> */}
 
         <div className="grid grid-cols-2 ">
           {newsList &&
