@@ -2,6 +2,7 @@
 import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { NewsCard } from "@/components/news-page/NewsCard";
 import { getNews } from "@/utils/api";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -20,8 +21,13 @@ const NewsPage = () => {
   return (
     <div className="min-h-screen flex flex-col mb-64">
       {/* BANNER */}
-      <div className="bg-pink-500 w-full h-[500px] flex items-center justify-center mb-12">
-        <h1 className="text-white font-bold">NEWS PAGE BANNER HERE</h1>
+      <div className="w-full h-[500px] flex items-center justify-center mb-8">
+        <Image
+          src="https://kodansha.us/assets/dd7eee7a9a6e11df57f0.jpg"
+          alt="News page banner"
+          width={1920}
+          height={400}
+        />
       </div>
       {/* Page content */}
       <h1 className="text-6xl font-extrabold">News</h1>

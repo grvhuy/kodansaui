@@ -2,9 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import {
-  getNewsByFriendlyUrl
-} from "@/utils/api";
+import { getNewsByFriendlyUrl } from "@/utils/api";
 
 export default function NewsDetailPage() {
   const pathName = usePathname();
@@ -28,8 +26,8 @@ export default function NewsDetailPage() {
   console.log("News content:", news.content);
 
   return (
-    <div className="mt-40">
+    <div className="mt-24">
       <div dangerouslySetInnerHTML={{ __html: news[0].content }} />
     </div>
-  )
+  );
 }

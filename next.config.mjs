@@ -13,6 +13,9 @@ const nextConfig = {
       {
         hostname: "cdn.kodansha.us", // Thêm hostname này
       },
+      {
+        hostname: "kodansha.us", // Thêm hostname
+      }
     ],
   },
   async rewrites() {

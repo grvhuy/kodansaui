@@ -8,8 +8,6 @@ interface IProps {
 
 export const SpotlightWheel = (props: IProps) => {
 
-
-
   return (
     <div className="mt-24">
       <div>
