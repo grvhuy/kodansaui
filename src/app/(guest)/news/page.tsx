@@ -1,10 +1,22 @@
 "use client";
 import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { NewsCard } from "@/components/news-page/NewsCard";
+import { getNews } from "@/utils/api";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const NewsPage = () => {
   const router = useRouter();
+  const [newsList, setNewsList] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      getNews().then((data) => {
+        setNewsList(data);
+      });
+    };
+    fetchData();
+  }, []);
   return (
     <div className="min-h-screen flex flex-col mb-64">
       {/* BANNER */}
@@ -26,11 +38,18 @@ const NewsPage = () => {
         </div>
 
         <div className="grid grid-cols-2 ">
-          <NewsCard
-            onClick={() => {
-              router.push("/news/example");
-            }}
-          />
+          {newsList &&
+            newsList.map((news: any) => (
+              <NewsCard
+                key={news.id}
+                image_url={news.thumbnail_url}
+                publish_date={new Date(news.publish_date)}
+                title={news.title}
+                onClick={() => {
+                  router.push(`/news/${news.friendly_id}`);
+                }}
+              />
+            ))}
         </div>
       </div>
     </div>
