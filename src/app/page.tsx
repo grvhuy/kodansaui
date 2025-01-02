@@ -10,16 +10,15 @@ export default function Home() {
   useEffect(() => {
     const fetchContainers = async () => {
       const response = await getContainers();
+      console.log(response);
       setContainers(response);
     };
     fetchContainers();
   }, []);
 
   return (
-    <div className="w-full overflow-x-hidden">
-      <HomeContainer
-        containers={containers}
-      />
+    <div className="w-full min-h-screen overflow-x-hidden">
+      {containers.length > 0 && <HomeContainer containers={containers} />}
     </div>
   );
 }

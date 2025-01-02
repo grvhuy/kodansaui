@@ -22,9 +22,15 @@ export const CartItem = (props: IProps) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="grid grid-cols-10 space-x-4 items-center justify-center  border-b-2 border-black p-2">
+    <div className="grid grid-cols-10 space-x-4 items-center justify-center border-b-[1px] border-black p-2">
       <div className="col-span-5 text-gray-500">
-        <div className="flex space-x-2 text-black text-lg">
+        <a
+          href={`/product/${props.friendly_id}-${props.seq_number}`}
+          onClick={() => {
+            console.log(props);
+          }}
+          className="flex space-x-2 text-black text-lg"
+        >
           <Image
             src={props.cover_url}
             alt="Example Image"
@@ -33,19 +39,20 @@ export const CartItem = (props: IProps) => {
             className="aspect-[5/6] object-cover"
           />
           <div className="flex-col flex justify-center">
-            <span className="font-semibold text-black text-lg uppercase">
+            <span className="font-semibold text-black text-lg uppercase line-clamp-3">
               {props.name}
             </span>
-            <span className="font-semibold text-black text-lg">
+            <span className="font-semibold text-black text-lg italic">
               Volume {props.seq_number}
             </span>
           </div>
-        </div>
+        </a>
       </div>
       <div className="col-span-2 font-semibold text-black text-lg">
         {/* inc va dec btn */}
         <div className="flex space-x-2 ml-2">
           <button
+            title="Decrement"
             onClick={() => {
               dispatch(decrementQuantity(props.id));
             }}
@@ -54,7 +61,10 @@ export const CartItem = (props: IProps) => {
             <Minus className="hover:shadow" size={16} />
           </button>
           <span>{props.quantity}</span>
-          <button className="text-gray-600 hover:text-gray-900">
+          <button
+            title="Increment"
+            className="text-gray-600 hover:text-gray-900"
+          >
             <PlusIcon
               className="hover:shadow"
               onClick={() => {

@@ -6,10 +6,13 @@ import * as React from "react";
 interface IProps {
   text: string;
   onClick: () => void;
+  isDisabled?: boolean;
 }
 
 export const MyButton = React.forwardRef<HTMLButtonElement, IProps>((props, ref) => (
   <Button
+    
+    disabled={props.isDisabled}
     ref={ref}
     onClick={props.onClick}
     variant="ghost"

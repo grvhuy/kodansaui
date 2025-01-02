@@ -8,6 +8,7 @@ interface CartItem {
   friendly_id: string;
   seq_number: number;
   cover_url: string;
+  store_id: string;
 }
 
 interface CartState {

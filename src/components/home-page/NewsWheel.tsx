@@ -1,51 +1,69 @@
-"use client"
+"use client";
 import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { NewsWheelCard } from "./NewsWheelCard";
 import { useRouter } from "next/navigation";
-
+import { useEffect, useState } from "react";
+import { getNews } from "@/utils/api";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 interface IProps {
   container: any;
 }
 
 export const NewsWheel = (props: IProps) => {
-  const router = useRouter()
+  const router = useRouter();
+  const [news, setNews] = useState<any[]>([]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      getNews().then((data) => {
+        console.log("Fetched data:", data);
+        setNews(data);
+      });
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="mt-16 flex flex-col">
-      <h1 className="text-lg font-semibold uppercase">{props.container.title}</h1>
+      <h1 className="text-lg font-semibold uppercase">
+        {props.container.title}
+      </h1>
       <h2 className="text-2xl font-bold uppercase">
         {props.container.sub_title}
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {props.container.containers_items.map((news: any, index: number) => (
-          <NewsWheelCard
-            thumbnail_url={news.news.thumbnail_url}
-            title={news.news.title}
-            key={index}
-            publish_date={news.news.publish_date}
-            friendly_id={news.news.friendly_id}
-          />
-        ))}
-        {props.container.containers_items.map((news: any, index: number) => (
-          <NewsWheelCard
-            thumbnail_url={news.news.thumbnail_url}
-            title={news.news.title}
-            key={index}
-            publish_date={news.news.publish_date}
-            friendly_id={news.news.friendly_id}
-          />
-        ))}
-        {props.container.containers_items.map((news: any, index: number) => (
-          <NewsWheelCard
-            thumbnail_url={news.news.thumbnail_url}
-            title={news.news.title}
-            key={index}
-            publish_date={news.news.publish_date}
-            friendly_id={news.news.friendly_id}
-          />
-        ))}
-      </div>
+
+      <Carousel
+        opts={{
+          align: "center",
+        }}
+        className="w-full"
+      >
+        <CarouselContent>
+          {news.map((item: any, index: number) => (
+            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/2">
+              <NewsWheelCard
+                key={index}
+                thumbnail_url={item.thumbnail_url}
+                title={item.title}
+                publish_date={item.publish_date}
+                friendly_id={item.friendly_id}
+              />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+
       <div className="w-full flex justify-end mt-8">
         <Button
           type="submit"

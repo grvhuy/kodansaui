@@ -5,8 +5,9 @@ import MangaTable from "@/components/MangaTable";
 import MyDropdownMenu from "@/components/MyDropdownMenu";
 import { BreadCrumbCard } from "@/components/series-page/BreadCrumbCard";
 import VolumnCard from "@/components/series-page/VolumeCard";
+import { Button } from "@/components/ui/button";
 import { addToCart } from "@/lib/redux/feature/slices/cart";
-import { getFullSeriesByFriendlyId, getSeriesByFriendlyUrl } from "@/utils/api";
+import { checkVolumeAvailability, getFullSeriesByFriendlyId, getSeriesByFriendlyUrl } from "@/utils/api";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -34,6 +35,21 @@ export default function SeriesPage() {
   const [loading, setLoading] = useState(true);
   const [fullSeries, setFullSeries] = useState<any[]>([]);
   const friendly_id = pathname.split("/").pop() as string;
+  const [storeId, setStoreId] = useState<string>("");
+  const [inventory, setInventory] = useState<any[]>([]);
+  const [seriesAvailable, setSeriesAvailable] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch(`/api/Inventory/check-volume-availability/${friendly_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setInventory(data);
+        if (data.length) {
+          setStoreId(data[0].store_id);
+        }
+        console.log(data);
+      });
+  }, [friendly_id])
 
   useSelector((state) => state);
   const dispatch = useDispatch();
@@ -54,10 +70,11 @@ export default function SeriesPage() {
         setProduct(data[0]);
       }
 
-      // const fullSeriesData = await getFullSeriesByFriendlyId(friendly_id);
-      // if (fullSeriesData) {
-      //   console.log(fullSeriesData);
-      // }
+      checkVolumeAvailability(friendly_id).then((data) => {
+        console.log("available: ", data);
+        setSeriesAvailable(data);
+      });
+
       setLoading(false);
     };
     fetchData();
@@ -89,24 +106,35 @@ export default function SeriesPage() {
         </div>
 
         <div className=" w-full">
-          <div className="flex flex-col">
-            <h1 className=" font-bold text-3xl text-black">{product.name}</h1>
-            {product && product.series_authors.length === 1 ? (
-              <p className="text-md text-gray-500">
-                by {product.series_authors[0].authors.name}
-              </p>
-            ) : (
-              <div className="flex">
-                <span className="text-md text-gray-500">
-                  by {product.series_authors.map((author: any, index: number) => {
-                    if (index === 0) return author.authors.name;
-                    if (index === product.series_authors.length - 1) return ` and ${author.authors.name}`;
-                    return `, ${author.authors.name}`;
-                  })}
-                </span>
-              </div>
-            )}
-            <p className="mt-4">{product.description}</p>
+          <div className="flex flex-col h-full justify-between">
+            <div>
+              <h1 className=" font-bold text-3xl text-black">{product.name}</h1>
+              {product && product.series_authors.length === 1 ? (
+                <p className="text-md text-gray-500">
+                  by {product.series_authors[0].authors.name}
+                </p>
+              ) : (
+                <div className="flex">
+                  <span className="text-md text-gray-500">
+                    by {product.series_authors.map((author: any, index: number) => {
+                      if (index === 0) return author.authors.name;
+                      if (index === product.series_authors.length - 1) return ` and ${author.authors.name}`;
+                      return `, ${author.authors.name}`;
+                    })}
+                  </span>
+                </div>
+              )}
+              <p className="mt-4">{product.description}</p>
+            </div>
+            <Button
+                onClick={() => {}
+
+                }
+                className="w-full mt-4 rounded-none p-8 text-2xl font-bold"
+                disabled={!seriesAvailable.length}
+              >
+                {!seriesAvailable.length ? "OUT OF STOCK" : "AVAILABLE"}
+              </Button>
           </div>
         </div>
       </div>
@@ -148,9 +176,10 @@ export default function SeriesPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2">
           {fullSeries &&
-            fullSeries.map((volume) => {
+            fullSeries.map((volume, index) => {
               return (
                 <VolumnCard
+                  isOutOfStock={!seriesAvailable[index]}
                   key={volume.seq_number}
                   volume={volume}
                   onClick={() => {
@@ -162,8 +191,9 @@ export default function SeriesPage() {
                         price: volume.price,
                         cover_url: volume.cover_url,
                         quantity: 1,
-                        friendly_id: volume.series_id,
+                        friendly_id: volume.series.friendly_id,
                         seq_number: volume.seq_number,
+                        store_id: seriesAvailable[index].store_id,
                       })
                     );
                   }}

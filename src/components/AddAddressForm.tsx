@@ -59,7 +59,7 @@ export const AddAddressForm = ({
         } else {
           setAddedSuccessfully(true);
         }
-      })
+      });
     } catch (err: any) {
       setErr(err.response.data.message);
     }
@@ -67,7 +67,7 @@ export const AddAddressForm = ({
 
   return (
     <form className="flex flex-col space-y-2" onSubmit={handleOnSubmit}>
-      {err && <p className="text-red-500">{err}</p>}
+      {err && <p className="text-black">{err}</p>}
       {addedScuccessfully && (
         <p className="text-green-500">Address added successfully</p>
       )}
@@ -127,7 +127,6 @@ export const AddAddressForm = ({
         className="border-black"
       />
       <button
-
         type="submit"
         className="mt2  text-2xl font-bold hover:bg-opacity-90  bg-black text-white p-4"
       >

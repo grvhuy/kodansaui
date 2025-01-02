@@ -1,4 +1,4 @@
-import createMDX from '@next/mdx'
+import createMDX from "@next/mdx";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -11,7 +11,10 @@ const nextConfig = {
         hostname: "pqxhavcshlsgvyjmkhkv.supabase.co",
       },
       {
-        hostname: "cdn.kodansha.us", // Thêm hostname này
+        hostname: "cdn.kodansha.us",
+      },
+      {
+        hostname: "kodansha.us",
       },
     ],
   },
@@ -37,4 +40,4 @@ const withMDX = createMDX({
   },
 });
 
-export default withMDX(nextConfig)
+export default withMDX(nextConfig);

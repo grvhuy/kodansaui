@@ -12,27 +12,42 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MyButton } from "../MyButton";
-import { MyButtonForward } from "../MyButtonFoward";
-import Image from "next/image";
-import { useState } from "react";
 import { useSignIn } from "@/hooks/useSignIn";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
+import Image from "next/image";
+import { useState } from "react";
+import { MyButton } from "../MyButton";
+import { MyButtonForward } from "../MyButtonFoward";
+import { signUp } from "@/utils/api";
+import { type } from "os";
 
 interface IProps {
   onClose: () => void;
+  type: string;
   isOpen?: boolean | undefined;
+  onChangeType: (type: string) => void;
 }
 
 export function LoginForm(props: IProps) {
   const { signIn } = useSignIn();
+  const [message, setMessage] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await signIn(email, password);
-      console.log("Login successful", response);
+      if (email == "" || password == "") {
+        setMessage("Please enter email and password");
+        return;
+      }
+      if (props.type === "login") {
+        const response = await signIn(email, password);
+        console.log("Login successful", response);
+      } else {
+        const response = await signUp(email, password);
+        console.log("Sign up successful", response);
+        setMessage("Sign up successful, please verify your email");
+      }
       // redirect
     } catch (error) {
       console.error("Failed to login", error);
@@ -73,10 +88,13 @@ export function LoginForm(props: IProps) {
             className="w-full h-full"
           />
 
-          <DialogTitle className="text-2xl px-8 py-2">LOGIN</DialogTitle>
+          <DialogTitle className="text-2xl px-8 py-2">
+            {props.type === "login" ? "LOGIN" : "SIGN UP"}
+          </DialogTitle>
           <DialogDescription className="px-8 pb-0">
-            Login to your account to access your profile and start shopping
-            Manga.
+            {props.type === "login"
+              ? "Login to your account to access your profile and start shopping Manga."
+              : "New member ? Sign Up to access your profile and start shopping Manga."}
           </DialogDescription>
         </DialogHeader>
 
@@ -107,31 +125,35 @@ export function LoginForm(props: IProps) {
             />
           </div>
 
+          {message && <p className="text-red-500">{message}</p>}
           <div className="flex flex-col">
             <div className="flex justify-between -mx-4">
-              <Button variant="link" onClick={() => {}}>
+              <Button type="submit" variant="link" onClick={() => {}}>
                 FORGOT PASSWORD
               </Button>
               <Button
+                type="button"
                 variant="link"
                 onClick={() => {
-                  signIn(email, password);
+                  props.onChangeType(
+                    props.type === "login" ? "signup" : "login"
+                  );
                 }}
               >
-                SIGN UP
+                {props.type === "login" ? "SIGN UP" : "LOGIN"}
               </Button>
             </div>
           </div>
+          <DialogFooter className="pb-8">
+            <MyButtonForward
+              text={props.type === "login" ? "LOGIN" : "SIGN UP"}
+              onClick={() => handleSubmit}
+            />
+            {/* <button type="submit" onClick={() => console.log("clicked")}>
+              {props.type == "login" ? "LOGIN" : "SIGN UP"}
+            </button> */}
+          </DialogFooter>
         </form>
-        <DialogFooter className="px-8 pb-8">
-          <MyButtonForward
-            text="LOGIN"
-            onClick={() => {
-              signIn(email, password);
-              props.onClose();
-            }}
-          />
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

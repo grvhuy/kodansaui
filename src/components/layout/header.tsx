@@ -13,7 +13,6 @@ import { searchByQuery } from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { LoginForm } from "../auth/LoginForm";
 import SearchResultCardHome from "../home-page/SearchResultCardHome";
-import Image from "next/image";
 
 export const Header = () => {
   const router = useRouter();
@@ -22,13 +21,14 @@ export const Header = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<any[]>([]);
+  const [type, setType] = useState("login");
 
   const [searchQuery, setSearchQuery] = useState("");
   const cart_items = useSelector((state: RootState) => state?.cart.cartItems);
   useEffect(() => {
     // use useDispatch to dispatch action
-    // console.log(cart_items);
-  }, []);
+    console.log("cart_items: ", cart_items);
+  }, [cart_items]);
 
   const { logout } = useAuth();
 
@@ -38,7 +38,6 @@ export const Header = () => {
     .find((item) => item.includes("user"));
   const user = userInJSON ? JSON.parse(userInJSON.split("=")[1]) : null;
 
-  // khi nao refresh trang thi van giu trang thai dang nhap
   useEffect(() => {
     // Lay tu cookie
     // const accessToken = document.cookie
@@ -87,17 +86,10 @@ export const Header = () => {
         <div className=" flex flex-wrap items-center justify-between p-2">
           <a
             href="/"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
+            className="flex items-center space-x-3 rtl:space-x-reverse ms-4"
           >
-            <Image
-              width={32}
-              height={32}
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="Flowbite Logo"
-            />
             <span className="self-center text-2xl font-semibold whitespace-nowrap text-black">
-              Kodansa
+              <span className="text-4xl">K</span>odansa
             </span>
           </a>
 
@@ -163,7 +155,13 @@ export const Header = () => {
                   }}
                 />
               ) : (
-                <LoginForm onClose={() => setShowLogin(false)} />
+                <LoginForm
+                  type={type}
+                  onChangeType={(type) => {
+                    setType(type);
+                  }}
+                  onClose={() => setShowLogin(false)}
+                />
               )}
             </div>
           </div>
@@ -194,6 +192,7 @@ export const Header = () => {
                     placeholder="Search here..."
                   />
                   <button
+                    title="Search"
                     type="submit"
                     onClick={handleSearch}
                     className=" text-white p-2"
@@ -223,7 +222,14 @@ export const Header = () => {
 
       {showLogin && (
         <div>
-          <LoginForm isOpen={showLogin} onClose={() => setShowLogin(false)} />
+          <LoginForm
+            type={type}
+            onChangeType={(type) => {
+              setType(type);
+            }}
+            onClose={() => setShowLogin(false)}
+            isOpen={showLogin}
+          />
         </div>
       )}
 

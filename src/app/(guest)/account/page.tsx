@@ -23,7 +23,7 @@ const AccountPage = () => {
       <h1 className="text-6xl font-extrabold">Account</h1>
       <Separator className="border-[1px] mt-4 border-black" />
       <div className="flex space-x-8">
-        <div className="w-1/2 border-2 border-black p-2 mt-8">
+        {/* <div className="w-1/2 border-2 border-black p-2 mt-8">
           <h3 className="font-semibold">Email Address</h3>
           <h3>email@gmail.com</h3>
         </div>
@@ -35,7 +35,7 @@ const AccountPage = () => {
           <Button variant="link" className="">
             Change
           </Button>
-        </div>
+        </div> */}
       </div>
 
       <h1 className="text-4xl font-extrabold mt-24">Orders history</h1>
