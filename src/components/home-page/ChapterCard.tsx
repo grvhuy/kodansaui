@@ -27,15 +27,17 @@ export const ChapterCard = (props: IProps) => {
             alt="Example Image"
             fill
             sizes="100vw"
-            className={`grayscale aspect-square object-cover hover:shadow-lg hover:scale-105 transition-transform duration-300 `}
+            className={`
+          
+            aspect-square object-cover hover:shadow-lg hover:scale-105 transition-transform duration-300 `}
           />
 
-          <div
+          {/* <div
             className={`absolute inset-0 mix-blend-overlay opacity-60 group-hover:opacity-80 transition-opacity duration-300`}
             style={{
               backgroundColor: `${toPastel(props.cover_color)}`,
             }}
-          ></div>
+          ></div> */}
         </div>
       </Link>
       <div className="flex flex-col mt-2">
