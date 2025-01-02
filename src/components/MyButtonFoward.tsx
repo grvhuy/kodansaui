@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export const MyButtonForward = (props: IProps) => (
-  <div className="flex justify-center items-center">
+  <div className="flex justify-center">
     <Button
       type="submit"
       onClick={props.onClick}

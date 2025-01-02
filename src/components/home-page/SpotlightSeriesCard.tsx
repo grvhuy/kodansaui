@@ -16,10 +16,7 @@ export const SpotlightSeriesCard = (props: IProps) => {
   const router = useRouter();
   return (
     <div className="flex flex-col h-full">
-      <Link
-        href={`/series/${props.friendly_id}`}
-        className="my-2  group"
-      >
+      <Link href={`/series/${props.friendly_id}`} className="my-2  group">
         <div className="w-full relative aspect-video">
           <Image
             fill
@@ -30,8 +27,19 @@ export const SpotlightSeriesCard = (props: IProps) => {
           />
         </div>
       </Link>
-      <div className="flex flex-col justify-between flex-grow">
-        <p className="text-lg font-semibold line-clamp-2 w-fit">{props.name}</p>
+      <div className="flex flex-col justify-between">
+        <div className="flex justify-between">
+          <p className="text-lg font-semibold line-clamp-2 mr-4">
+            {props.name}
+          </p>
+
+          <MyButtonForward
+            text="Read"
+            onClick={() => {
+              router.push(`/series/${props.friendly_id}`);
+            }}
+          />
+        </div>
         <div className="flex justify-between">
           <div className="flex">
             {props.authors.length == 1 && (
@@ -43,22 +51,13 @@ export const SpotlightSeriesCard = (props: IProps) => {
               <p className="text-md text-gray-500">
                 {props.authors.map((author, index) => {
                   if (index === 0) return author.authors.name;
-                  if (index === props.authors.length - 1) return ` and ${author.authors.name}`;
+                  if (index === props.authors.length - 1)
+                    return ` and ${author.authors.name}`;
                   return `, ${author.authors.name}`;
                 })}
               </p>
             )}
           </div>
-
-        </div>
-
-        <div className="mt-auto w-full flex justify-end">
-          <MyButtonForward
-            text="Read"
-            onClick={() => {
-              router.push(`/series/${props.friendly_id}`);
-            }}
-          />
         </div>
       </div>
     </div>

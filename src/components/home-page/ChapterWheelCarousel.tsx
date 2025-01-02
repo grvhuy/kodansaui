@@ -21,9 +21,7 @@ export function ChapterWheelCarousel(props: IProps) {
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
   // const [slideNumber, setSlideNumber] = React.useState(4);
-  const containers_items_doubled = [
-    ...props.container.containers_items,
-  ];
+  const containers_items_doubled = [...props.container.containers_items];
   const groupNumber = (props.container.containers_items.length / 4) * 2;
   const [currentGroup, setCurrentGroup] = React.useState(1);
   React.useEffect(() => {
@@ -62,13 +60,14 @@ export function ChapterWheelCarousel(props: IProps) {
       </h2>
 
       <Carousel
+      
         opts={{
           align: "center",
         }}
         className=""
         setApi={setApi}
       >
-        <div className="absolute right-0 -top-2">
+        {/*         <div className="absolute right-0 -top-2">
           {Array.from({ length: groupNumber }).map((_, index) => {
             const start = index * 4 + 1;
             const end = start + 3;
@@ -87,11 +86,10 @@ export function ChapterWheelCarousel(props: IProps) {
                     : "bg-gray-500"
                 }`}
               >
-                {/* {index} - {current} */}
               </button>
             );
           })}
-        </div>
+        </div> */}
         <CarouselContent className="mt-4">
           {containers_items_doubled.map((volume: any, index: number) => (
             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
