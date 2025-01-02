@@ -26,8 +26,9 @@ export default function NewsDetailPage() {
   console.log("News content:", news.content);
 
   return (
-    <div className="mt-24">
-      <div dangerouslySetInnerHTML={{ __html: news[0].content }} />
+    <div className="mt-16 flex justify-center w-1/2 mx-auto">
+      <div className="content" dangerouslySetInnerHTML={{ __html: news[0].content }} />
     </div>
   );
 }
+
