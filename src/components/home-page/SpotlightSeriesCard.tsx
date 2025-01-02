@@ -39,7 +39,7 @@ export const SpotlightSeriesCard = (props: IProps) => {
                 {props.authors[0].authors.name}
               </p>
             )}
-            {props.authors.length > 0 && (
+            {props.authors.length > 1 && (
               <p className="text-md text-gray-500">
                 {props.authors.map((author, index) => {
                   if (index === 0) return author.authors.name;
