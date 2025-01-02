@@ -191,7 +191,7 @@ export default function SeriesPage() {
                         price: volume.price,
                         cover_url: volume.cover_url,
                         quantity: 1,
-                        friendly_id: volume.series_id,
+                        friendly_id: volume.series.friendly_id,
                         seq_number: volume.seq_number,
                         store_id: seriesAvailable[index].store_id,
                       })

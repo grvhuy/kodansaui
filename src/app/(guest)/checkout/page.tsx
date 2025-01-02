@@ -2,9 +2,9 @@
 import { AddAddressForm } from "@/components/AddAddressForm";
 import { MyButton } from "@/components/MyButton";
 import { OrderCheckoutList } from "@/components/OrderCheckoutList";
-import { CheckoutItemList } from "@/components/checkout-page/CheckoutItemList";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/hooks/use-toast";
 import { clearCart } from "@/lib/redux/feature/slices/cart";
 import { RootState } from "@/lib/redux/store";
 import { createOrder, getAddresses } from "@/utils/api";
@@ -29,6 +29,7 @@ interface Product {
 }
 
 const CheckoutPage = () => {
+  const { toast } = useToast();
   const router = useRouter();
   const dispatch = useDispatch();
   const [addresses, setAddresses] = useState<any[]>([]);
@@ -365,7 +366,27 @@ const CheckoutPage = () => {
                   <Button
                     className="w-full mt-4 rounded-none border-2 border-white bg-black text-white hover:bg-white hover:text-black p-5 font-semibold"
                     variant="ghost"
-                    onClick={handlePlaceOrder}
+                    onClick={() => {
+                      if (!selectedAddress) {
+                        toast({
+                          title: "Please fill all the information",
+                        });
+                        return;
+                      }
+                      toast({
+                        title: "Order placed successfully",
+                        description: "Thank you for your order!",
+                      });
+                      handlePlaceOrder().then(() => {
+                        toast({
+                          title: "Order placed successfully",
+                          description: "Thank you for your order!",
+                        });
+                        setTimeout(() => {
+                          router.push("/account");
+                        }, 2000);
+                      });
+                    }}
                   >
                     PLACE ORDER
                   </Button>
