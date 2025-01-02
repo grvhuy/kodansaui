@@ -49,7 +49,7 @@ export const NewsWheel = (props: IProps) => {
       >
         <CarouselContent>
           {news.map((item: any, index: number) => (
-            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
+            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/2">
               <NewsWheelCard
                 key={index}
                 thumbnail_url={item.thumbnail_url}

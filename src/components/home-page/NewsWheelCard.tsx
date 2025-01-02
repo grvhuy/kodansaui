@@ -11,7 +11,7 @@ interface IProps {
 export const NewsWheelCard = (props: IProps) => {
   return (
     <div title={props.title} className="flex flex-col">
-      <h1 className="text-md line-clamp-2 italic">{props.publish_date}</h1>
+      <h1 className="text-md line-clamp-2 italic">{new Date(props.publish_date).toDateString()}</h1>
       <Link
         href={`/news/${props.friendly_id}`}
         className="my-2 relative group aspect-video w-full"
