@@ -40,7 +40,7 @@ export function LoginForm(props: IProps) {
         setMessage("Please enter email and password");
         return;
       }
-      if (props.type == "login") {
+      if (props.type === "login") {
         const response = await signIn(email, password);
         console.log("Login successful", response);
       } else {
@@ -89,10 +89,10 @@ export function LoginForm(props: IProps) {
           />
 
           <DialogTitle className="text-2xl px-8 py-2">
-            {props.type == "login" ? "LOGIN" : "SIGN UP"}
+            {props.type === "login" ? "LOGIN" : "SIGN UP"}
           </DialogTitle>
           <DialogDescription className="px-8 pb-0">
-            {props.type == "login"
+            {props.type === "login"
               ? "Login to your account to access your profile and start shopping Manga."
               : "New member ? Sign Up to access your profile and start shopping Manga."}
           </DialogDescription>
@@ -136,17 +136,17 @@ export function LoginForm(props: IProps) {
                 variant="link"
                 onClick={() => {
                   props.onChangeType(
-                    props.type == "login" ? "signup" : "login"
+                    props.type === "login" ? "signup" : "login"
                   );
                 }}
               >
-                {props.type == "login" ? "SIGN UP" : "LOGIN"}
+                {props.type === "login" ? "SIGN UP" : "LOGIN"}
               </Button>
             </div>
           </div>
           <DialogFooter className="pb-8">
             <MyButtonForward
-              text={props.type == "login" ? "LOGIN" : "SIGN UP"}
+              text={props.type === "login" ? "LOGIN" : "SIGN UP"}
               onClick={() => handleSubmit}
             />
             {/* <button type="submit" onClick={() => console.log("clicked")}>

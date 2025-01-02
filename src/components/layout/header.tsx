@@ -13,7 +13,6 @@ import { searchByQuery } from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { LoginForm } from "../auth/LoginForm";
 import SearchResultCardHome from "../home-page/SearchResultCardHome";
-import Image from "next/image";
 
 export const Header = () => {
   const router = useRouter();
@@ -22,7 +21,7 @@ export const Header = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<any[]>([]);
-  const [type, setType] = useState("Login");
+  const [type, setType] = useState("login");
 
   const [searchQuery, setSearchQuery] = useState("");
   const cart_items = useSelector((state: RootState) => state?.cart.cartItems);
@@ -87,17 +86,10 @@ export const Header = () => {
         <div className=" flex flex-wrap items-center justify-between p-2">
           <a
             href="/"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
+            className="flex items-center space-x-3 rtl:space-x-reverse ms-4"
           >
-            <Image
-              width={32}
-              height={32}
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="Flowbite Logo"
-            />
             <span className="self-center text-2xl font-semibold whitespace-nowrap text-black">
-              Kodansa
+              <span className="text-4xl">K</span>odansa
             </span>
           </a>
 
