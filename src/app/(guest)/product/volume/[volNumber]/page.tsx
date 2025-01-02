@@ -73,7 +73,7 @@ export default function DetailVolumePage() {
         // console.log(data);
       });
 
-      checkVolumeAvailability(friendly_id).then((data) => {
+      checkVolumeAvailability(friendly_id, vol).then((data) => {
         setAvailableProducts(data);
         console.log(data);
       });
@@ -215,7 +215,7 @@ export default function DetailVolumePage() {
                 className="w-full mt-4 rounded-none p-8 text-2xl font-bold"
                 disabled={!availableProducts.length}
               >
-                {availableProducts.length ? "ADD TO CART" : "OUT OF STOCK"}
+                {availableProducts.length > 0 ? "ADD TO CART" : "OUT OF STOCK"}
               </Button>
             </div>
           </div>
