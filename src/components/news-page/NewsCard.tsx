@@ -15,7 +15,7 @@ export const NewsCard = (props: IProps) => {
       className="flex flex-col mr-12"
     >
       <h1 className="italic text-md">
-        {props.publish_date.toLocaleDateString()}
+        {new Date(props.publish_date).toDateString()}
       </h1>
       <Image
         src={props.image_url}

@@ -19,20 +19,24 @@ const NewsPage = () => {
     fetchData();
   }, []);
   return (
-    <div className="min-h-screen flex flex-col mb-64">
+    <div className="min-h-screen flex flex-col">
       {/* BANNER */}
-      <div className="w-full h-[500px] flex items-center justify-center mb-8">
+      <div className="absolute inset-0 w-full h-[60vh] cursor-pointer">
         <Image
-          src="https://kodansha.us/assets/dd7eee7a9a6e11df57f0.jpg"
-          alt="News page banner"
-          width={1920}
-          height={400}
+          priority
+          sizes="100vw"
+          style={{ objectFit: "cover" }}
+          src="https://pqxhavcshlsgvyjmkhkv.supabase.co/storage/v1/object/public/News/dd7eee7a9a6e11df57f0.jpg"
+          alt="Hero Image"
+          className="border-b-2 border-b-black"
+          fill
         />
       </div>
       {/* Page content */}
-      <h1 className="text-6xl font-extrabold">News</h1>
-      <div className="flex mt-16 space-x-16 md:space-x-48">
-        {/* <div className="flex flex-col">
+      <div className="mt-[60vh] py-16">
+        <h1 className="text-6xl font-extrabold">News</h1>
+        <div className="flex mt-16 space-x-16 md:space-x-48">
+          {/* <div className="flex flex-col">
           <h1 className="font-bold">Sort by:</h1>
           <MyDropdownMenu
             title="Sort"
@@ -43,19 +47,20 @@ const NewsPage = () => {
           />
         </div> */}
 
-        <div className="grid grid-cols-2 ">
-          {newsList &&
-            newsList.map((news: any) => (
-              <NewsCard
-                key={news.id}
-                image_url={news.thumbnail_url}
-                publish_date={new Date(news.publish_date)}
-                title={news.title}
-                onClick={() => {
-                  router.push(`/news/${news.friendly_id}`);
-                }}
-              />
-            ))}
+          <div className="grid grid-cols-2 ">
+            {newsList &&
+              newsList.map((news: any) => (
+                <NewsCard
+                  key={news.id}
+                  image_url={news.thumbnail_url}
+                  publish_date={new Date(news.publish_date)}
+                  title={news.title}
+                  onClick={() => {
+                    router.push(`/news/${news.friendly_id}`);
+                  }}
+                />
+              ))}
+          </div>
         </div>
       </div>
     </div>
