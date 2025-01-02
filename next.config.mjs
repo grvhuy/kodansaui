@@ -13,6 +13,9 @@ const nextConfig = {
       {
         hostname: "cdn.kodansha.us",
       },
+      {
+        hostname: "kodansha.us",
+      },
     ],
   },
   async rewrites() {
