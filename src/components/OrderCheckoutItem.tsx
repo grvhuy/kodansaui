@@ -16,7 +16,7 @@ export const OrderCheckoutItem = (props: IProps) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="grid grid-cols-10 space-x-4 items-center justify-center  border-b-2 border-black p-2">
+    <div className="grid grid-cols-7 space-x-4 items-center justify-center  border-b-2 border-black p-2">
       <div className="col-span-5 text-gray-500">
         <div className="flex space-x-2 text-black text-lg">
           <Image
@@ -36,14 +36,13 @@ export const OrderCheckoutItem = (props: IProps) => {
           </div>
         </div>
       </div>
-      <div className="col-span-2 font-semibold text-black text-lg">
-        {/* inc va dec btn */}
+      <div className="col-span-1 font-semibold text-black text-lg">
         <div className="flex space-x-2 ml-2">
           <span>{props.quantity}</span>
         </div>
       </div>
 
-      <div className="col-span-2 font-semibold text-black text-lg">
+      <div className="col-span-1 font-semibold text-black text-lg">
         ${props.price * props.quantity}
       </div>
     </div>

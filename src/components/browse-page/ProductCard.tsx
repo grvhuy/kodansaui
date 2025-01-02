@@ -16,7 +16,6 @@ interface IProps {
 }
 
 const ProductCard = (props: IProps) => {
-
   return (
     <div className="flex flex-col w-full relative">
       <Link
@@ -31,7 +30,7 @@ const ProductCard = (props: IProps) => {
           alt="Example Image"
           fill
           sizes="100vw"
-          className="grayscale object-cover hover:shadow-lg w-full"
+          className=" object-cover hover:shadow-lg w-full"
         />
         <div
           className={`absolute inset-0 mix-blend-overlay opacity-60 group-hover:opacity-80 transition-opacity duration-300`}

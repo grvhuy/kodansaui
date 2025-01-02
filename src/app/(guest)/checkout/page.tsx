@@ -114,6 +114,23 @@ const CheckoutPage = () => {
             <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-3xl">
               Payment
             </h1>
+            <p className=" font-semibold flex mt-4 text-blue-500">
+              <svg
+                className="mr-2"
+                width="25"
+                height="24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+              >
+                <path
+                  className="fill-blue-500"
+                  d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm.5 17h-1v-9h1v9zm-.5-12c.466 0 .845.378.845.845 0 .466-.379.844-.845.844-.466 0-.845-.378-.845-.844 0-.467.379-.845.845-.845z"
+                />
+              </svg>
+              Notice: Your order could be devided into multiple orders based on
+              the store.
+            </p>
 
             <div className="mt-4 sm:mt-8 lg:flex lg:items-start lg:gap-12">
               <div className="flex flex-col">
@@ -190,7 +207,7 @@ const CheckoutPage = () => {
                       </div>
                       {/* Neu khong show form va co gia tri tring addreses thi map qua mang  */}
                       {!isShowAddressForm && addresses.length > 0 && (
-                        <ScrollArea className="h-72">
+                        <ScrollArea className="h-48">
                           {addresses.map((address) => (
                             <div
                               key={address.id}
@@ -361,19 +378,26 @@ const CheckoutPage = () => {
 
       <section className="bg-white py-6 antialiased dark:bg-gray-900 md:py-4">
         <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-3xl">
+          <p className="text-xl font-bold text-gray-900 dark:text-white sm:text-3xl">
             YOUR ORDERS
-          </h1>
+          </p>
           {/* <CheckoutItemList items={cart_items} onClickOutside={() => {}} /> */}
-          {Object.keys(groupedProducts).map((store_id) => (
-            <div key={store_id}>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-3xl">
-                Store: {store_id}
-              </h1>
+          {Object.keys(groupedProducts).map((store_id, index) => (
+            <div key={store_id} className="mb-12 bg-slate-100 shadow-md p-2">
+              <p className="text-xl font-bold text-gray-900 dark:text-white sm:text-3xl">
+                Store #{index + 1}
+              </p>
               <OrderCheckoutList
                 items={groupedProducts[store_id]}
                 onClickOutside={() => {}}
               />
+              <p className="flex justify-end text-2xl font-semibold mr-16">
+                Total: $
+                {groupedProducts[store_id].reduce(
+                  (acc: number, item: any) => acc + item.price * item.quantity,
+                  0
+                )}
+              </p>
             </div>
           ))}
         </div>
